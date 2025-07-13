@@ -1,1 +1,14 @@
-
+{
+  "name": "umbusk-api",
+  "version": "1.0.0",
+  "description": "API functions for Umbusk cosmos",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.0",
+    "openai": "^4.28.0"
+  }
+}
