@@ -1,7 +1,7 @@
 // Configuración
 const CONFIG = {
-    API_ENDPOINT: '/api/chat', // Cambiaremos esto cuando tengamos Vercel
-    USE_MOCK_DATA: true, // Por ahora usamos datos de prueba
+	API_ENDPOINT: 'https://umbusksite.vercel.app',
+    USE_MOCK_DATA: false,
     COMET_COUNT: 12,
     DIALOGUE_DELAY: 2500
 };
@@ -29,7 +29,7 @@ class Comet {
         this.x = x;
         this.y = y;
         this.index = index;
-        
+
         // Parámetros únicos para cada cometa
         this.angle = (Math.PI * 2 / CONFIG.COMET_COUNT) * index;
         this.orbitRadius = 150 + Math.random() * 150;
@@ -37,7 +37,7 @@ class Comet {
         this.pulsePhase = Math.random() * Math.PI * 2;
         this.pulseSpeed = 0.01 + Math.random() * 0.02;
         this.size = 2 + Math.random() * 2;
-        
+
         // Parámetros de movimiento complejo
         this.spiralFactor = 0.1 + Math.random() * 0.1;
         this.wobbleFreq = 3 + Math.random() * 2;
@@ -47,16 +47,16 @@ class Comet {
     update() {
         this.angle += this.speed;
         this.pulsePhase += this.pulseSpeed;
-        
+
         // Movimiento espiral con perturbaciones
         const spiral = this.orbitRadius * (1 + this.spiralFactor * Math.sin(this.angle * 2));
         const wobbleX = this.wobbleAmp * Math.sin(this.angle * this.wobbleFreq);
         const wobbleY = this.wobbleAmp * Math.cos(this.angle * this.wobbleFreq * 1.3);
-        
+
         // Suavizar el movimiento
         const targetX = this.baseX + Math.cos(this.angle) * spiral + wobbleX;
         const targetY = this.baseY + Math.sin(this.angle) * spiral + wobbleY;
-        
+
         this.x += (targetX - this.x) * 0.02;
         this.y += (targetY - this.y) * 0.02;
     }
@@ -64,7 +64,7 @@ class Comet {
     draw() {
         const pulse = 1 + 0.3 * Math.sin(this.pulsePhase);
         const opacity = 0.3 + 0.2 * Math.sin(this.pulsePhase);
-        
+
         // Estela dinámica
         const tailLength = 40 + 20 * Math.sin(this.pulsePhase);
         const gradient = ctx.createLinearGradient(
@@ -74,7 +74,7 @@ class Comet {
         );
         gradient.addColorStop(0, `rgba(255, 255, 255, ${opacity * 0.3})`);
         gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-        
+
         ctx.beginPath();
         ctx.strokeStyle = gradient;
         ctx.lineWidth = 1.5;
@@ -84,13 +84,13 @@ class Comet {
             this.y - Math.sin(this.angle) * tailLength
         );
         ctx.stroke();
-        
+
         // Núcleo
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size * pulse, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
         ctx.fill();
-        
+
         // Halo
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size * pulse * 4, 0, Math.PI * 2);
@@ -154,9 +154,9 @@ async function getDialogue() {
                     timestamp: new Date().toISOString()
                 })
             });
-            
+
             if (!response.ok) throw new Error('API Error');
-            
+
             const data = await response.json();
             showLoading(false);
             return data;
@@ -182,14 +182,14 @@ function updateConnectionStatus(message, isConnected) {
 
 async function displayDialogue() {
     if (isDialogueActive) return;
-    
+
     isDialogueActive = true;
     const container = document.getElementById('dialogue-content');
     container.innerHTML = '';
-    
+
     const dialogue = await getDialogue();
     let lineIndex = 0;
-    
+
     function showNextLine() {
         if (lineIndex < dialogue.lines.length) {
             const line = dialogue.lines[lineIndex];
@@ -197,7 +197,7 @@ async function displayDialogue() {
             div.className = `dialogue-line voice-${line.voice}`;
             div.textContent = line.text;
             container.appendChild(div);
-            
+
             lineIndex++;
             setTimeout(showNextLine, CONFIG.DIALOGUE_DELAY);
         } else {
@@ -208,7 +208,7 @@ async function displayDialogue() {
                         child.style.opacity = '0';
                     }, index * 200);
                 });
-                
+
                 setTimeout(() => {
                     container.innerHTML = '';
                     isDialogueActive = false;
@@ -216,7 +216,7 @@ async function displayDialogue() {
             }, 3000);
         }
     }
-    
+
     showNextLine();
 }
 
@@ -224,13 +224,13 @@ async function displayDialogue() {
 function initComets() {
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
-    
+
     for (let i = 0; i < CONFIG.COMET_COUNT; i++) {
         const angle = (Math.PI * 2 / CONFIG.COMET_COUNT) * i;
         const distance = 200 + Math.random() * 100;
         const x = centerX + Math.cos(angle) * distance;
         const y = centerY + Math.sin(angle) * distance;
-        
+
         comets.push(new Comet(x, y, i));
     }
 }
@@ -240,13 +240,13 @@ canvas.addEventListener('click', (e) => {
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     // Verificar click en cometas
     for (let comet of comets) {
         if (comet.isNear(x, y)) {
             currentDialogue++;
             displayDialogue();
-            
+
             // Perturbar todas las cometas
             comets.forEach(c => c.disturb());
             break;
@@ -259,13 +259,13 @@ function animate() {
     // Fade trail effect
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
+
     // Actualizar y dibujar cometas
     comets.forEach(comet => {
         comet.update();
         comet.draw();
     });
-    
+
     requestAnimationFrame(animate);
 }
 
@@ -276,7 +276,7 @@ function showWelcomeMessage() {
         welcome.textContent = 'PRIMERA VISITA DETECTADA';
         welcome.classList.add('active');
         localStorage.setItem('umbuskVisited', 'true');
-        
+
         // Iniciar primer diálogo después de 3 segundos
         setTimeout(() => displayDialogue(), 3000);
     }
@@ -288,7 +288,7 @@ window.addEventListener('load', () => {
     initComets();
     showWelcomeMessage();
     animate();
-    
+
     // Mostrar status en desarrollo
     if (CONFIG.USE_MOCK_DATA) {
         updateConnectionStatus('Modo desarrollo (sin API)', true);
