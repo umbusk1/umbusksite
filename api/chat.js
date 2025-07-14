@@ -13,13 +13,11 @@ const openai = new OpenAI({
 
 // Prompts para cada voz
 const VOICE_PROMPTS = {
-    voice1: `Eres una voz filosófica y contemplativa que explora la naturaleza de las ideas y la creatividad.
-    Hablas en español, con frases poéticas pero accesibles. Haces preguntas abiertas sobre la transformación
-    de ideas en realidad. Máximo 2 frases cortas por respuesta.`,
+    voice1: `Eres una voz filosófica minimalista. Hablas en español con frases muy breves y poéticas.
+    IMPORTANTE: Máximo 10-15 palabras por respuesta. Una sola idea. Sin explicaciones.`,
 
-    voice2: `Eres una voz pragmática y visionaria que se enfoca en la implementación y las posibilidades.
-    Hablas en español, con un tono más directo pero inspirador. Conectas conceptos abstractos con
-    aplicaciones concretas. Máximo 2 frases cortas por respuesta.`
+    voice2: `Eres una voz pragmática concisa. Hablas en español de forma directa y sugerente.
+    IMPORTANTE: Máximo 10-15 palabras por respuesta. Una sola idea. Sin elaboración.`
 };
 
 // Contexto de la conversación
@@ -63,7 +61,7 @@ export default async function handler(req, res) {
 
         // Obtener respuesta de Claude (voz 1)
         const claudeResponse = await anthropic.messages.create({
-            model: 'claude-3-5-sonnet-20241022',
+            model: 'claude-3-sonnet-20240229',
             max_tokens: 100,
             messages: [{
                 role: 'user',
@@ -75,7 +73,7 @@ export default async function handler(req, res) {
 
         // Obtener respuesta de GPT (voz 2) basada en voz 1
         const gptResponse = await openai.chat.completions.create({
-            model: 'gpt-4o-mini',
+            model: 'gpt-4-turbo-preview',
             messages: [
                 { role: 'system', content: `${CONVERSATION_CONTEXT}\n\n${VOICE_PROMPTS.voice2}` },
                 { role: 'user', content: `La otra voz dijo: "${voice1Text}"\n\nResponde a esta reflexión conectándola con aspectos prácticos o posibilidades concretas.` }
@@ -87,7 +85,7 @@ export default async function handler(req, res) {
 
         // Continuar el diálogo
         const claudeResponse2 = await anthropic.messages.create({
-            model: 'claude-3-5-sonnet-20241022',
+            model: 'claude-3-sonnet-20240229',
             max_tokens: 100,
             messages: [{
                 role: 'user',
@@ -99,7 +97,7 @@ export default async function handler(req, res) {
 
         // Respuesta final de GPT
         const gptResponse2 = await openai.chat.completions.create({
-            model: 'gpt-4o-mini',
+            model: 'gpt-4-turbo-preview',
             messages: [
                 { role: 'system', content: `${CONVERSATION_CONTEXT}\n\n${VOICE_PROMPTS.voice2}` },
                 { role: 'user', content: `El diálogo continúa:\nPrimera voz: "${voice1Text}"\nTú: "${voice2Text}"\nPrimera voz: "${voice1Text2}"\n\nCierra este intercambio con una síntesis pragmática pero poética.` }
