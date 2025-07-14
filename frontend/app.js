@@ -294,7 +294,7 @@ function showWelcomeMessage() {
         localStorage.setItem('umbuskVisited', 'true');
 
         // Iniciar primer diálogo después de 3 segundos
-        setTimeout(() => displayDialogue(), 3000);
+// setTimeout(() => displayDialogue(), 3000);  // Temporalmente desactivado
     }
 }
 
