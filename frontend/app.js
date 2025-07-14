@@ -1,6 +1,6 @@
 // Configuración
 const CONFIG = {
-	API_ENDPOINT: 'https://umbusksite.vercel.app/api/chat',
+    API_ENDPOINT: 'https://umbusksite.vercel.app/api/chat',
     USE_MOCK_DATA: false,
     COMET_COUNT: 12,
     DIALOGUE_DELAY: 2500
@@ -146,14 +146,14 @@ async function getDialogue() {
         try {
             showLoading(true);
             const response = await fetch(CONFIG.API_ENDPOINT, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    context: 'cosmos_interaction',
-                    dialogueNumber: currentDialogue,
-                    timestamp: new Date().toISOString()
-                })
-            });
+			    method: 'POST',
+			    headers: { 'Content-Type': 'application/json' },
+			    body: JSON.stringify({
+			        context: 'cosmos_interaction',
+			        dialogueNumber: currentDialogue,
+			        timestamp: new Date().toISOString()
+			    })
+			});
 
             if (!response.ok) throw new Error('API Error');
 
