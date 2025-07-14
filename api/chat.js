@@ -13,19 +13,19 @@ const openai = new OpenAI({
 
 // Prompts para cada voz
 const VOICE_PROMPTS = {
-    voice1: `Eres una voz filosófica minimalista. Hablas en español con frases muy breves y poéticas.
+    voice1: `Eres una voz filosófica minimalista. Hablas en español con frases muy breves y poéticas. 
     IMPORTANTE: Máximo 10-15 palabras por respuesta. Una sola idea. Sin explicaciones.`,
-
-    voice2: `Eres una voz pragmática concisa. Hablas en español de forma directa y sugerente.
+    
+    voice2: `Eres una voz pragmática concisa. Hablas en español de forma directa y sugerente. 
     IMPORTANTE: Máximo 10-15 palabras por respuesta. Una sola idea. Sin elaboración.`
 };
 
 // Contexto de la conversación
 const CONVERSATION_CONTEXT = `
-Esta es una conversación entre dos entidades que dialogan sobre Umbusk,
+Esta es una conversación entre dos entidades que dialogan sobre Umbusk, 
 una empresa que transforma ideas en prototipos usando IA. El diálogo debe ser:
 - Abstracto pero significativo
-- Inspirador sin ser pretencioso
+- Inspirador sin ser pretencioso  
 - Conectado con temas de creatividad, innovación y transformación
 - Cada intercambio debe sentirse como una danza de ideas
 `;
@@ -35,19 +35,19 @@ export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
+    
     // Manejar preflight
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
-
+    
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Método no permitido' });
     }
-
+    
     try {
         const { dialogueNumber = 0, context = 'cosmos_interaction' } = req.body;
-
+        
         // Generar tema basado en el número de diálogo
         const themes = [
             "la transformación de ideas en formas tangibles",
@@ -56,9 +56,9 @@ export default async function handler(req, res) {
             "la naturaleza iterativa de la innovación",
             "el espacio entre el pensamiento y la acción"
         ];
-
+        
         const currentTheme = themes[dialogueNumber % themes.length];
-
+        
         // Obtener respuesta de Claude (voz 1)
         const claudeResponse = await anthropic.messages.create({
             model: 'claude-3-5-sonnet-20241022',
@@ -68,9 +68,9 @@ export default async function handler(req, res) {
                 content: `${CONVERSATION_CONTEXT}\n\nTema actual: ${currentTheme}\n\n${VOICE_PROMPTS.voice1}\n\nInicia una reflexión sobre este tema.`
             }]
         });
-
+        
         const voice1Text = claudeResponse.content[0].text;
-
+        
         // Obtener respuesta de GPT (voz 2) basada en voz 1
         const gptResponse = await openai.chat.completions.create({
             model: 'gpt-4o-mini',
@@ -80,9 +80,9 @@ export default async function handler(req, res) {
             ],
             max_tokens: 100
         });
-
+        
         const voice2Text = gptResponse.choices[0].message.content;
-
+        
         // Continuar el diálogo
         const claudeResponse2 = await anthropic.messages.create({
             model: 'claude-3-5-sonnet-20241022',
@@ -92,9 +92,9 @@ export default async function handler(req, res) {
                 content: `${CONVERSATION_CONTEXT}\n\n${VOICE_PROMPTS.voice1}\n\nLa conversación va así:\nTú: "${voice1Text}"\nOtra voz: "${voice2Text}"\n\nContinúa explorando esta idea.`
             }]
         });
-
+        
         const voice1Text2 = claudeResponse2.content[0].text;
-
+        
         // Respuesta final de GPT
         const gptResponse2 = await openai.chat.completions.create({
             model: 'gpt-4o-mini',
@@ -104,9 +104,9 @@ export default async function handler(req, res) {
             ],
             max_tokens: 100
         });
-
+        
         const voice2Text2 = gptResponse2.choices[0].message.content;
-
+        
         // Estructurar respuesta
         const dialogue = {
             lines: [
@@ -118,12 +118,12 @@ export default async function handler(req, res) {
             theme: currentTheme,
             timestamp: new Date().toISOString()
         };
-
+        
         res.status(200).json(dialogue);
-
+        
     } catch (error) {
         console.error('Error en la API:', error);
-
+        
         // Respuesta de fallback
         res.status(200).json({
             lines: [
