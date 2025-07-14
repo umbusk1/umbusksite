@@ -91,10 +91,14 @@ body {
     transform: translate(-50%, -50%);
     opacity: 0;
     transition: opacity 0.3s ease;
+    text-align: center;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 200;
 }
 
 .loading-indicator.active {
     opacity: 1;
+    z-index: 20;
 }
 
 .pulse {
@@ -102,7 +106,8 @@ body {
     height: 40px;
     border: 2px solid var(--accent);
     border-radius: 50%;
-    animation: pulse 2s ease-out infinite;
+    animation: pulse 1.5s ease-out infinite;
+    margin: 0 auto;
 }
 
 /* Logo */

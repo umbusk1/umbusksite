@@ -1,7 +1,7 @@
 // Configuración
 const CONFIG = {
-    API_ENDPOINT: 'https://umbusksite.vercel.app/api/chat',
-    USE_MOCK_DATA: false,
+    API_ENDPOINT: '/api/chat', // Cambiaremos esto cuando tengamos Vercel
+    USE_MOCK_DATA: true, // Por ahora usamos datos de prueba
     COMET_COUNT: 12,
     DIALOGUE_DELAY: 2500
 };
@@ -146,14 +146,15 @@ async function getDialogue() {
         try {
             showLoading(true);
             const response = await fetch(CONFIG.API_ENDPOINT, {
-			    method: 'POST',
-			    headers: { 'Content-Type': 'application/json' },
-			    body: JSON.stringify({
-			        context: 'cosmos_interaction',
-			        dialogueNumber: currentDialogue,
-			        timestamp: new Date().toISOString()
-			    })
-			});
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    context: 'cosmos_interaction',
+                    dialogueNumber: currentDialogue,
+                    timestamp: new Date().toISOString(),
+                    random: Math.random() // Evitar caché
+                })
+            });
 
             if (!response.ok) throw new Error('API Error');
 
@@ -174,6 +175,12 @@ function showLoading(show) {
     loader.classList.toggle('active', show);
 }
 
+function showLoadingWithProgress() {
+    const loader = document.getElementById('loading');
+    loader.classList.add('active');
+    loader.innerHTML = '<div class="pulse"></div><div style="font-size: 11px; margin-top: 10px; opacity: 0.6;">Conectando con las mentes...</div>';
+}
+
 function updateConnectionStatus(message, isConnected) {
     const status = document.getElementById('connection-status');
     status.textContent = message;
@@ -187,7 +194,14 @@ async function displayDialogue() {
     const container = document.getElementById('dialogue-content');
     container.innerHTML = '';
 
+    // Mostrar indicador de carga con progreso
+    showLoadingWithProgress();
+
     const dialogue = await getDialogue();
+
+    // Ocultar indicador
+    showLoading(false);
+
     let lineIndex = 0;
 
     function showNextLine() {
@@ -201,19 +215,21 @@ async function displayDialogue() {
             lineIndex++;
             setTimeout(showNextLine, CONFIG.DIALOGUE_DELAY);
         } else {
+            // Esperar más tiempo antes de desvanecer
             setTimeout(() => {
-                // Fade out
+                // Fade out más lento
                 Array.from(container.children).forEach((child, index) => {
                     setTimeout(() => {
+                        child.style.transition = 'opacity 1s ease';
                         child.style.opacity = '0';
-                    }, index * 200);
+                    }, index * 300);
                 });
 
                 setTimeout(() => {
                     container.innerHTML = '';
                     isDialogueActive = false;
-                }, 2000);
-            }, 3000);
+                }, 2500);
+            }, CONFIG.DIALOGUE_DISPLAY_TIME);
         }
     }
 
