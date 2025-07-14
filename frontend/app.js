@@ -1,6 +1,6 @@
 // Configuración
 const CONFIG = {
-	API_ENDPOINT: 'https://umbusksite.vercel.app',
+	API_ENDPOINT: 'https://umbusksite.vercel.app/api/chat',
     USE_MOCK_DATA: false,
     COMET_COUNT: 12,
     DIALOGUE_DELAY: 2500
