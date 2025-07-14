@@ -1,7 +1,7 @@
 // Configuración
 const CONFIG = {
     API_ENDPOINT: '/api/chat', // Cambiaremos esto cuando tengamos Vercel
-    USE_MOCK_DATA: true, // Por ahora usamos datos de prueba
+    USE_MOCK_DATA: false, // Por ahora usamos datos de prueba
     COMET_COUNT: 12,
     DIALOGUE_DELAY: 2500
 };
