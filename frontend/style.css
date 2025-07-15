@@ -54,7 +54,7 @@ body {
     font-size: 18px;
     line-height: 1.6;
     letter-spacing: 0.5px;
-    animation: fadeInUp 0.8s ease forwards;
+    animation: fadeInUp 2s ease forwards;
     padding: 10px 20px;
     border-radius: 5px;
 }
@@ -271,7 +271,7 @@ body {
 
 @keyframes ticker {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    100% { transform: translateX(-90%); }
 }
 
 .ticker-item {
