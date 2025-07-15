@@ -122,7 +122,7 @@ export default async function handler(req, res) {
 
         // Guardar en base de datos
         try {
-            const sql = neon();
+            const sql = neon(process.env.NETLIFYDATABASEURL);
             await sql`
                 INSERT INTO cosmic_dialogues (
                     dialogue_number,

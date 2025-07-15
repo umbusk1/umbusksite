@@ -5,25 +5,25 @@ export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    
+
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
-    
+
     if (req.method !== 'GET') {
         return res.status(405).json({ error: 'Método no permitido' });
     }
-    
+
     try {
-        const sql = neon();
-        
+        const sql = neon(process.env.NETLIFYDATABASEURL);
+
         // Obtener parámetros de consulta
         const limit = parseInt(req.query?.limit) || 50;
         const offset = parseInt(req.query?.offset) || 0;
-        
+
         // Obtener diálogos recientes
         const dialogues = await sql`
-            SELECT 
+            SELECT
                 id,
                 dialogue_number,
                 theme,
@@ -38,19 +38,19 @@ export default async function handler(req, res) {
             LIMIT ${limit}
             OFFSET ${offset}
         `;
-        
+
         // Obtener estadísticas
         const stats = await sql`
-            SELECT 
+            SELECT
                 COUNT(*) as total_dialogues,
                 COUNT(DISTINCT visitor_id) as unique_visitors,
                 COUNT(DISTINCT theme) as unique_themes
             FROM cosmic_dialogues
         `;
-        
+
         // Temas más explorados
         const topThemes = await sql`
-            SELECT 
+            SELECT
                 theme,
                 COUNT(*) as count
             FROM cosmic_dialogues
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
             ORDER BY count DESC
             LIMIT 5
         `;
-        
+
         res.status(200).json({
             dialogues,
             stats: stats[0],
@@ -69,12 +69,12 @@ export default async function handler(req, res) {
                 hasMore: dialogues.length === limit
             }
         });
-        
+
     } catch (error) {
         console.error('Error consultando historial:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             error: 'Error al consultar historial',
-            details: error.message 
+            details: error.message
         });
     }
 }
