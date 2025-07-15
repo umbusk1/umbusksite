@@ -508,6 +508,18 @@ async function loadRecentHistory() {
     }
 }
 
+// Inicializar ticker con mensaje de espera
+function initializeTicker() {
+    const tickerContent = document.getElementById('ticker-content');
+    tickerContent.innerHTML = `
+        <span class="ticker-item">
+            <span class="ticker-term" style="opacity: 0.5">
+                ESPERANDO IDEAS DEL COSMOS...
+            </span>
+        </span>
+    `;
+}
+
 // Inicialización
 window.addEventListener('load', () => {
     resizeCanvas();
