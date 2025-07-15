@@ -1,7 +1,7 @@
 // Configuración
 const CONFIG = {
     API_ENDPOINT: 'https://umbusksite.vercel.app/api/chat',
-    USE_MOCK_DATA: false, // Por ahora usamos datos de prueba
+    USE_MOCK_DATA: true, // Por ahora usamos datos de prueba
     COMET_COUNT: 12,
     DIALOGUE_DELAY: 2500
 };
@@ -19,7 +19,7 @@ const ideasTracker = {
 
     // Palabras comunes a ignorar
     stopWords: new Set([
-        'Umbusk', 'el', 'la', 'de', 'que', 'y', 'a', 'en', 'un', 'ser', 'se', 'no', 'haber',
+        'el', 'la', 'de', 'que', 'y', 'a', 'en', 'un', 'ser', 'se', 'no', 'haber',
         'por', 'con', 'su', 'para', 'como', 'estar', 'tener', 'le', 'lo', 'todo',
         'pero', 'más', 'hacer', 'o', 'poder', 'decir', 'este', 'ir', 'otro',
         'ese', 'si', 'me', 'ya', 'ver', 'porque', 'dar', 'cuando', 'muy',
@@ -37,25 +37,68 @@ const ideasTracker = {
         const normalized = text.toLowerCase()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "") // Remover acentos
-            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()¿?¡!]/g, " "); // Remover puntuación
+            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()¿?¡!"']/g, " "); // Remover puntuación
 
         // Dividir en palabras
         const words = normalized.split(/\s+/).filter(w => w.length > 3);
 
-        // Filtrar stop words y obtener sustantivos potenciales
-        const terms = words.filter(word => !this.stopWords.has(word));
+        // Lista de sustantivos relevantes para el contexto
+        const nounPatterns = [
+            /.*cion$/, /.*idad$/, /.*ismo$/, /.*ento$/, /.*encia$/,
+            /.*aje$/, /.*tud$/, /.*eza$/, /.*ura$/, /.*miento$/
+        ];
 
-        // Buscar palabras clave específicas del contexto de Umbusk
-        const relevantTerms = terms.filter(term => {
-            // Palabras de 4+ letras que parecen sustantivos
-            return term.length >= 4 ||
-                   ['ia', 'ai'].includes(term) || // IA/AI
-                   term.includes('prototip') ||
-                   term.includes('idea') ||
-                   term.includes('tecnolog');
+        // Verbos comunes a excluir
+        const commonVerbs = new Set([
+            'hacer', 'tener', 'estar', 'poder', 'deber', 'querer', 'saber',
+            'venir', 'decir', 'llevar', 'dejar', 'pasar', 'quedar', 'hablar',
+            'convertir', 'transformar', 'crear', 'buscar', 'encontrar',
+            'pensar', 'sentir', 'llegar', 'cambiar', 'vivir', 'existir',
+            'nacer', 'morir', 'caer', 'subir', 'bajar', 'entrar', 'salir',
+            'abrir', 'cerrar', 'empezar', 'terminar', 'acabar', 'seguir',
+            'volver', 'poner', 'traer', 'mirar', 'conocer', 'reconocer',
+            'construir', 'generar', 'desarrollar', 'evolucionar'
+        ]);
+
+        // Palabras a siempre excluir
+        const blacklist = new Set(['umbusk']);
+
+        // Sustantivos prioritarios del contexto
+        const priorityNouns = new Set([
+            'idea', 'ideas', 'prototipo', 'prototipos', 'tecnologia',
+            'innovacion', 'creacion', 'algoritmo', 'algoritmos',
+            'inteligencia', 'artificial', 'cosmos', 'universo',
+            'espacio', 'tiempo', 'futuro', 'cambio', 'transformacion',
+            'posibilidad', 'realidad', 'imaginacion', 'codigo',
+            'puente', 'semilla', 'tierra', 'vision', 'esencia',
+            'mente', 'mentes', 'conexion', 'patron', 'forma',
+            'proceso', 'viaje', 'camino', 'destino', 'origen'
+        ]);
+
+        // Filtrar y obtener sustantivos
+        const terms = words.filter(word => {
+            // Excluir blacklist
+            if (blacklist.has(word)) return false;
+
+            // Excluir stop words
+            if (this.stopWords.has(word)) return false;
+
+            // Excluir verbos comunes
+            if (commonVerbs.has(word)) return false;
+
+            // Incluir sustantivos prioritarios
+            if (priorityNouns.has(word)) return true;
+
+            // Verificar patrones de sustantivos
+            if (nounPatterns.some(pattern => pattern.test(word))) return true;
+
+            // Palabras largas que no terminan en 'ar', 'er', 'ir' (verbos)
+            if (word.length >= 5 && !/(ar|er|ir)$/.test(word)) return true;
+
+            return false;
         });
 
-        return [...new Set(relevantTerms)]; // Eliminar duplicados
+        return [...new Set(terms)]; // Eliminar duplicados
     },
 
     // Actualizar tracking con nuevo diálogo
@@ -99,11 +142,23 @@ const ideasTracker = {
         const tickerContent = document.getElementById('ticker-content');
         const items = [];
 
-        // Convertir a array y ordenar por relevancia
+        // Limpiar términos muy negativos
+        this.terms.forEach((data, term) => {
+            if (data.trend <= -5) {
+                this.terms.delete(term);
+            }
+        });
+
+        // Convertir a array y ordenar por actividad reciente
         const sortedTerms = Array.from(this.terms.entries())
-            .filter(([term, data]) => Math.abs(data.trend) > 0)
-            .sort((a, b) => Math.abs(b[1].trend) - Math.abs(a[1].trend))
-            .slice(0, 20); // Máximo 20 términos
+            .filter(([term, data]) => data.trend !== 0)
+            .sort((a, b) => {
+                // Priorizar términos recientes
+                if (a[1].lastSeen === this.history.length - 1) return -1;
+                if (b[1].lastSeen === this.history.length - 1) return 1;
+                return Math.abs(b[1].trend) - Math.abs(a[1].trend);
+            })
+            .slice(0, 15); // Máximo 15 términos
 
         sortedTerms.forEach(([term, data]) => {
             const isPositive = data.trend > 0;
@@ -123,22 +178,21 @@ const ideasTracker = {
             items.push(item);
         });
 
-        // Duplicar para efecto continuo
-        tickerContent.innerHTML = items.join('') + items.join('');
+        // Si hay pocos términos, agregar mensaje
+        if (items.length < 3) {
+            items.push(`
+                <span class="ticker-item">
+                    <span class="ticker-term" style="opacity: 0.5">
+                        EXPLORANDO NUEVAS IDEAS...
+                    </span>
+                </span>
+            `);
+        }
+
+        // Triplicar para efecto continuo más fluido
+        tickerContent.innerHTML = items.join('') + items.join('') + items.join('');
     }
 };
-
-// Inicializar ticker con mensaje de espera
-function initializeTicker() {
-    const tickerContent = document.getElementById('ticker-content');
-    tickerContent.innerHTML = `
-        <span class="ticker-item">
-            <span class="ticker-term" style="opacity: 0.5">
-                ESPERANDO IDEAS DEL COSMOS...
-            </span>
-        </span>
-    `;
-}
 
 // Canvas setup
 const canvas = document.getElementById('cosmos');
@@ -425,7 +479,7 @@ function showWelcomeMessage() {
         localStorage.setItem('umbuskVisited', 'true');
 
         // Iniciar primer diálogo después de 3 segundos
-// setTimeout(() => displayDialogue(), 3000);  // Temporalmente desactivado
+        setTimeout(() => displayDialogue(), 3000);
     }
 }
 
