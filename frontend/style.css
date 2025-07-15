@@ -264,7 +264,7 @@ body {
 
 .ticker-content {
     display: flex;
-    animation: ticker 20s linear infinite;
+    animation: ticker 5s linear infinite;
     white-space: nowrap;
     padding-left: 100%;
 }
@@ -277,8 +277,8 @@ body {
 .ticker-item {
     display: inline-flex;
     align-items: center;
-    margin: 0 20px;
-    padding: 0 10px;
+    margin: 0 5px;
+    padding: 0 5px;
 }
 
 .ticker-term {
