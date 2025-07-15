@@ -1,7 +1,7 @@
 // Función serverless para manejar los diálogos
 import Anthropic from '@anthropic-ai/sdk';
 import OpenAI from 'openai';
-import { neon } from '@netlify/neon';
+import { neon } from '@neondatabase/serverless';
 
 // Inicializar clientes (las keys vienen de las variables de entorno)
 const anthropic = new Anthropic({

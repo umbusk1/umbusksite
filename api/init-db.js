@@ -1,4 +1,4 @@
-import { neon } from '@netlify/neon';
+import { neon } from '@neondatabase/serverless';
 
 export default async function handler(req, res) {
     // Solo permitir GET para esta función de setup
