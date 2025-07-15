@@ -449,6 +449,9 @@ window.addEventListener('load', () => {
     showWelcomeMessage();
     animate();
 
+    // Cargar historial para el ticker
+    loadRecentHistory();
+
     // Mostrar status en desarrollo
     if (CONFIG.USE_MOCK_DATA) {
         updateConnectionStatus('Modo desarrollo (sin API)', true);
