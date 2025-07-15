@@ -264,14 +264,14 @@ body {
 
 .ticker-content {
     display: flex;
-    animation: ticker 30s linear infinite;
+    animation: ticker 5s linear infinite;
     white-space: nowrap;
     padding-left: 100%;
 }
 
 @keyframes ticker {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-33.33%); }
+    100% { transform: translateX(0%); }
 }
 
 .ticker-item {
