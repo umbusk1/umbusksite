@@ -417,6 +417,31 @@ function showWelcomeMessage() {
     }
 }
 
+// Cargar historial reciente para el ticker
+async function loadRecentHistory() {
+    try {
+        const response = await fetch('https://umbusksite.vercel.app/api/history?limit=10');
+        if (response.ok) {
+            const data = await response.json();
+
+            // Procesar diálogos históricos para el ticker
+            data.dialogues.reverse().forEach(dialogue => {
+                const historicalDialogue = {
+                    lines: [
+                        { voice: 1, text: dialogue.voice1_line1 },
+                        { voice: 2, text: dialogue.voice2_line1 },
+                        { voice: 1, text: dialogue.voice1_line2 },
+                        { voice: 2, text: dialogue.voice2_line2 }
+                    ]
+                };
+                ideasTracker.updateFromDialogue(historicalDialogue);
+            });
+        }
+    } catch (error) {
+        console.log('No se pudo cargar el historial para el ticker');
+    }
+}
+
 // Inicialización
 window.addEventListener('load', () => {
     resizeCanvas();
