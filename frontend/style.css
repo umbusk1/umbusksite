@@ -216,3 +216,120 @@ body {
         width: 90%;
     }
 }
+
+/* Marquesina de ideas */
+.ideas-ticker {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 8px 0;
+    overflow: hidden;
+    z-index: 30;
+    backdrop-filter: blur(10px);
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 13px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive widths para la marquesina */
+@media (min-width: 1024px) {
+    .ideas-ticker {
+        width: 40%;
+        max-width: 800px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .ideas-ticker {
+        width: 600px;
+    }
+}
+
+@media (max-width: 767px) and (orientation: landscape) {
+    .ideas-ticker {
+        width: 600px;
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 767px) and (orientation: portrait) {
+    .ideas-ticker {
+        width: 90%;
+    }
+}
+
+.ticker-content {
+    display: flex;
+    animation: ticker 30s linear infinite;
+    white-space: nowrap;
+    padding-left: 100%;
+}
+
+@keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+.ticker-item {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 20px;
+    padding: 0 10px;
+}
+
+.ticker-term {
+    color: rgba(255, 255, 255, 0.8);
+    margin-right: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ticker-indicator {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+
+.ticker-arrow {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    margin-right: 4px;
+}
+
+.ticker-arrow.up {
+    border-width: 0 4px 8px 4px;
+    border-color: transparent transparent #4CAF50 transparent;
+}
+
+.ticker-arrow.down {
+    border-width: 8px 4px 0 4px;
+    border-color: #f44336 transparent transparent transparent;
+}
+
+.ticker-value {
+    font-size: 12px;
+}
+
+.ticker-value.positive {
+    color: #4CAF50;
+}
+
+.ticker-value.negative {
+    color: #f44336;
+}
+
+/* Animación de entrada para nuevos términos */
+.ticker-item.new {
+    animation: flashIn 0.5s ease;
+}
+
+@keyframes flashIn {
+    0% { opacity: 0; background: rgba(255, 255, 255, 0.1); }
+    50% { opacity: 1; background: rgba(255, 255, 255, 0.2); }
+    100% { opacity: 1; background: transparent; }
+}
