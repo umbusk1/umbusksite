@@ -19,7 +19,7 @@ const ideasTracker = {
 
     // Palabras comunes a ignorar
     stopWords: new Set([
-        'el', 'la', 'de', 'que', 'y', 'a', 'en', 'un', 'ser', 'se', 'no', 'haber',
+        'Umbusk', 'el', 'la', 'de', 'que', 'y', 'a', 'en', 'un', 'ser', 'se', 'no', 'haber',
         'por', 'con', 'su', 'para', 'como', 'estar', 'tener', 'le', 'lo', 'todo',
         'pero', 'más', 'hacer', 'o', 'poder', 'decir', 'este', 'ir', 'otro',
         'ese', 'si', 'me', 'ya', 'ver', 'porque', 'dar', 'cuando', 'muy',
