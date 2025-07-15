@@ -12,7 +12,6 @@
     "openai": "^4.28.0"
   }
 }
-
 {
   "name": "umbusk-api",
   "version": "1.0.0",
