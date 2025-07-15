@@ -120,6 +120,39 @@ export default async function handler(req, res) {
             timestamp: new Date().toISOString()
         };
 
+        // Guardar en base de datos
+        try {
+            const sql = neon();
+            await sql`
+                INSERT INTO cosmic_dialogues (
+                    dialogue_number,
+                    theme,
+                    voice1_line1,
+                    voice2_line1,
+                    voice1_line2,
+                    voice2_line2,
+                    visitor_id,
+                    metadata
+                ) VALUES (
+                    ${dialogueNumber},
+                    ${currentTheme},
+                    ${voice1Text.trim()},
+                    ${voice2Text.trim()},
+                    ${voice1Text2.trim()},
+                    ${voice2Text2.trim()},
+                    ${req.headers['x-forwarded-for'] || 'anonymous'},
+                    ${JSON.stringify({
+                        userAgent: req.headers['user-agent'],
+                        timestamp: new Date().toISOString()
+                    })}
+                )
+            `;
+            console.log('Diálogo guardado en DB');
+        } catch (dbError) {
+            console.error('Error guardando en DB:', dbError);
+            // No fallar si la DB tiene problemas
+        }
+
         res.status(200).json(dialogue);
 
     } catch (error) {
