@@ -14,21 +14,21 @@ const openai = new OpenAI({
 
 // Prompts para cada voz
 const VOICE_PROMPTS = {
-    voice1: `Eres una voz filosófica minimalista. Hablas en español con frases muy breves y poéticas.
-    IMPORTANTE: Máximo 10-15 palabras por respuesta. Una sola idea. Sin explicaciones.`,
+    voice1: `Eres una voz filosófica minimalista. Hablas en español con frases breves, herméticas e intrigantes.
+    IMPORTANTE: Máximo 10-15 palabras por respuesta. Una sola idea o pregunta. Sin explicaciones.`,
 
-    voice2: `Eres una voz pragmática concisa. Hablas en español de forma directa y sugerente.
-    IMPORTANTE: Máximo 10-15 palabras por respuesta. Una sola idea. Sin elaboración.`
+    voice2: `Eres una voz pragmática concisa. Hablas en español de forma directa y optimista.
+    IMPORTANTE: Máximo 10-15 palabras por respuesta. Una sola idea o pregunta. Sin elaboración.`
 };
 
 // Contexto de la conversación
 const CONVERSATION_CONTEXT = `
 Esta es una conversación entre dos entidades que dialogan sobre Umbusk,
-una empresa que transforma ideas en prototipos usando IA. El diálogo debe ser:
-- Abstracto pero significativo
-- Inspirador sin ser pretencioso
-- Conectado con temas de creatividad, innovación y transformación
-- Cada intercambio debe sentirse como una danza de ideas
+una empresa que transforma ideas en prototipos, usando IA. El diálogo debe ser:
+- Abstracto pero orientado a crecer y producir
+- Inspirador y digno, sin ser pretencioso o exagerado
+- Conectado con temas de creatividad, diseño, innovación, automatización, productividad y transformación
+- Cada intercambio debe sentirse como una danza de ideas que fluyen estéticamente con gracia y respeto
 `;
 
 export default async function handler(req, res) {
@@ -55,7 +55,9 @@ export default async function handler(req, res) {
             "la intersección entre imaginación y tecnología",
             "el proceso creativo como exploración del universo",
             "la naturaleza iterativa de la innovación",
-            "el espacio entre el pensamiento y la acción"
+            "el espacio entre el pensamiento y la acción",
+            "el diseño como puente que conecta ideas creativas con productos y servicios",
+            "los prototipos como MVP que apoyan el desarrollo de negocios"
         ];
 
         const currentTheme = themes[dialogueNumber % themes.length];
