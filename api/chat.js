@@ -62,7 +62,7 @@ export default async function handler(req, res) {
 
         // Obtener respuesta de Claude (voz 1)
         const claudeResponse = await anthropic.messages.create({
-            model: 'claude-3-sonnet-20240229',
+            model: 'claude-3-5-sonnet-20241022',
             max_tokens: 100,
             messages: [{
                 role: 'user',
@@ -74,7 +74,7 @@ export default async function handler(req, res) {
 
         // Obtener respuesta de GPT (voz 2) basada en voz 1
         const gptResponse = await openai.chat.completions.create({
-            model: 'gpt-4-turbo-preview',
+            model: 'gpt-4o-mini',
             messages: [
                 { role: 'system', content: `${CONVERSATION_CONTEXT}\n\n${VOICE_PROMPTS.voice2}` },
                 { role: 'user', content: `La otra voz dijo: "${voice1Text}"\n\nResponde a esta reflexión conectándola con aspectos prácticos o posibilidades concretas.` }
@@ -86,7 +86,7 @@ export default async function handler(req, res) {
 
         // Continuar el diálogo
         const claudeResponse2 = await anthropic.messages.create({
-            model: 'claude-3-sonnet-20240229',
+            model: 'claude-3-5-sonnet-20241022',
             max_tokens: 100,
             messages: [{
                 role: 'user',
@@ -98,7 +98,7 @@ export default async function handler(req, res) {
 
         // Respuesta final de GPT
         const gptResponse2 = await openai.chat.completions.create({
-            model: 'gpt-4-turbo-preview',
+            model: 'gpt-4o-mini',
             messages: [
                 { role: 'system', content: `${CONVERSATION_CONTEXT}\n\n${VOICE_PROMPTS.voice2}` },
                 { role: 'user', content: `El diálogo continúa:\nPrimera voz: "${voice1Text}"\nTú: "${voice2Text}"\nPrimera voz: "${voice1Text2}"\n\nCierra este intercambio con una síntesis pragmática pero poética.` }
