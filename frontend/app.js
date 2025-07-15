@@ -12,6 +12,122 @@ let currentDialogue = 0;
 let isDialogueActive = false;
 let isFirstVisit = !localStorage.getItem('umbuskVisited');
 
+// Sistema de tracking de ideas
+const ideasTracker = {
+    terms: new Map(), // Mapa de término -> { count, lastSeen, trend }
+    history: [],      // Historial de apariciones
+
+    // Palabras comunes a ignorar
+    stopWords: new Set([
+        'el', 'la', 'de', 'que', 'y', 'a', 'en', 'un', 'ser', 'se', 'no', 'haber',
+        'por', 'con', 'su', 'para', 'como', 'estar', 'tener', 'le', 'lo', 'todo',
+        'pero', 'más', 'hacer', 'o', 'poder', 'decir', 'este', 'ir', 'otro',
+        'ese', 'si', 'me', 'ya', 'ver', 'porque', 'dar', 'cuando', 'muy',
+        'sin', 'vez', 'mucho', 'saber', 'qué', 'sobre', 'mi', 'alguno', 'mismo',
+        'también', 'hasta', 'año', 'dos', 'querer', 'entre', 'así', 'primero',
+        'desde', 'grande', 'eso', 'ni', 'nos', 'llegar', 'pasar', 'tiempo',
+        'ella', 'sí', 'día', 'uno', 'bien', 'poco', 'deber', 'entonces',
+        'poner', 'parte', 'vida', 'quedar', 'siempre', 'creer', 'hablar', 'llevar',
+        'dejar', 'nada', 'cada', 'seguir', 'menos', 'nuevo', 'encontrar'
+    ]),
+
+    // Extraer sustantivos relevantes
+    extractKeyTerms(text) {
+        // Normalizar texto
+        const normalized = text.toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "") // Remover acentos
+            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()¿?¡!]/g, " "); // Remover puntuación
+
+        // Dividir en palabras
+        const words = normalized.split(/\s+/).filter(w => w.length > 3);
+
+        // Filtrar stop words y obtener sustantivos potenciales
+        const terms = words.filter(word => !this.stopWords.has(word));
+
+        // Buscar palabras clave específicas del contexto de Umbusk
+        const relevantTerms = terms.filter(term => {
+            // Palabras de 4+ letras que parecen sustantivos
+            return term.length >= 4 ||
+                   ['ia', 'ai'].includes(term) || // IA/AI
+                   term.includes('prototip') ||
+                   term.includes('idea') ||
+                   term.includes('tecnolog');
+        });
+
+        return [...new Set(relevantTerms)]; // Eliminar duplicados
+    },
+
+    // Actualizar tracking con nuevo diálogo
+    updateFromDialogue(dialogue) {
+        const currentTerms = new Set();
+
+        // Extraer términos de todas las líneas del diálogo
+        dialogue.lines.forEach(line => {
+            const terms = this.extractKeyTerms(line.text);
+            terms.forEach(term => currentTerms.add(term));
+        });
+
+        // Actualizar conteos
+        currentTerms.forEach(term => {
+            if (!this.terms.has(term)) {
+                this.terms.set(term, { count: 0, lastSeen: -1, trend: 0 });
+            }
+
+            const termData = this.terms.get(term);
+            termData.count++;
+            termData.trend = 1; // Subiendo
+            termData.lastSeen = this.history.length;
+        });
+
+        // Actualizar términos no vistos
+        this.terms.forEach((data, term) => {
+            if (!currentTerms.has(term) && data.lastSeen < this.history.length) {
+                data.trend = Math.max(-10, data.trend - 1);
+            }
+        });
+
+        // Agregar al historial
+        this.history.push(currentTerms);
+
+        // Actualizar visualización
+        this.updateTicker();
+    },
+
+    // Actualizar la marquesina
+    updateTicker() {
+        const tickerContent = document.getElementById('ticker-content');
+        const items = [];
+
+        // Convertir a array y ordenar por relevancia
+        const sortedTerms = Array.from(this.terms.entries())
+            .filter(([term, data]) => Math.abs(data.trend) > 0)
+            .sort((a, b) => Math.abs(b[1].trend) - Math.abs(a[1].trend))
+            .slice(0, 20); // Máximo 20 términos
+
+        sortedTerms.forEach(([term, data]) => {
+            const isPositive = data.trend > 0;
+            const percentage = Math.abs(data.trend);
+
+            const item = `
+                <span class="ticker-item ${data.trend === 1 ? 'new' : ''}">
+                    <span class="ticker-term">${term.toUpperCase()}</span>
+                    <span class="ticker-indicator">
+                        <span class="ticker-arrow ${isPositive ? 'up' : 'down'}"></span>
+                        <span class="ticker-value ${isPositive ? 'positive' : 'negative'}">
+                            ${isPositive ? '+' : ''}${percentage}%
+                        </span>
+                    </span>
+                </span>
+            `;
+            items.push(item);
+        });
+
+        // Duplicar para efecto continuo
+        tickerContent.innerHTML = items.join('') + items.join('');
+    }
+};
+
 // Canvas setup
 const canvas = document.getElementById('cosmos');
 const ctx = canvas.getContext('2d');
