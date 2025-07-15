@@ -315,6 +315,9 @@ async function displayDialogue() {
 
     const dialogue = await getDialogue();
 
+    // Actualizar el tracker de ideas
+    ideasTracker.updateFromDialogue(dialogue);
+
     // Ocultar indicador
     showLoading(false);
 
