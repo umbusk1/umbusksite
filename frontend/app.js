@@ -128,6 +128,18 @@ const ideasTracker = {
     }
 };
 
+// Inicializar ticker con mensaje de espera
+function initializeTicker() {
+    const tickerContent = document.getElementById('ticker-content');
+    tickerContent.innerHTML = `
+        <span class="ticker-item">
+            <span class="ticker-term" style="opacity: 0.5">
+                ESPERANDO IDEAS DEL COSMOS...
+            </span>
+        </span>
+    `;
+}
+
 // Canvas setup
 const canvas = document.getElementById('cosmos');
 const ctx = canvas.getContext('2d');
@@ -446,6 +458,7 @@ async function loadRecentHistory() {
 window.addEventListener('load', () => {
     resizeCanvas();
     initComets();
+    initializeTicker();
     showWelcomeMessage();
     animate();
 
