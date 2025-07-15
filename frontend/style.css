@@ -325,7 +325,7 @@ body {
 
 /* Animación de entrada para nuevos términos */
 .ticker-item.new {
-    animation: flashIn 0.1s fast;
+    animation: flashIn 0.01s fast;
 }
 
 @keyframes flashIn {
