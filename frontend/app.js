@@ -360,7 +360,7 @@ function showLoading(show) {
 function showLoadingWithProgress() {
     const loader = document.getElementById('loading');
     loader.classList.add('active');
-    loader.innerHTML = '<div class="pulse"></div><div style="font-size: 11px; margin-top: 10px; opacity: 0.6;">Conectando con las mentes...</div>';
+    loader.innerHTML = '<div class="pulse"></div><div style="font-size: 11px; margin-top: 19px; opacity: 0.6;">Conectando con las mentes...</div>';
 }
 
 function updateConnectionStatus(message, isConnected) {

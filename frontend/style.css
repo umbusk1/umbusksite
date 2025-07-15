@@ -54,7 +54,7 @@ body {
     font-size: 18px;
     line-height: 1.6;
     letter-spacing: 0.5px;
-    animation: fadeInUp 2s ease forwards;
+    animation: fadeInUp 3s ease forwards;
     padding: 10px 20px;
     border-radius: 5px;
 }
