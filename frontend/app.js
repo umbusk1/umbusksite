@@ -476,7 +476,7 @@ window.addEventListener('resize', () => {
         comet.baseX = centerX;
         comet.baseY = centerY;
     });
-
+}); // <-- Cierra resize
 // Sistema de historial
 const historyManager = {
     isOpen: false,
