@@ -291,8 +291,9 @@ body {
 /* Texto de historial */
 .history-trigger {
     position: fixed;
-    top: 60px;
-    right: 20px;
+    top: 55px;  /* Cambiado de 60px */
+    left: 50%;  /* Centrado como el ticker */
+    transform: translateX(-50%);  /* Centrado como el ticker */
     font-size: 11px;
     color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
@@ -300,6 +301,7 @@ body {
     z-index: 31;
     font-family: 'Helvetica Neue', sans-serif;
     font-weight: 300;
+    text-align: center;  /* Centrar texto */
 }
 
 .history-trigger:hover {
