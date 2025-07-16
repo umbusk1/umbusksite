@@ -218,7 +218,9 @@ class Comet {
 
     disturb() {
         this.angle += Math.random() * Math.PI * 0.5;
-        this.orbitRadius = 150 + Math.random() * 150;
+        // Ajustar radio según el tamaño de pantalla
+		const isMobile = window.innerWidth < 768;
+	    this.orbitRadius = isMobile ? (50 + Math.random() * 80) : (150 + Math.random() * 150);
     }
 }
 
@@ -359,7 +361,8 @@ function initComets() {
 
     for (let i = 0; i < CONFIG.COMET_COUNT; i++) {
         const angle = (Math.PI * 2 / CONFIG.COMET_COUNT) * i;
-        const distance = 200 + Math.random() * 100;
+        const isMobile = window.innerWidth < 768;
+	    const distance = isMobile ? (80 + Math.random() * 60) : (200 + Math.random() * 100);
         const x = centerX + Math.cos(angle) * distance;
         const y = centerY + Math.sin(angle) * distance;
 
