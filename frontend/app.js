@@ -389,6 +389,25 @@ canvas.addEventListener('click', (e) => {
     }
 });
 
+// Soporte para touch en móviles
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+
+    // Verificar touch en cometas
+    for (let comet of comets) {
+        if (comet.isNear(x, y, 70)) { // Área más grande en móvil
+            currentDialogue++;
+            displayDialogue();
+            comets.forEach(c => c.disturb());
+            break;
+        }
+    }
+});
+
 // Animación principal
 function animate() {
     // Fade trail effect
