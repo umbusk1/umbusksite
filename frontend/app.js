@@ -534,19 +534,19 @@ const historyManager = {
                 html += `
                     <div class="dialogue-group">
                         <div class="dialogue-row">
-                            <span class="voice-label">Voz 1: Claude</span>
+                            <span class="voice-label">Claude:</span>
                             <span class="voice-text">${dialogue.voice1_line1}</span>
                         </div>
                         <div class="dialogue-row">
-                            <span class="voice-label">Voz 2: ChatGPT</span>
+                            <span class="voice-label">ChatGPT:</span>
                             <span class="voice-text">${dialogue.voice2_line1}</span>
                         </div>
                         <div class="dialogue-row">
-                            <span class="voice-label">Voz 1: Claude</span>
+                            <span class="voice-label">Claude:</span>
                             <span class="voice-text">${dialogue.voice1_line2}</span>
                         </div>
                         <div class="dialogue-row">
-                            <span class="voice-label">Voz 2: ChatGPT</span>
+                            <span class="voice-label">ChatGPT:</span>
                             <span class="voice-text">${dialogue.voice2_line2}</span>
                         </div>
                         <div class="dialogue-time">${time}</div>
