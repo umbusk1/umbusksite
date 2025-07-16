@@ -3,7 +3,8 @@ const CONFIG = {
     API_ENDPOINT: 'https://umbusksite.vercel.app/api/chat',
     USE_MOCK_DATA: false, // Por ahora usamos datos de prueba
     COMET_COUNT: 12,
-    DIALOGUE_DELAY: 2500
+    DIALOGUE_DELAY: 2500,
+    DIALOGUE_DISPLAY_TIME: 5000
 };
 
 // Estado global
