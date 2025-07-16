@@ -264,72 +264,171 @@ body {
 
 .ticker-content {
     display: flex;
-    animation: ticker 10s linear infinite;
+    align-items: center;
+    animation: ticker 30s linear infinite;
     white-space: nowrap;
     padding-left: 100%;
 }
 
 @keyframes ticker {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-90%); }
-}
-
-.ticker-item {
-    display: inline-flex;
-    align-items: center;
-    margin: 0 5px;
-    padding: 0 5px;
+    100% { transform: translateX(-50%); }
 }
 
 .ticker-term {
     color: rgba(255, 255, 255, 0.8);
-    margin-right: 8px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    padding: 0 15px;
 }
 
-.ticker-indicator {
+.ticker-separator {
+    width: 20px;
+    height: 20px;
+    opacity: 0.4;
+    margin: 0 10px;
+}
+
+/* Texto de historial */
+.history-trigger {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 31;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 300;
+}
+
+.history-trigger:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Contenedor del historial */
+.history-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 800px;
+    max-height: 70vh;
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 40;
+    display: none;
+    backdrop-filter: blur(20px);
+}
+
+.history-container.active {
+    display: block;
+}
+
+.history-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.history-close:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Acordeón de fechas */
+.date-item {
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.date-header {
+    padding: 10px;
+    cursor: pointer;
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    transition: background 0.3s ease;
+}
+
+.date-header:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.date-header.active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.date-text {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.date-arrow {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+.date-header.active .date-arrow {
+    transform: rotate(180deg);
+}
+
+.dialogues-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.dialogues-content.active {
+    max-height: 500px;
+}
+
+/* Tabla de diálogos */
+.dialogue-table {
+    width: 100%;
+    margin: 10px 0;
+    border-collapse: collapse;
+}
+
+.dialogue-group {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+}
+
+.dialogue-row {
+    display: flex;
+    margin-bottom: 10px;
+    gap: 20px;
+}
+
+.voice-label {
+    flex: 0 0 120px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
     font-weight: bold;
 }
 
-.ticker-arrow {
-    width: 0;
-    height: 0;
-    border-style: solid;
-    margin-right: 4px;
+.voice-text {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
 }
 
-.ticker-arrow.up {
-    border-width: 0 4px 8px 4px;
-    border-color: transparent transparent #4CAF50 transparent;
-}
-
-.ticker-arrow.down {
-    border-width: 8px 4px 0 4px;
-    border-color: #f44336 transparent transparent transparent;
-}
-
-.ticker-value {
-    font-size: 12px;
-}
-
-.ticker-value.positive {
-    color: #4CAF50;
-}
-
-.ticker-value.negative {
-    color: #f44336;
-}
-
-/* Animación de entrada para nuevos términos */
-.ticker-item.new {
-    animation: flashIn 0.5s ease;
-}
-
-@keyframes flashIn {
-    0% { opacity: 0; background: rgba(255, 255, 255, 0.1); }
-    50% { opacity: 1; background: rgba(255, 255, 255, 0.2); }
-    100% { opacity: 1; background: transparent; }
+.dialogue-time {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    text-align: right;
+    margin-top: 10px;
 }

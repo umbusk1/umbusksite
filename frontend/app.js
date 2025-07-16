@@ -12,10 +12,9 @@ let currentDialogue = 0;
 let isDialogueActive = false;
 let isFirstVisit = !localStorage.getItem('umbuskVisited');
 
-// Sistema de tracking de ideas
+// Sistema de tracking de ideas simplificado
 const ideasTracker = {
-    terms: new Map(), // Mapa de término -> { count, lastSeen, trend }
-    history: [],      // Historial de apariciones
+    allTerms: [], // Array de todos los términos en orden cronológico
 
     // Palabras comunes a ignorar
     stopWords: new Set([
@@ -33,164 +32,95 @@ const ideasTracker = {
 
     // Extraer sustantivos relevantes
     extractKeyTerms(text) {
-        // Normalizar texto
         const normalized = text.toLowerCase()
             .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remover acentos
-            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()¿?¡!"']/g, " "); // Remover puntuación
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()¿?¡!"']/g, " ");
 
-        // Dividir en palabras
         const words = normalized.split(/\s+/).filter(w => w.length > 3);
 
-        // Lista de sustantivos relevantes para el contexto
         const nounPatterns = [
             /.*cion$/, /.*idad$/, /.*ismo$/, /.*ento$/, /.*encia$/,
             /.*aje$/, /.*tud$/, /.*eza$/, /.*ura$/, /.*miento$/
         ];
 
-        // Verbos comunes a excluir
         const commonVerbs = new Set([
             'hacer', 'tener', 'estar', 'poder', 'deber', 'querer', 'saber',
             'venir', 'decir', 'llevar', 'dejar', 'pasar', 'quedar', 'hablar',
             'convertir', 'transformar', 'crear', 'buscar', 'encontrar',
-            'pensar', 'sentir', 'llegar', 'cambiar', 'vivir', 'existir',
-            'nacer', 'morir', 'caer', 'subir', 'bajar', 'entrar', 'salir',
-            'abrir', 'cerrar', 'empezar', 'terminar', 'acabar', 'seguir',
-            'volver', 'poner', 'traer', 'mirar', 'conocer', 'reconocer',
-            'construir', 'generar', 'desarrollar', 'evolucionar'
+            'pensar', 'sentir', 'llegar', 'cambiar', 'vivir', 'existir'
         ]);
 
-        // Palabras a siempre excluir
         const blacklist = new Set(['umbusk']);
 
-        // Sustantivos prioritarios del contexto
         const priorityNouns = new Set([
             'idea', 'ideas', 'prototipo', 'prototipos', 'tecnologia',
             'innovacion', 'creacion', 'algoritmo', 'algoritmos',
             'inteligencia', 'artificial', 'cosmos', 'universo',
             'espacio', 'tiempo', 'futuro', 'cambio', 'transformacion',
             'posibilidad', 'realidad', 'imaginacion', 'codigo',
-            'puente', 'semilla', 'tierra', 'vision', 'esencia',
-            'mente', 'mentes', 'conexion', 'patron', 'forma',
-            'proceso', 'viaje', 'camino', 'destino', 'origen'
+            'puente', 'semilla', 'tierra', 'vision', 'esencia'
         ]);
 
-        // Filtrar y obtener sustantivos
         const terms = words.filter(word => {
-            // Excluir blacklist
             if (blacklist.has(word)) return false;
-
-            // Excluir stop words
             if (this.stopWords.has(word)) return false;
-
-            // Excluir verbos comunes
             if (commonVerbs.has(word)) return false;
-
-            // Incluir sustantivos prioritarios
             if (priorityNouns.has(word)) return true;
-
-            // Verificar patrones de sustantivos
             if (nounPatterns.some(pattern => pattern.test(word))) return true;
-
-            // Palabras largas que no terminan en 'ar', 'er', 'ir' (verbos)
             if (word.length >= 5 && !/(ar|er|ir)$/.test(word)) return true;
-
             return false;
         });
 
-        return [...new Set(terms)]; // Eliminar duplicados
+        return [...new Set(terms)];
     },
 
-    // Actualizar tracking con nuevo diálogo
+    // Actualizar con nuevo diálogo
     updateFromDialogue(dialogue) {
-        const currentTerms = new Set();
+        const newTerms = [];
 
-        // Extraer términos de todas las líneas del diálogo
         dialogue.lines.forEach(line => {
             const terms = this.extractKeyTerms(line.text);
-            terms.forEach(term => currentTerms.add(term));
+            terms.forEach(term => {
+                // Agregar al principio (más recientes primero)
+                newTerms.unshift(term);
+            });
         });
 
-        // Actualizar conteos
-        currentTerms.forEach(term => {
-            if (!this.terms.has(term)) {
-                this.terms.set(term, { count: 0, lastSeen: -1, trend: 0 });
-            }
+        // Agregar nuevos términos al principio del array
+        this.allTerms = [...newTerms, ...this.allTerms];
 
-            const termData = this.terms.get(term);
-            termData.count++;
-            termData.trend = 1; // Subiendo
-            termData.lastSeen = this.history.length;
-        });
+        // Limitar a 100 términos máximo
+        if (this.allTerms.length > 100) {
+            this.allTerms = this.allTerms.slice(0, 100);
+        }
 
-        // Actualizar términos no vistos
-        this.terms.forEach((data, term) => {
-            if (!currentTerms.has(term) && data.lastSeen < this.history.length) {
-                data.trend = Math.max(-10, data.trend - 1);
-            }
-        });
-
-        // Agregar al historial
-        this.history.push(currentTerms);
-
-        // Actualizar visualización
         this.updateTicker();
     },
 
     // Actualizar la marquesina
     updateTicker() {
         const tickerContent = document.getElementById('ticker-content');
-        const items = [];
 
-        // Limpiar términos muy negativos
-        this.terms.forEach((data, term) => {
-            if (data.trend <= -5) {
-                this.terms.delete(term);
-            }
-        });
-
-        // Convertir a array y ordenar por actividad reciente
-        const sortedTerms = Array.from(this.terms.entries())
-            .filter(([term, data]) => data.trend !== 0)
-            .sort((a, b) => {
-                // Priorizar términos recientes
-                if (a[1].lastSeen === this.history.length - 1) return -1;
-                if (b[1].lastSeen === this.history.length - 1) return 1;
-                return Math.abs(b[1].trend) - Math.abs(a[1].trend);
-            })
-            .slice(0, 15); // Máximo 15 términos
-
-        sortedTerms.forEach(([term, data]) => {
-            const isPositive = data.trend > 0;
-            const percentage = Math.abs(data.trend);
-
-            const item = `
-                <span class="ticker-item ${data.trend === 1 ? 'new' : ''}">
-                    <span class="ticker-term">${term.toUpperCase()}</span>
-                    <span class="ticker-indicator">
-                        <span class="ticker-arrow ${isPositive ? 'up' : 'down'}"></span>
-                        <span class="ticker-value ${isPositive ? 'positive' : 'negative'}">
-                            ${isPositive ? '+' : ''}${percentage}%
-                        </span>
+        if (this.allTerms.length === 0) {
+            tickerContent.innerHTML = `
+                <span class="ticker-item">
+                    <span class="ticker-term" style="opacity: 0.5">
+                        ESPERANDO IDEAS DEL COSMOS...
                     </span>
                 </span>
             `;
-            items.push(item);
-        });
-
-        // Si hay pocos términos, agregar mensaje
-        if (items.length < 3) {
-            items.push(`
-                <span class="ticker-item">
-                    <span class="ticker-term" style="opacity: 0.5">
-                        EXPLORANDO NUEVAS IDEAS...
-                    </span>
-                </span>
-            `);
+            return;
         }
 
-        // Triplicar para efecto continuo más fluido
-        tickerContent.innerHTML = items.join('') + items.join('') + items.join('');
+        // Crear elementos con logo como separador
+        const items = this.allTerms.map(term => `
+            <span class="ticker-term">${term.toUpperCase()}</span>
+            <img src="imagenes/logo.png" class="ticker-separator" alt="">
+        `).join('');
+
+        // Duplicar para efecto continuo
+        tickerContent.innerHTML = items + items;
     }
 };
 
@@ -546,4 +476,116 @@ window.addEventListener('resize', () => {
         comet.baseX = centerX;
         comet.baseY = centerY;
     });
+
+// Sistema de historial
+const historyManager = {
+    isOpen: false,
+
+    async loadHistory() {
+        try {
+            const response = await fetch('https://umbusksite.vercel.app/api/history?limit=50');
+            if (response.ok) {
+                const data = await response.json();
+                this.displayHistory(data.dialogues);
+            }
+        } catch (error) {
+            console.error('Error cargando historial:', error);
+        }
+    },
+
+    displayHistory(dialogues) {
+        const content = document.getElementById('history-content');
+
+        // Agrupar por fecha
+        const groupedByDate = {};
+        dialogues.forEach(dialogue => {
+            const date = new Date(dialogue.created_at).toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            if (!groupedByDate[date]) {
+                groupedByDate[date] = [];
+            }
+            groupedByDate[date].push(dialogue);
+        });
+
+        // Crear HTML
+        let html = '';
+        Object.entries(groupedByDate).forEach(([date, dialogues]) => {
+            html += `
+                <div class="date-item">
+                    <div class="date-header" onclick="historyManager.toggleDate(this)">
+                        <span class="date-text">${date}</span>
+                        <span class="date-arrow">▼</span>
+                    </div>
+                    <div class="dialogues-content">
+            `;
+
+            dialogues.forEach((dialogue, index) => {
+                const time = new Date(dialogue.created_at).toLocaleTimeString('es-ES', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                html += `
+                    <div class="dialogue-group">
+                        <div class="dialogue-row">
+                            <span class="voice-label">Voz 1: Claude</span>
+                            <span class="voice-text">${dialogue.voice1_line1}</span>
+                        </div>
+                        <div class="dialogue-row">
+                            <span class="voice-label">Voz 2: ChatGPT</span>
+                            <span class="voice-text">${dialogue.voice2_line1}</span>
+                        </div>
+                        <div class="dialogue-row">
+                            <span class="voice-label">Voz 1: Claude</span>
+                            <span class="voice-text">${dialogue.voice1_line2}</span>
+                        </div>
+                        <div class="dialogue-row">
+                            <span class="voice-label">Voz 2: ChatGPT</span>
+                            <span class="voice-text">${dialogue.voice2_line2}</span>
+                        </div>
+                        <div class="dialogue-time">${time}</div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+        });
+
+        content.innerHTML = html;
+    },
+
+    toggleDate(header) {
+        header.classList.toggle('active');
+        header.nextElementSibling.classList.toggle('active');
+    },
+
+    toggle() {
+        this.isOpen = !this.isOpen;
+        const container = document.getElementById('history-container');
+
+        if (this.isOpen) {
+            container.classList.add('active');
+            this.loadHistory();
+        } else {
+            container.classList.remove('active');
+        }
+    }
+};
+
+// Event listeners para el historial
+document.getElementById('history-trigger').addEventListener('click', () => {
+    historyManager.toggle();
+});
+
+document.getElementById('history-close').addEventListener('click', () => {
+    historyManager.toggle();
+});
+
 });
