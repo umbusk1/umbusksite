@@ -114,7 +114,6 @@ body {
 .umbusk-watermark {
     position: absolute;
     top: 90px;
-    center;
     font-size: 14px;
     opacity: 0.3;
     letter-spacing: 3px;
@@ -132,8 +131,7 @@ body {
     height: 60px;
     margin: 0 5px;
     position: absolute;
-    bottom: 30px;
-    center;
+    top: 30px;
 }
 
 .main-logo:hover {
