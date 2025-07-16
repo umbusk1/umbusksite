@@ -111,9 +111,24 @@ body {
 }
 
 /* Logo */
+
+.header {
+  display: flex;
+  flex-direction: column;   /* Logo arriba, texto abajo */
+  align-items: center;      /* Centra horizontalmente */
+  margin-top: 30px;         /* Espacio superior opcional */
+}
+
+.main-logo {
+    width: auto;
+    height: 60px;
+}
+
+.main-logo:hover {
+    opacity: 0.5;
+}
+
 .umbusk-watermark {
-    position: absolute;
-    top: 90px;
     font-size: 14px;
     opacity: 0.3;
     letter-spacing: 3px;
@@ -123,18 +138,6 @@ body {
 }
 
 .umbusk-watermark:hover {
-    opacity: 0.5;
-}
-
-.main-logo {
-    width: 60px;
-    height: 60px;
-    margin: 0 5px;
-    position: absolute;
-    top: 30px;
-}
-
-.main-logo:hover {
     opacity: 0.5;
 }
 
