@@ -285,7 +285,7 @@ body {
 .ticker-separator {
     width: 20px;
     height: 20px;
-    opacity: 0.4;
+    opacity: 0;
     margin: 0 5px;
 }
 
