@@ -141,7 +141,7 @@ body {
 }
 
 .fade-message.active {
-    animation: fadeInOut 4s ease forwards;
+    animation: fadeInOut 6s ease forwards;
 }
 
 /* Status de conexión (desarrollo) */
