@@ -24,8 +24,8 @@ body {
 /* Canvas del cosmos */
 #cosmos {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 82%;
+    height: 82%;
     opacity: 0;
     animation: fadeIn 4s ease forwards;
 }
@@ -138,7 +138,7 @@ body {
 }
 
 .umbusk-watermark:hover {
-    opacity: 0.5;
+    opacity: 1;
 }
 
 /* Mensaje de bienvenida */
