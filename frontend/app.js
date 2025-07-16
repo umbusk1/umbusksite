@@ -477,7 +477,8 @@ window.addEventListener('resize', () => {
         comet.baseX = centerX;
         comet.baseY = centerY;
     });
-}); // <-- Cierra resize
+});
+
 // Sistema de historial
 const historyManager = {
     isOpen: false,
@@ -580,13 +581,20 @@ const historyManager = {
     }
 };
 
-// Event listeners para el historial
-document.getElementById('history-trigger').addEventListener('click', () => {
-    historyManager.toggle();
-});
+// Event listeners para el historial - DEBEN IR DESPUÉS DE CARGAR EL DOM
+window.addEventListener('DOMContentLoaded', () => {
+    const historyTrigger = document.getElementById('history-trigger');
+    const historyClose = document.getElementById('history-close');
 
-document.getElementById('history-close').addEventListener('click', () => {
-    historyManager.toggle();
-});
+    if (historyTrigger) {
+        historyTrigger.addEventListener('click', () => {
+            historyManager.toggle();
+        });
+    }
 
+    if (historyClose) {
+        historyClose.addEventListener('click', () => {
+            historyManager.toggle();
+        });
+    }
 });
