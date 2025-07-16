@@ -130,7 +130,7 @@ body {
 
 .umbusk-watermark {
     font-size: 14px;
-    opacity: 0.3;
+    opacity: 1;
     letter-spacing: 3px;
     font-family: 'Helvetica Neue', sans-serif;
     font-weight: 200;
@@ -138,7 +138,7 @@ body {
 }
 
 .umbusk-watermark:hover {
-    opacity: 1;
+    opacity: 0.5;
 }
 
 /* Mensaje de bienvenida */
