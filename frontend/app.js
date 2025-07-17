@@ -527,9 +527,14 @@ window.addEventListener('resize', () => {
     // Reposicionar cometas proporcionalmente
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
-    comets.forEach(comet => {
+    comets.forEach((comet, index) => {
         comet.baseX = centerX;
         comet.baseY = centerY;
+        // Reajustar la posición actual también
+        const angle = (Math.PI * 2 / CONFIG.COMET_COUNT) * index;
+        const distance = comet.orbitRadius * 0.7; // Reducir un poco el radio
+        comet.x = centerX + Math.cos(angle) * distance;
+        comet.y = centerY + Math.sin(angle) * distance;
     });
 });
 
