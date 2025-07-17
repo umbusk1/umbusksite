@@ -160,36 +160,100 @@ function resizeCanvas() {
 
 // Clase Cometa mejorada
 class Comet {
-constructor(x, y, index) {
-    this.baseX = x;
-    this.baseY = y;
-    this.x = x;
-    this.y = y;
-    this.index = index;
+    constructor(x, y, index) {
+        this.baseX = x;
+        this.baseY = y;
+        this.x = x;
+        this.y = y;
+        this.index = index;
 
-    // Obtener configuración del modo actual UNA SOLA VEZ
-    const mode = COSMOS_MODES[currentMode];
-    const isMobile = window.innerWidth < 768;
+        // Obtener configuración del modo actual UNA SOLA VEZ
+        const mode = COSMOS_MODES[currentMode];
+        const isMobile = window.innerWidth < 768;
 
-    // Parámetros únicos para cada cometa
-    this.angle = (Math.PI * 2 / CONFIG.COMET_COUNT) * index;
+        // Parámetros únicos para cada cometa
+        this.angle = (Math.PI * 2 / CONFIG.COMET_COUNT) * index;
 
-    // Aplicar configuración del modo
-    const range = mode.orbitRange;
-    this.orbitRadius = isMobile ?
-        (range.min * 0.5 + Math.random() * range.max * 0.3) :
-        (range.min + Math.random() * (range.max - range.min));
+        // Aplicar configuración del modo
+        const range = mode.orbitRange;
+        this.orbitRadius = isMobile ?
+            (range.min * 0.5 + Math.random() * range.max * 0.3) :
+            (range.min + Math.random() * (range.max - range.min));
 
-    this.speed = (0.0002 + Math.random() * 0.0003) * mode.speedMultiplier;
-    this.pulsePhase = Math.random() * Math.PI * 2;
-    this.pulseSpeed = 0.01 + Math.random() * 0.02;
-    this.size = (2 + Math.random() * 2) * mode.sizeMultiplier;
+        this.speed = (0.0002 + Math.random() * 0.0003) * mode.speedMultiplier;
+        this.pulsePhase = Math.random() * Math.PI * 2;
+        this.pulseSpeed = 0.01 + Math.random() * 0.02;
+        this.size = (2 + Math.random() * 2) * mode.sizeMultiplier;
 
-    // Parámetros de movimiento complejo
-    this.spiralFactor = 0.1 + Math.random() * 0.1;
-    this.wobbleFreq = 3 + Math.random() * 2;
-    this.wobbleAmp = 10 + Math.random() * 20;
-}
+        // Parámetros de movimiento complejo
+        this.spiralFactor = 0.1 + Math.random() * 0.1;
+        this.wobbleFreq = 3 + Math.random() * 2;
+        this.wobbleAmp = 10 + Math.random() * 20;
+    }
+
+    update() {
+        this.angle += this.speed;
+        this.pulsePhase += this.pulseSpeed;
+
+        // Movimiento espiral con perturbaciones
+        const spiral = this.orbitRadius * (1 + this.spiralFactor * Math.sin(this.angle * 2));
+        const wobbleX = this.wobbleAmp * Math.sin(this.angle * this.wobbleFreq);
+        const wobbleY = this.wobbleAmp * Math.cos(this.angle * this.wobbleFreq * 1.3);
+
+        // Suavizar el movimiento
+        const targetX = this.baseX + Math.cos(this.angle) * spiral + wobbleX;
+        const targetY = this.baseY + Math.sin(this.angle) * spiral + wobbleY;
+
+        this.x += (targetX - this.x) * 0.02;
+        this.y += (targetY - this.y) * 0.02;
+    }
+
+    draw() {
+        const pulse = 1 + 0.3 * Math.sin(this.pulsePhase);
+        const opacity = 0.3 + 0.2 * Math.sin(this.pulsePhase);
+
+        // Estela dinámica
+        const tailLength = 40 + 20 * Math.sin(this.pulsePhase);
+        const gradient = ctx.createLinearGradient(
+            this.x, this.y,
+            this.x - Math.cos(this.angle) * tailLength,
+            this.y - Math.sin(this.angle) * tailLength
+        );
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${opacity * 0.3})`);
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+        ctx.beginPath();
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 1.5;
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(
+            this.x - Math.cos(this.angle) * tailLength,
+            this.y - Math.sin(this.angle) * tailLength
+        );
+        ctx.stroke();
+
+        // Núcleo
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * pulse, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+        ctx.fill();
+
+        // Halo
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * pulse * 4, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.05})`;
+        ctx.fill();
+    }
+
+    isNear(x, y, threshold = 50) {
+        const distance = Math.sqrt((x - this.x) ** 2 + (y - this.y) ** 2);
+        return distance < threshold;
+    }
+
+    disturb() {
+        this.angle += Math.random() * Math.PI * 0.5;
+        this.orbitRadius = 150 + Math.random() * 150;
+    }
 }
 
 // Sistema de diálogos
