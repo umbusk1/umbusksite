@@ -157,6 +157,7 @@ function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 }
+}
 
 // Clase Cometa mejorada
 constructor(x, y, index) {
