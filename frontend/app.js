@@ -159,6 +159,7 @@ function resizeCanvas() {
 }
 
 // Clase Cometa mejorada
+class Comet {
 constructor(x, y, index) {
     this.baseX = x;
     this.baseY = y;
@@ -188,6 +189,7 @@ constructor(x, y, index) {
     this.spiralFactor = 0.1 + Math.random() * 0.1;
     this.wobbleFreq = 3 + Math.random() * 2;
     this.wobbleAmp = 10 + Math.random() * 20;
+}
 }
 
 // Sistema de diálogos
