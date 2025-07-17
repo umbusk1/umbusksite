@@ -524,3 +524,50 @@ body {
         animation-duration: 15s; /* Más rápido en móvil */
     }
 }
+
+/* Selector de modos del cosmos */
+.cosmos-mode-selector {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 25;
+}
+
+.mode-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 8px 15px;
+    font-size: 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Helvetica Neue', sans-serif;
+    backdrop-filter: blur(10px);
+}
+
+.mode-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.mode-btn.active {
+    background: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Ocultar en móvil si es muy pequeño */
+@media (max-width: 480px) {
+    .cosmos-mode-selector {
+        bottom: 10px;
+    }
+    
+    .mode-btn {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+}

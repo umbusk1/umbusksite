@@ -7,6 +7,30 @@ const CONFIG = {
     DIALOGUE_DISPLAY_TIME: 5000
 };
 
+// Configuración de modos
+const COSMOS_MODES = {
+    normal: {
+        cometCount: 12,
+        speedMultiplier: 1,
+        sizeMultiplier: 1,
+        orbitRange: { min: 150, max: 300 }
+    },
+    zen: {
+        cometCount: 5,
+        speedMultiplier: 0.3,
+        sizeMultiplier: 1.5,
+        orbitRange: { min: 100, max: 200 }
+    },
+    chaos: {
+        cometCount: 20,
+        speedMultiplier: 3,
+        sizeMultiplier: 0.8,
+        orbitRange: { min: 50, max: 400 }
+    }
+};
+
+let currentMode = 'normal';
+
 // Estado global
 let comets = [];
 let currentDialogue = 0;
@@ -146,10 +170,12 @@ class Comet {
         // Parámetros únicos para cada cometa
         this.angle = (Math.PI * 2 / CONFIG.COMET_COUNT) * index;
         this.orbitRadius = 150 + Math.random() * 150;
-        this.speed = 0.0002 + Math.random() * 0.0003;
+        const mode = COSMOS_MODES[currentMode];
+		this.speed = (0.0002 + Math.random() * 0.0003) * mode.speedMultiplier;
         this.pulsePhase = Math.random() * Math.PI * 2;
         this.pulseSpeed = 0.01 + Math.random() * 0.02;
-        this.size = 2 + Math.random() * 2;
+        const mode = COSMOS_MODES[currentMode];
+		this.size = (2 + Math.random() * 2) * mode.sizeMultiplier;
 
         // Parámetros de movimiento complejo
         this.spiralFactor = 0.1 + Math.random() * 0.1;
@@ -219,8 +245,12 @@ class Comet {
     disturb() {
         this.angle += Math.random() * Math.PI * 0.5;
         // Ajustar radio según el tamaño de pantalla
+		const mode = COSMOS_MODES[currentMode];
 		const isMobile = window.innerWidth < 768;
-	    this.orbitRadius = isMobile ? (50 + Math.random() * 80) : (150 + Math.random() * 150);
+		const range = mode.orbitRange;
+		this.orbitRadius = isMobile ?
+		    (range.min * 0.5 + Math.random() * range.max * 0.3) :
+    		(range.min + Math.random() * (range.max - range.min));
     }
 }
 
@@ -602,6 +632,41 @@ const historyManager = {
         }
     }
 };
+
+// Sistema de cambio de modos
+function changeCosmosMode(newMode) {
+    if (currentMode === newMode) return;
+
+    currentMode = newMode;
+    const modeConfig = COSMOS_MODES[newMode];
+
+    // Limpiar cometas existentes
+    comets = [];
+
+    // Actualizar configuración
+    CONFIG.COMET_COUNT = modeConfig.cometCount;
+
+    // Recrear cometas
+    initComets();
+
+    // Actualizar botones
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.mode === newMode) {
+            btn.classList.add('active');
+        }
+    });
+}
+
+// Event listeners para los botones de modo
+window.addEventListener('DOMContentLoaded', () => {
+    const modeButtons = document.querySelectorAll('.mode-btn');
+    modeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            changeCosmosMode(btn.dataset.mode);
+        });
+    });
+});
 
 // Event listeners para el historial - DEBEN IR DESPUÉS DE CARGAR EL DOM
 window.addEventListener('DOMContentLoaded', () => {
