@@ -57,7 +57,17 @@ export default async function handler(req, res) {
             "la naturaleza iterativa de la innovación",
             "el espacio entre el pensamiento y la acción",
             "el diseño como puente que conecta ideas creativas con productos y servicios",
-            "los prototipos como MVP que apoyan el desarrollo de negocios"
+            "los prototipos como MVP que apoyan el desarrollo de negocios",
+            "Convertimos conceptos abstractos en experiencias concretas",
+			"Exploramos el cruce fértil entre creatividad humana y sistemas inteligentes",
+			"Cada proceso creativo es una travesía hacia lo desconocido",
+			"Innovar es probar, fallar, ajustar y volver a intentar",
+			"Trabajamos en el umbral entre la idea y su realización",
+			"El diseño es una herramienta para traducir visiones en soluciones útiles",
+			"Los primeros modelos nos permiten pensar con las manos",
+			"Prototipar es conversar con el futuro en tiempo real",
+			"La tecnología amplifica el alcance de nuestra imaginación",
+			"Diseñar es darle forma al pensamiento con intención y propósito"
         ];
 
         const currentTheme = themes[dialogueNumber % themes.length];
