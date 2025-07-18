@@ -586,3 +586,27 @@ iframe#chatbase-iframe {
 #cosmos {
     pointer-events: auto;
 }
+
+/* Asegurar que el canvas reciba clicks */
+#cosmos {
+    pointer-events: auto !important;
+}
+
+/* Asegurar que otros elementos no bloqueen */
+.header {
+    pointer-events: none;
+}
+
+.header img,
+.header .umbusk-watermark {
+    pointer-events: auto;
+}
+
+/* El contenedor de diálogos no debe bloquear */
+.dialogue-container {
+    pointer-events: none !important;
+}
+
+.dialogue-line {
+    pointer-events: auto;
+}
