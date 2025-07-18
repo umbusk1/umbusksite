@@ -402,22 +402,34 @@ function initComets() {
     }
 }
 
-// Interacciones
+// Interacciones mejoradas
 canvas.addEventListener('click', (e) => {
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // Verificar click en cometas
+    // Debug: mostrar dónde se hizo click
+    console.log('Click en:', x, y);
+    console.log('Canvas rect:', rect);
+
+    // Verificar click en cometas con área más grande
+    let clickDetected = false;
+
     for (let comet of comets) {
-        if (comet.isNear(x, y)) {
+        const distance = Math.sqrt((x - comet.x) ** 2 + (y - comet.y) ** 2);
+        console.log(`Cometa en (${comet.x}, ${comet.y}) - distancia: ${distance}`);
+
+        if (distance < 70) { // Aumentado de 50 a 70
+            clickDetected = true;
             currentDialogue++;
             displayDialogue();
-
-            // Perturbar todas las cometas
             comets.forEach(c => c.disturb());
             break;
         }
+    }
+
+    if (!clickDetected) {
+        console.log('No se detectó click en ninguna cometa');
     }
 });
 
