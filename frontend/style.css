@@ -614,8 +614,8 @@ iframe#chatbase-iframe {
 /* Botón de compartir */
 .share-dialogue-btn {
     position: fixed;
-    bottom: 80px;
-    right: 30px;
+    bottom: 50%;
+    right: 30%;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: rgba(255, 255, 255, 0.8);
