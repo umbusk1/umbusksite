@@ -450,7 +450,7 @@ function shareToLinkedIn() {
     if (!currentDialogueData) return;
 
     const url = window.location.href;
-    const title = "Diálogo entre mentes artificiales";
+    const title = "Diálogo entre 2 mentes de IA";
     const summary = currentDialogueData.lines[0].text;
 
     const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
