@@ -325,7 +325,7 @@ function showLoading(show) {
 function showLoadingWithProgress() {
     const loader = document.getElementById('loading');
     loader.classList.add('active');
-    loader.innerHTML = '<div class="pulse"></div><div style="font-size: 19px; margin-top: 10px; opacity: 0.6;">Conectando con las mentes...</div>';
+    loader.innerHTML = '<div class="pulse"></div><div style="font-size: 19px; margin-top: 10px; opacity: 0.6;">Conectando con 2 mentes de IA...</div>';
 }
 
 function updateConnectionStatus(message, isConnected) {
@@ -482,7 +482,7 @@ function downloadDialogueImage() {
 
     ctx.font = '14px Helvetica';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-    ctx.fillText('Diálogo entre mentes artificiales', 400, 80);
+    ctx.fillText('Diálogo entre 2 mentes de IA', 400, 80);
 
     // Dibujar diálogos
     let y = 120;
