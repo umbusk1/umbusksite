@@ -458,7 +458,7 @@ body {
     /* Ajustar canvas en móvil */
     #cosmos {
         height: 70vh;
-        top: 0;
+        top: 136px;
     }
     
     /* Ajustar header */
