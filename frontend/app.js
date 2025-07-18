@@ -532,7 +532,7 @@ window.addEventListener('resize', () => {
         comet.baseY = centerY;
         // Reajustar la posición actual también
         const angle = (Math.PI * 2 / CONFIG.COMET_COUNT) * index;
-        const distance = comet.orbitRadius * 0.7; // Reducir un poco el radio
+        const distance = comet.orbitRadius * 0.5; // Reducir un poco el radio
         comet.x = centerX + Math.cos(angle) * distance;
         comet.y = centerY + Math.sin(angle) * distance;
     });
