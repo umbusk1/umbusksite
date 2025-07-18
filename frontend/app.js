@@ -334,6 +334,10 @@ function updateConnectionStatus(message, isConnected) {
     status.className = `connection-status show ${isConnected ? 'connected' : 'error'}`;
 }
 
+// Sistema de compartir diálogos
+let currentDialogueData = null;
+
+// Modificar displayDialogue para guardar el diálogo actual
 async function displayDialogue() {
     if (isDialogueActive) return;
 
@@ -341,10 +345,16 @@ async function displayDialogue() {
     const container = document.getElementById('dialogue-content');
     container.innerHTML = '';
 
+    // Ocultar botón de compartir al empezar nuevo diálogo
+    document.getElementById('share-dialogue').classList.remove('show');
+
     // Mostrar indicador de carga con progreso
     showLoadingWithProgress();
 
     const dialogue = await getDialogue();
+
+    // Guardar diálogo actual para compartir
+    currentDialogueData = dialogue;
 
     // Actualizar el tracker de ideas
     ideasTracker.updateFromDialogue(dialogue);
@@ -365,6 +375,11 @@ async function displayDialogue() {
             lineIndex++;
             setTimeout(showNextLine, CONFIG.DIALOGUE_DELAY);
         } else {
+            // Mostrar botón de compartir
+            setTimeout(() => {
+                document.getElementById('share-dialogue').classList.add('show');
+            }, 1000);
+
             // Esperar más tiempo antes de desvanecer
             setTimeout(() => {
                 // Fade out más lento
@@ -378,6 +393,8 @@ async function displayDialogue() {
                 setTimeout(() => {
                     container.innerHTML = '';
                     isDialogueActive = false;
+                    // Ocultar botón de compartir
+                    document.getElementById('share-dialogue').classList.remove('show');
                 }, 2500);
             }, CONFIG.DIALOGUE_DISPLAY_TIME);
         }
@@ -385,6 +402,168 @@ async function displayDialogue() {
 
     showNextLine();
 }
+
+// Funciones de compartir
+function openShareModal() {
+    if (!currentDialogueData) return;
+
+    const modal = document.getElementById('share-modal');
+    const preview = document.getElementById('share-preview');
+
+    // Generar preview
+    let previewHTML = '';
+    currentDialogueData.lines.forEach(line => {
+        const voiceClass = line.voice === 1 ? 'voice-claude' : 'voice-gpt';
+        const voiceName = line.voice === 1 ? 'Claude' : 'ChatGPT';
+        previewHTML += `
+            <div class="dialogue-item ${voiceClass}">
+                <strong>${voiceName}:</strong><br>
+                ${line.text}
+            </div>
+        `;
+    });
+
+    preview.innerHTML = previewHTML;
+    modal.classList.add('active');
+}
+
+function closeShareModal() {
+    document.getElementById('share-modal').classList.remove('active');
+}
+
+function shareToTwitter() {
+    if (!currentDialogueData) return;
+
+    // Crear texto para Twitter (máximo 280 caracteres)
+    let text = "Diálogo fascinante en @umbusk:\n\n";
+    const firstLine = currentDialogueData.lines[0].text;
+    text += firstLine.substring(0, 100) + "...";
+    text += "\n\n🌟 Descubre más en ";
+
+    const url = window.location.href;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+
+    window.open(twitterUrl, '_blank');
+}
+
+function shareToLinkedIn() {
+    if (!currentDialogueData) return;
+
+    const url = window.location.href;
+    const title = "Diálogo entre mentes artificiales";
+    const summary = currentDialogueData.lines[0].text;
+
+    const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+
+    window.open(linkedInUrl, '_blank');
+}
+
+function downloadDialogueImage() {
+    // Crear canvas temporal
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Configurar tamaño
+    canvas.width = 800;
+    canvas.height = 600;
+
+    // Fondo
+    const gradient = ctx.createRadialGradient(400, 300, 0, 400, 300, 400);
+    gradient.addColorStop(0, '#0a0a0f');
+    gradient.addColorStop(1, '#000000');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Logo/Título
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.font = '24px Helvetica';
+    ctx.textAlign = 'center';
+    ctx.fillText('UMBUSK', 400, 50);
+
+    ctx.font = '14px Helvetica';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    ctx.fillText('Diálogo entre mentes artificiales', 400, 80);
+
+    // Dibujar diálogos
+    let y = 120;
+    ctx.textAlign = 'left';
+    ctx.font = '16px Georgia';
+
+    currentDialogueData.lines.forEach((line, index) => {
+        const x = line.voice === 1 ? 50 : 450;
+        const align = line.voice === 1 ? 'left' : 'right';
+        const name = line.voice === 1 ? 'Claude' : 'ChatGPT';
+
+        ctx.textAlign = align;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.font = '12px Helvetica';
+        ctx.fillText(name, x, y);
+
+        y += 20;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.font = '14px Georgia';
+
+        // Dividir texto en líneas
+        const words = line.text.split(' ');
+        let currentLine = '';
+        const maxWidth = 300;
+
+        words.forEach(word => {
+            const testLine = currentLine + word + ' ';
+            const metrics = ctx.measureText(testLine);
+
+            if (metrics.width > maxWidth && currentLine !== '') {
+                ctx.fillText(currentLine, x, y);
+                currentLine = word + ' ';
+                y += 20;
+            } else {
+                currentLine = testLine;
+            }
+        });
+
+        ctx.fillText(currentLine, x, y);
+        y += 40;
+    });
+
+    // Fecha
+    ctx.textAlign = 'center';
+    ctx.font = '10px Helvetica';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.fillText(new Date().toLocaleDateString('es-ES'), 400, 560);
+
+    // Descargar
+    canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `umbusk-dialogo-${Date.now()}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+    });
+}
+
+// Event listeners para compartir
+document.addEventListener('DOMContentLoaded', () => {
+    const shareBtn = document.getElementById('share-dialogue');
+    const closeBtn = document.querySelector('.share-close');
+    const modal = document.getElementById('share-modal');
+
+    if (shareBtn) {
+        shareBtn.addEventListener('click', openShareModal);
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeShareModal);
+    }
+
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeShareModal();
+            }
+        });
+    }
+});
 
 // Inicialización del cosmos
 function initComets() {
