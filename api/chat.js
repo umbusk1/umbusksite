@@ -25,7 +25,7 @@ const VOICE_PROMPTS = {
 const CONVERSATION_CONTEXT = `
 Esta es una conversación entre dos entidades que dialogan sobre Umbusk,
 una empresa que transforma ideas en prototipos, usando IA. El diálogo debe ser:
-- Abstracto pero orientado a crecer y producir
+- Abstracto pero orientado a crecer y producir, sin usar demasiado metáforas de semillas
 - Inspirador y digno, sin ser pretencioso o exagerado
 - Conectado con temas de creatividad, diseño, innovación, automatización, productividad y transformación
 - Cada intercambio debe sentirse como una danza de ideas que fluyen estéticamente con gracia y respeto
