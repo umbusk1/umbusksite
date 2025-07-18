@@ -141,7 +141,7 @@ const ideasTracker = {
         // Crear elementos con logo como separador
         const items = this.allTerms.map(term => `
             <span class="ticker-term">${term.toUpperCase()}</span>
-            <img src="imagenes/logo.png" class="ticker-separator" alt="logo">
+            <img src="imagenes/circulo.png" class="ticker-separator" alt="logo">
         `).join('');
 
         // Duplicar para efecto continuo
