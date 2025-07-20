@@ -696,7 +696,7 @@ function initializeTicker() {
     tickerContent.innerHTML = `
         <span class="ticker-item ticker-link" onclick="window.location.href='arqueologia.html'">
             <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
-                → EXPLORAR 30 AÑOS DE PROYECTOS
+                EXPLORA 30 AÑOS DE EVOLUCIÓN TECNOLÓGICA
             </span>
         </span>
     `;
