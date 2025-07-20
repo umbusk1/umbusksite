@@ -747,6 +747,17 @@
     </div>
 
     <script>
+
+    // Función para abrir/cerrar historia del proyecto
+	function toggleHistory(icon) {
+	    const projectCard = icon.closest('.project-card');
+	    const historyPanel = projectCard.querySelector('.history-panel');
+	    historyPanel.classList.toggle('active');
+
+	    // Cambiar opacidad del ícono para indicar estado
+	    icon.style.opacity = historyPanel.classList.contains('active') ? '1' : '0.7';
+	    }
+
         // Función para abrir detalles técnicos
         function toggleTech(icon) {
             const projectCard = icon.closest('.project-card');
