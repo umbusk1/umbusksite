@@ -127,15 +127,15 @@ const ideasTracker = {
     updateTicker() {
         const tickerContent = document.getElementById('ticker-content');
 
-        if (this.allTerms.length === 0) {
-            tickerContent.innerHTML = `
-                <span class="ticker-item">
-                    <span class="ticker-term" style="opacity: 0.5">
-                        ESPERANDO IDEAS DEL COSMOS...
-                    </span>
-                </span>
-            `;
-            return;
+//         if (this.allTerms.length === 0) {
+//             tickerContent.innerHTML = `
+//                 <span class="ticker-item">
+//                     <span class="ticker-term" style="opacity: 0.5">
+//                         ESPERANDO IDEAS DEL COSMOS...
+//                     </span>
+//                 </span>
+//             `;
+//             return;
         }
 
         // Crear elementos con logo como separador
