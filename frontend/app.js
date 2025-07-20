@@ -711,7 +711,7 @@ function initializeTicker() {
 window.addEventListener('load', () => {
     resizeCanvas();
     initComets();
-//    initializeTicker();
+    initializeTicker();
 //    showWelcomeMessage();
     animate();
 
