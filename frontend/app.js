@@ -693,7 +693,7 @@ async function loadRecentHistory() {
 // En app.js, en la función initializeTicker
 function initializeTicker() {
     const tickerContent = document.getElementById('ticker-content');
-//    tickerContent.innerHTML = `
+    tickerContent.innerHTML = `
 //        <span class="ticker-item">
 //            <span class="ticker-term" style="opacity: 0.5">
 //                 ESPERANDO IDEAS DEL COSMOS...
@@ -711,8 +711,8 @@ function initializeTicker() {
 window.addEventListener('load', () => {
     resizeCanvas();
     initComets();
-    initializeTicker();
-    showWelcomeMessage();
+//    initializeTicker();
+//    showWelcomeMessage();
     animate();
 
     // Cargar historial para el ticker
