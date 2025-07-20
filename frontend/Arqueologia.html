@@ -75,21 +75,22 @@
         }
 
         /* Contenedor de estratos */
-        .strata-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 100px;
-            position: relative;
-        }
+.strata-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 100px;
+    position: relative;
 
-        /* Cada estrato */
-        .stratum {
-            margin-bottom: 80px;
-            position: relative;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: emerge 1s ease forwards;
-        }
+    display: flex;          /* Activamos flexbox para layout */
+    flex-wrap: wrap;        /* Los proyectos que no entran bajan a la siguiente fila */
+    gap: 40px;              /* Espacio entre proyectos */
+    justify-content: center; /* Opcional: centra la fila */
+}
+
+.stratum {
+    flex: 0 0 420px;        /* Ancho fijo (o base flexible) para cada proyecto */
+    box-sizing: border-box;
+}
 
         .stratum:nth-child(1) { animation-delay: 0.5s; }
         .stratum:nth-child(2) { animation-delay: 0.7s; }
@@ -736,7 +737,7 @@
                 </div>
             </div>
                     <p class="project-description">
-                        Portal corporativo para una de las petroleras más importantes, cuando las empresas apenas descubrían el potencial de Internet.
+                        Portal corporativo de uno de los bancos de desarrollo más importantes en América Latina, con una continua evolución digital.
                     </p>
             <div class="history-panel">
                 <div class="history-content">
@@ -800,7 +801,7 @@
                 </div>
             </div>
                     <p class="project-description">
-                        Portal corporativo para una de las petroleras más importantes, cuando las empresas apenas descubrían el potencial de Internet.
+                        Integración SMS-Web para crear una forma de partición popular en un diario impreso.
                     </p>
             <div class="history-panel">
                 <div class="history-content">
