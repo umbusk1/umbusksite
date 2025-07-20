@@ -127,15 +127,20 @@ const ideasTracker = {
     updateTicker() {
         const tickerContent = document.getElementById('ticker-content');
 
-//         if (this.allTerms.length === 0) {
-//             tickerContent.innerHTML = `
+         if (this.allTerms.length === 0) {
+             tickerContent.innerHTML = `
 //                 <span class="ticker-item">
 //                     <span class="ticker-term" style="opacity: 0.5">
 //                         ESPERANDO IDEAS DEL COSMOS...
 //                     </span>
 //                 </span>
-//             `;
-//             return;
+		<span class="ticker-item ticker-link" onclick="window.location.href='arqueologia.html'">
+		            <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
+		                → EXPLORAR 30 AÑOS DE PROYECTOS
+		            </span>
+        </span>
+             `;
+            return;
         }
 
         // Crear elementos con logo como separador
