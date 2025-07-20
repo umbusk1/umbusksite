@@ -693,12 +693,12 @@ async function loadRecentHistory() {
 // En app.js, en la función initializeTicker
 function initializeTicker() {
     const tickerContent = document.getElementById('ticker-content');
-    tickerContent.innerHTML = `
-        <span class="ticker-item">
-            <span class="ticker-term" style="opacity: 0.5">
-                ESPERANDO IDEAS DEL COSMOS...
-            </span>
-        </span>
+//    tickerContent.innerHTML = `
+//        <span class="ticker-item">
+//            <span class="ticker-term" style="opacity: 0.5">
+//                 ESPERANDO IDEAS DEL COSMOS...
+//             </span>
+//         </span>
         <span class="ticker-item ticker-link" onclick="window.location.href='arqueologia.html'">
             <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
                 → EXPLORAR 30 AÑOS DE PROYECTOS
@@ -716,7 +716,7 @@ window.addEventListener('load', () => {
     animate();
 
     // Cargar historial para el ticker
-    loadRecentHistory();
+//     loadRecentHistory();
 
     // Mostrar status en desarrollo
     if (CONFIG.USE_MOCK_DATA) {
