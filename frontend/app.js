@@ -129,11 +129,6 @@ const ideasTracker = {
 
          if (this.allTerms.length === 0) {
              tickerContent.innerHTML = `
-//                 <span class="ticker-item">
-//                     <span class="ticker-term" style="opacity: 0.5">
-//                         ESPERANDO IDEAS DEL COSMOS...
-//                     </span>
-//                 </span>
 		<span class="ticker-item ticker-link" onclick="window.location.href='arqueologia.html'">
 		            <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
 		                → EXPLORAR 30 AÑOS DE PROYECTOS
@@ -699,11 +694,6 @@ async function loadRecentHistory() {
 function initializeTicker() {
     const tickerContent = document.getElementById('ticker-content');
     tickerContent.innerHTML = `
-//        <span class="ticker-item">
-//            <span class="ticker-term" style="opacity: 0.5">
-//                 ESPERANDO IDEAS DEL COSMOS...
-//             </span>
-//         </span>
         <span class="ticker-item ticker-link" onclick="window.location.href='arqueologia.html'">
             <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
                 → EXPLORAR 30 AÑOS DE PROYECTOS
