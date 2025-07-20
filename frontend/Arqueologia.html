@@ -75,22 +75,21 @@
         }
 
         /* Contenedor de estratos */
-.strata-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 100px;
-    position: relative;
+        .strata-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 100px;
+            position: relative;
+        }
 
-    display: flex;          /* Activamos flexbox para layout */
-    flex-wrap: wrap;        /* Los proyectos que no entran bajan a la siguiente fila */
-    gap: 40px;              /* Espacio entre proyectos */
-    justify-content: center; /* Opcional: centra la fila */
-}
-
-.stratum {
-    flex: 0 0 420px;        /* Ancho fijo (o base flexible) para cada proyecto */
-    box-sizing: border-box;
-}
+        /* Cada estrato */
+        .stratum {
+            margin-bottom: 80px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: emerge 1s ease forwards;
+        }
 
         .stratum:nth-child(1) { animation-delay: 0.5s; }
         .stratum:nth-child(2) { animation-delay: 0.7s; }
