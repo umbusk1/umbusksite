@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arqueología - 30 años de evolución tecnológica según proyectos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #0a0a0f 0%, #1a1a2e 50%, #2d2d44 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Título principal */
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeInDown 1s ease forwards;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            animation: fadeInDown 1s ease 0.3s forwards;
+        }
+
+        /* Indicador de profundidad */
+        .depth-indicator {
+            position: fixed;
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 5;
+        }
+
+        .depth-line {
+            width: 2px;
+            flex: 1;
+            background: linear-gradient(to bottom,
+                rgba(255, 255, 255, 0.8) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0.1) 100%
+            );
+        }
+
+        .year-marker {
+            position: absolute;
+            left: -30px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Helvetica', sans-serif;
+        }
+
+        /* Contenedor de estratos */
+        .strata-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 100px;
+            position: relative;
+        }
+
+        /* Cada estrato */
+        .stratum {
+            margin-bottom: 80px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: emerge 1s ease forwards;
+        }
+
+        .stratum:nth-child(1) { animation-delay: 0.5s; }
+        .stratum:nth-child(2) { animation-delay: 0.7s; }
+        .stratum:nth-child(3) { animation-delay: 0.9s; }
+        .stratum:nth-child(4) { animation-delay: 1.1s; }
+        .stratum:nth-child(5) { animation-delay: 1.3s; }
+        .stratum:nth-child(6) { animation-delay: 1.5s; }
+        .stratum:nth-child(7) { animation-delay: 1.7s; }
+
+        /* Tarjeta de proyecto */
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            gap: 30px;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(10px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Thumbnail de imagen */
+        .project-thumbnail {
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .project-thumbnail:hover {
+            transform: scale(1.05);
+        }
+
+        .project-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(30%) contrast(0.8);
+            transition: filter 0.3s ease;
+        }
+
+        .project-thumbnail:hover img {
+            filter: sepia(0%) contrast(1);
+        }
+
+        .project-thumbnail::after {
+            content: "🔍";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-thumbnail:hover::after {
+            opacity: 1;
+        }
+
+        /* Contenido del proyecto */
+        .project-content {
+            flex: 1;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .project-title {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Helvetica', sans-serif;
+        }
+
+        .project-description {
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        /* Ícono de detalles técnicos */
+        .tech-details-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tech-details-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .tech-details-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Empresa badge */
+        .company-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-family: 'Helvetica', sans-serif;
+        }
+
+        /* Modal de imagen */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .image-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Panel de detalles técnicos */
+        .tech-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin-top: 20px;
+        }
+
+        .tech-panel.active {
+            max-height: 200px;
+        }
+
+        .tech-content {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.9em;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .tech-item {
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes emerge {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .depth-indicator {
+                display: none;
+            }
+
+            .strata-container {
+                padding: 0 20px;
+            }
+
+            .project-card {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .project-thumbnail {
+                width: 100%;
+                height: 200px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>ARQUEOLOGÍA</h1>
+        <p>30 años de evolución tecnológica</p>
+    </div>
+
+    <!-- Indicador de profundidad -->
+    <div class="depth-indicator">
+        <div class="year-marker" style="top: 10%">2025</div>
+        <div class="year-marker" style="top: 30%">2012</div>
+        <div class="year-marker" style="top: 50%">1999</div>
+        <div class="year-marker" style="top: 70%">1994</div>
+        <div class="depth-line"></div>
+    </div>
+
+    <!-- Contenedor de estratos -->
+    <div class="strata-container">
+
+        <!-- Proyecto 7: BioDentoSalud (2025) -->
+        <div class="stratum">
+            <div class="project-card">
+                <div class="project-thumbnail" onclick="openImage('BioDento_2024.png')">
+                    <img src="imagenes/BioDento_2024.png" alt="BioDentoSalud">
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">Historias Clínicas - BioDentoSalud</h3>
+                            <div class="project-meta">
+                                <span>2025</span>
+                                <span class="company-badge">Umbusk</span>
+                            </div>
+                        </div>
+                        <div class="tech-details-icon" onclick="toggleTech(this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        Automatización inteligente de historias clínicas odontológicas usando IA para mejorar la eficiencia del consultorio y la experiencia del paciente.
+                    </p>
+                    <div class="tech-panel">
+                        <div class="tech-content">
+                            <strong>Stack tecnológico:</strong>
+                            <div class="tech-list">
+                                <span class="tech-item">Next.js</span>
+                                <span class="tech-item">AI/ML</span>
+                                <span class="tech-item">PostgreSQL</span>
+                                <span class="tech-item">Vercel</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proyecto 6: UCAB (2024) -->
+		        <div class="stratum">
+		            <div class="project-card">
+		                <div class="project-thumbnail" onclick="openImage('UCAB_2023.png')">
+		                    <img src="imagenes/UCAB_2023.png" alt="UCAB Diseño Curricular">
+		                </div>
+		                <div class="project-content">
+		                    <div class="project-header">
+		                        <div>
+		                            <h3 class="project-title">UCAB - Diseño Curricular con IA</h3>
+		                            <div class="project-meta">
+		                                <span>2024</span>
+		                                <span class="company-badge">Umbusk</span>
+		                            </div>
+		                        </div>
+		                        <div class="tech-details-icon" onclick="toggleTech(this)">
+		                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+		                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+		                            </svg>
+		                        </div>
+		                    </div>
+		                    <p class="project-description">
+		                        Diseño completo del pensum de la carrera Diseño Integral asistido por IA, revolucionando la planificación académica universitaria con tecnología de vanguardia.
+		                    </p>
+		                    <div class="tech-panel">
+		                        <div class="tech-content">
+		                            <strong>Stack tecnológico:</strong>
+		                            <div class="tech-list">
+		                                <span class="tech-item">GPT-4</span>
+		                                <span class="tech-item">Claude</span>
+		                                <span class="tech-item">Python</span>
+		                                <span class="tech-item">Document Generation</span>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+        </div>
+
+        <!-- Proyecto 5: Fundación Empresas Polar (2012 - Presente) -->
+        <div class="stratum">
+            <div class="project-card">
+                <div class="project-thumbnail" onclick="openImage('FEP_2015.png')">
+                    <img src="imagenes/FEP_2015.png" alt="Fundación Empresas Polar">
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">Fundación Empresas Polar</h3>
+                            <div class="project-meta">
+                                <span>2012-Presente</span>
+                                <span class="company-badge">iKels Consulting</span>
+                            </div>
+                        </div>
+                        <div class="tech-details-icon" onclick="toggleTech(this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        Portal institucional y proyectos digitales para la fundación empresarial más importante de Venezuela, impactando educación, cultura y desarrollo social.
+                    </p>
+                    <div class="tech-panel">
+                        <div class="tech-content">
+                            <strong>Stack tecnológico:</strong>
+                            <div class="tech-list">
+                                <span class="tech-item">CMS Joomla</span>
+                                <span class="tech-item">PHP</span>
+                                <span class="tech-item">MySQL</span>
+                                <span class="tech-item">Responsive Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proyecto 4: CAF (2000-presente) -->
+        <div class="stratum">
+            <div class="project-card">
+                <div class="project-thumbnail" onclick="openImage('CAF_2010.png')">
+                    <img src="imagenes/CAF_2010.png" alt="CAF">
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">CAF - Corporación Andina de Fomento</h3>
+                            <div class="project-meta">
+                                <span>2000-presente</span>
+                                <span class="company-badge">iKels Consulting</span>
+                            </div>
+                        </div>
+                        <div class="tech-details-icon" onclick="toggleTech(this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        Más de 20 años de evolución digital continua con uno de los bancos de desarrollo más importantes de América Latina, adaptándose a cada era tecnológica.
+                    </p>
+                    <div class="tech-panel">
+                        <div class="tech-content">
+                            <strong>Stack tecnológico:</strong>
+                            <div class="tech-list">
+                                <span class="tech-item">PHP</span>
+                                <span class="tech-item">MySQL</span>
+                                <span class="tech-item">jQuery</span>
+                                <span class="tech-item">Bootstrap</span>
+                                <span class="tech-item">Laravel</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proyecto 3: Date Ahí (2006) -->
+        <div class="stratum">
+            <div class="project-card">
+                <div class="project-thumbnail" onclick="openImage('DateAhi_2003.png')">
+                    <img src="imagenes/DateAhi_2003.png" alt="Date Ahí">
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">Date Ahí - Últimas Noticias</h3>
+                            <div class="project-meta">
+                                <span>2006</span>
+                                <span class="company-badge">iMolko</span>
+                            </div>
+                        </div>
+                        <div class="tech-details-icon" onclick="toggleTech(this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        Pionero en convergencia medios + mobile. Sistema de encuentros y eventos vía SMS cuando los smartphones no existían.
+                    </p>
+                    <div class="tech-panel">
+                        <div class="tech-content">
+                            <strong>Stack tecnológico:</strong>
+                            <div class="tech-list">
+                                <span class="tech-item">SMS Gateway</span>
+                                <span class="tech-item">PHP</span>
+                                <span class="tech-item">MySQL</span>
+                                <span class="tech-item">WAP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proyecto 2: British Petroleum (1996-1999) -->
+        <div class="stratum">
+            <div class="project-card">
+                <div class="project-thumbnail" onclick="openImage('BP_1997.png')">
+                    <img src="imagenes/BP_1997.png" alt="British Petroleum">
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">British Petroleum Venezuela</h3>
+                            <div class="project-meta">
+                                <span>1996-1998</span>
+                                <span class="company-badge">Arachnida</span>
+                            </div>
+                        </div>
+                        <div class="tech-details-icon" onclick="toggleTech(this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        Portal corporativo para una de las petroleras más importantes, cuando las empresas apenas descubrían el potencial de Internet.
+                    </p>
+                    <div class="tech-panel">
+                        <div class="tech-content">
+                            <strong>Stack tecnológico:</strong>
+                            <div class="tech-list">
+                                <span class="tech-item">HTML 3.2</span>
+                                <span class="tech-item">JavaScript básico</span>
+                                <span class="tech-item">CGI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proyecto 1: Museo de Arte Contemporáneo Soía Imber (1994-1995) -->
+        <div class="stratum">
+            <div class="project-card">
+                <div class="project-thumbnail" onclick="openImage('MACCSI_1994.png')">
+                    <img src="imagenes/MACCSI_1994.png" alt="MACCSI">
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">Museo de Arte Contemporáneo Sofía Imber</h3>
+                            <div class="project-meta">
+                                <span>1994-1995</span>
+                                <span class="company-badge">Arachnida</span>
+                            </div>
+                        </div>
+                        <div class="tech-details-icon" onclick="toggleTech(this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        Uno de los primeros museos online de Venezuela, pionero en llevar el arte a Internet cuando pocos entendían qué era la web.
+                    </p>
+                    <div class="tech-panel">
+                        <div class="tech-content">
+                            <strong>Stack tecnológico:</strong>
+                            <div class="tech-list">
+                                <span class="tech-item">HTML 2.0</span>
+                                <span class="tech-item">CGI</span>
+                                <span class="tech-item">Perl</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de imagen -->
+    <div class="image-modal" id="imageModal" onclick="closeImage()">
+        <img id="modalImage" src="" alt="">
+    </div>
+
+    <script>
+        // Función para abrir detalles técnicos
+        function toggleTech(icon) {
+            const projectCard = icon.closest('.project-card');
+            const techPanel = projectCard.querySelector('.tech-panel');
+            techPanel.classList.toggle('active');
+
+            // Rotar el ícono
+            icon.style.transform = techPanel.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        // Función para abrir imagen en modal
+        function openImage(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = 'imagenes/' + imageSrc;
+            modal.classList.add('active');
+        }
+
+        // Función para cerrar modal
+        function closeImage() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+        }
+
+        // Efecto parallax suave
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.header');
+            parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+            parallax.style.opacity = 1 - scrolled / 500;
+        });
+    </script>
+</body>
+</html>

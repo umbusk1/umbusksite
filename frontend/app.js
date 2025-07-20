@@ -569,6 +569,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function initComets() {
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
+    // En initComets() agregar una cometa especial
+	const specialComet = new Comet(centerX, centerY - 100, CONFIG.COMET_COUNT);
+	specialComet.isSpecial = true;
+	specialComet.color = 'gold';
+comets.push(specialComet);
 
     for (let i = 0; i < CONFIG.COMET_COUNT; i++) {
         const angle = (Math.PI * 2 / CONFIG.COMET_COUNT) * i;
