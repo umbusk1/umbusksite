@@ -644,11 +644,10 @@ canvas.addEventListener('click', (e) => {
     if (!clickDetected) {
         console.log('No se detectó click en ninguna cometa');
     }
-  }
 });
 
 // Soporte para touch en móviles
-if (canvas) {
+
 canvas.addEventListener('touchstart', (e) => {
     e.preventDefault();
     const rect = canvas.getBoundingClientRect();
@@ -664,9 +663,9 @@ canvas.addEventListener('touchstart', (e) => {
             comets.forEach(c => c.disturb());
             break;
         }
-    }
-  }
-});
+      }
+  });
+}
 
 // Animación principal
 function animate() {
