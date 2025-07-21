@@ -364,6 +364,26 @@ body {
     color: rgba(255, 255, 255, 0.8);
 }
 
+/* Texto de workflow */
+.workflow-trigger {
+    position: fixed;
+    top: 200px;  /* Cambiado de 60px */
+    left: 50%;  /* Centrado como el ticker */
+    transform: translateX(-50%);  /* Centrado como el ticker */
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 31;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 300;
+    text-align: center;  /* Centrar texto */
+}
+
+.workflow-trigger:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
 /* Acordeón de fechas */
 .date-item {
     margin-bottom: 10px;
