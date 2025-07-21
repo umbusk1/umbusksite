@@ -423,12 +423,76 @@
 		    gap: 10px;
 		}
 
-		    /* Ajustar ticker */
+    	/* Marquesina de workflow */
+		.workflow-ticker {
+		    position: fixed;
+		    top: 127px;
+		    left: 50%;
+		    transform: translateX(-50%);
+		    background: rgba(0, 0, 0, 0.8);
+		    border: 1px solid rgba(255, 255, 255, 0.1);
+		    border-radius: 4px;
+		    padding: 8px 0;
+		    overflow: hidden;
+		    z-index: 30;
+		    backdrop-filter: blur(10px);
+		    font-family: 'Monaco', 'Courier New', monospace;
+		    font-size: 13px;
+		    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+		}
+
+		/* Responsive widths para la marquesina */
+		@media (min-width: 1024px) {
 		    .workflow-ticker {
-		        top: 100px;
-		        font-size: 11px;
-		        padding: 5px 0;
-    	}
+		        width: 40%;
+		        max-width: 800px;
+		    }
+		}
+
+		@media (min-width: 768px) and (max-width: 1023px) {
+		    .workflow-ticker {
+		        width: 600px;
+		    }
+		}
+
+		@media (max-width: 767px) and (orientation: landscape) {
+		    .workflow-ticker {
+		        width: 600px;
+		        max-width: 90%;
+		    }
+		}
+
+		@media (max-width: 767px) and (orientation: portrait) {
+		    .workflow-ticker {
+		        width: 90%;
+		    }
+		}
+
+		.ticker-content-workflow {
+		    display: flex;
+		    align-items: center;
+		    animation: ticker 10s linear infinite;
+		    white-space: nowrap;
+		    padding-left: 100%;
+		}
+
+		@keyframes ticker {
+		    0% { transform: translateX(0); }
+		    100% { transform: translateX(-90%); }
+		}
+
+		.ticker-term {
+		    color: rgba(255, 255, 255, 0.8);
+		    text-transform: uppercase;
+		    letter-spacing: 1px;
+		    padding: 0 5px;
+		}
+
+		.ticker-separator {
+		    width: 5px;
+		    height: 5px;
+		    margin: 0 2px;
+		}
 
     </style>
 </head>
@@ -441,10 +505,9 @@
 <div class="umbusk-watermark">UMBUSK</div>
 </div>
 
-    <!-- Marquesina de ideas y link a workflow-->
+    <!-- Marquesina y link a workflow-->
     <div id="workflow-ticker" class="workflow-ticker">
-        <div class="ticker-content" id="ticker-content">
-        <!-- Los términos se agregarán dinámicamente -->
+        <div class="ticker-content-workflow" id="ticker-content-workflow">
         </div>
     </div>
 
