@@ -131,7 +131,33 @@ const ideasTracker = {
              tickerContent.innerHTML = `
 		<span class="ticker-item ticker-link" onclick="window.location.href='arqueologia.html'">
 		            <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
-		                → EXPLORAR 30 AÑOS DE PROYECTOS
+		                → EXPLORA 30 AÑOS DE PROYECTOS
+		            </span>
+        </span>
+             `;
+            return;
+        }
+
+        // Crear elementos con logo como separador
+        const items = this.allTerms.map(term => `
+            <span class="ticker-term">${term.toUpperCase()}</span>
+            <img src="imagenes/circulo.png" class="ticker-separator" alt="logo">
+        `).join('');
+
+        // Duplicar para efecto continuo
+        tickerContent.innerHTML = items + items;
+    }
+};
+
+    // Actualizar la marquesina de workflow
+    updateTicker() {
+        const tickerContent = document.getElementById('ticker-content-workflow');
+
+         if (this.allTerms.length === 0) {
+             tickerContent.innerHTML = `
+		<span class="ticker-item ticker-link" onclick="window.location.href='workflow.html'">
+		            <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
+		                → EXPLORA NUESTRA FORMA DE TRABAJAR
 		            </span>
         </span>
              `;
