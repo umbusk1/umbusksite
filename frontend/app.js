@@ -131,7 +131,7 @@ const ideasTracker = {
              tickerContent.innerHTML = `
 		<span class="ticker-item ticker-link" onclick="window.location.href='arqueologia.html'">
 		            <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
-		                → EXPLORA 30 AÑOS DE PROYECTOS
+		                EXPLORA 30 AÑOS DE EVOLUCIÓN TECNOLÓGICA
 		            </span>
         </span>
              `;
@@ -157,7 +157,7 @@ const ideasTracker = {
              tickerContent.innerHTML = `
 		<span class="ticker-item ticker-link" onclick="window.location.href='workflow.html'">
 		            <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
-		                → EXPLORA NUESTRA FORMA DE TRABAJAR
+		                EXPLORA NUESTRA FORMA DE TRABAJAR
 		            </span>
         </span>
              `;
@@ -728,11 +728,23 @@ function initializeTicker() {
     `;
 }
 
+function initializeTickerWorkflow() {
+    const tickerContent = document.getElementById('ticker-content-workflow');
+    tickerContent.innerHTML = `
+        <span class="ticker-item ticker-link" onclick="window.location.href='workflow.html'">
+            <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
+                EXPLORA NUESTRA FORMA DE TRABAJAR
+            </span>
+        </span>
+    `;
+}
+
 // Inicialización
 window.addEventListener('load', () => {
     resizeCanvas();
     initComets();
     initializeTicker();
+    initializeTickerWorkflow();
 //    showWelcomeMessage();
     animate();
 
