@@ -176,11 +176,13 @@ const ideasTracker = {
 
 // Canvas setup
 const canvas = document.getElementById('cosmos');
-const ctx = canvas.getContext('2d');
+const ctx = canvas ? canvas.getContext('2d') : null;
 
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
 }
 
 // Clase Cometa mejorada
@@ -592,6 +594,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Inicialización del cosmos
 function initComets() {
+    if (!canvas) return;
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     // En initComets() agregar una cometa especial
@@ -612,6 +615,7 @@ comets.push(specialComet);
 }
 
 // Interacciones mejoradas
+if (canvas) {
 canvas.addEventListener('click', (e) => {
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -640,9 +644,11 @@ canvas.addEventListener('click', (e) => {
     if (!clickDetected) {
         console.log('No se detectó click en ninguna cometa');
     }
+  }
 });
 
 // Soporte para touch en móviles
+if (canvas) {
 canvas.addEventListener('touchstart', (e) => {
     e.preventDefault();
     const rect = canvas.getBoundingClientRect();
@@ -659,10 +665,12 @@ canvas.addEventListener('touchstart', (e) => {
             break;
         }
     }
+  }
 });
 
 // Animación principal
 function animate() {
+	if (!canvas || !ctx) return;
     // Fade trail effect
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -757,6 +765,7 @@ window.addEventListener('load', () => {
 });
 
 window.addEventListener('resize', () => {
+if (canvas) {
     resizeCanvas();
     // Reposicionar cometas proporcionalmente
     const centerX = canvas.width / 2;
@@ -770,6 +779,7 @@ window.addEventListener('resize', () => {
         comet.x = centerX + Math.cos(angle) * distance;
         comet.y = centerY + Math.sin(angle) * distance;
     });
+   }
 });
 
 // Sistema de historial
