@@ -149,7 +149,7 @@ const ideasTracker = {
     }
 
     // Actualizar la marquesina de workflow
-    updateTicker() {
+    updateTickerWorkflow() {
         const tickerContent = document.getElementById('ticker-content-workflow');
 
          if (this.allTerms.length === 0) {
