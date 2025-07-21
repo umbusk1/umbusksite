@@ -308,7 +308,7 @@ body {
 /* Texto de historial */
 .history-trigger {
     position: fixed;
-    top: 208px;  /* Cambiado de 60px */
+    top: 217px;  /* Cambiado de 60px */
     left: 50%;  /* Centrado como el ticker */
     transform: translateX(-50%);  /* Centrado como el ticker */
     font-size: 11px;
