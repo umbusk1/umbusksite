@@ -37,143 +37,6 @@ let currentDialogue = 0;
 let isDialogueActive = false;
 let isFirstVisit = !localStorage.getItem('umbuskVisited');
 
-// Sistema de tracking de ideas simplificado
-const ideasTracker = {
-    allTerms: [], // Array de todos los términos en orden cronológico
-
-    // Palabras comunes a ignorar
-    stopWords: new Set([
-        'el', 'la', 'de', 'que', 'y', 'a', 'en', 'un', 'ser', 'se', 'no', 'haber',
-        'por', 'con', 'su', 'para', 'como', 'estar', 'tener', 'le', 'lo', 'todo',
-        'pero', 'más', 'hacer', 'o', 'poder', 'decir', 'este', 'ir', 'otro',
-        'ese', 'si', 'me', 'ya', 'ver', 'porque', 'dar', 'cuando', 'muy',
-        'sin', 'vez', 'mucho', 'saber', 'qué', 'sobre', 'mi', 'alguno', 'mismo',
-        'también', 'hasta', 'año', 'dos', 'querer', 'entre', 'así', 'primero',
-        'desde', 'grande', 'eso', 'ni', 'nos', 'llegar', 'pasar', 'tiempo',
-        'ella', 'sí', 'día', 'uno', 'bien', 'poco', 'deber', 'entonces',
-        'poner', 'parte', 'vida', 'quedar', 'siempre', 'creer', 'hablar', 'llevar',
-        'dejar', 'nada', 'cada', 'seguir', 'menos', 'nuevo', 'encontrar'
-    ]),
-
-    // Extraer sustantivos relevantes
-    extractKeyTerms(text) {
-        const normalized = text.toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()¿?¡!"']/g, " ");
-
-        const words = normalized.split(/\s+/).filter(w => w.length > 3);
-
-        const nounPatterns = [
-            /.*cion$/, /.*idad$/, /.*ismo$/, /.*ento$/, /.*encia$/,
-            /.*aje$/, /.*tud$/, /.*eza$/, /.*ura$/, /.*miento$/
-        ];
-
-        const commonVerbs = new Set([
-            'hacer', 'tener', 'estar', 'poder', 'deber', 'querer', 'saber',
-            'venir', 'decir', 'llevar', 'dejar', 'pasar', 'quedar', 'hablar',
-            'convertir', 'transformar', 'crear', 'buscar', 'encontrar',
-            'pensar', 'sentir', 'llegar', 'cambiar', 'vivir', 'existir'
-        ]);
-
-        const blacklist = new Set(['umbusk']);
-
-        const priorityNouns = new Set([
-            'idea', 'ideas', 'prototipo', 'prototipos', 'tecnologia',
-            'innovacion', 'creacion', 'algoritmo', 'algoritmos',
-            'inteligencia', 'artificial', 'cosmos', 'universo',
-            'espacio', 'tiempo', 'futuro', 'cambio', 'transformacion',
-            'posibilidad', 'realidad', 'imaginacion', 'codigo',
-            'puente', 'semilla', 'tierra', 'vision', 'esencia'
-        ]);
-
-        const terms = words.filter(word => {
-            if (blacklist.has(word)) return false;
-            if (this.stopWords.has(word)) return false;
-            if (commonVerbs.has(word)) return false;
-            if (priorityNouns.has(word)) return true;
-            if (nounPatterns.some(pattern => pattern.test(word))) return true;
-            if (word.length >= 5 && !/(ar|er|ir)$/.test(word)) return true;
-            return false;
-        });
-
-        return [...new Set(terms)];
-    },
-
-    // Actualizar con nuevo diálogo
-    updateFromDialogue(dialogue) {
-        const newTerms = [];
-
-        dialogue.lines.forEach(line => {
-            const terms = this.extractKeyTerms(line.text);
-            terms.forEach(term => {
-                // Agregar al principio (más recientes primero)
-                newTerms.unshift(term);
-            });
-        });
-
-        // Agregar nuevos términos al principio del array
-        this.allTerms = [...newTerms, ...this.allTerms];
-
-        // Limitar a 100 términos máximo
-        if (this.allTerms.length > 100) {
-            this.allTerms = this.allTerms.slice(0, 100);
-        }
-
-        this.updateTicker();
-    },
-
-    // Actualizar la marquesina
-    updateTicker() {
-        const tickerContent = document.getElementById('ticker-content');
-
-         if (this.allTerms.length === 0) {
-             tickerContent.innerHTML = `
-		<span class="ticker-item ticker-link" onclick="window.location.href='arqueologia.html'">
-		            <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
-		                EXPLORA 30 AÑOS DE EVOLUCIÓN TECNOLÓGICA
-		            </span>
-        </span>
-             `;
-            return;
-        }
-
-        // Crear elementos con logo como separador
-        const items = this.allTerms.map(term => `
-            <span class="ticker-term">${term.toUpperCase()}</span>
-            <img src="imagenes/circulo.png" class="ticker-separator" alt="logo">
-        `).join('');
-
-        // Duplicar para efecto continuo
-        tickerContent.innerHTML = items + items;
-    },
-
-    // Actualizar la marquesina de workflow
-    updateTickerWorkflow() {
-        const tickerContentWorkflow = document.getElementById('ticker-content-workflow');
-
-         if (this.allTerms.length === 0) {
-             tickerContentWorkflow.innerHTML = `
-		<span class="ticker-item ticker-link" onclick="window.location.href='workflow.html'">
-		            <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
-		                DESCUBRE NUESTRO PROCESO DE TRABAJO INNOVADOR
-		            </span>
-        </span>
-             `;
-            return;
-        }
-
-        // Crear elementos con logo como separador
-        const items = this.allTerms.map(term => `
-            <span class="ticker-term">${term.toUpperCase()}</span>
-            <img src="imagenes/circulo.png" class="ticker-separator" alt="logo">
-        `).join('');
-
-        // Duplicar para efecto continuo
-        tickerContentWorkflow.innerHTML = items + items;
-    }
-};
-
 // Canvas setup
 const canvas = document.getElementById('cosmos');
 const ctx = canvas ? canvas.getContext('2d') : null;
@@ -283,30 +146,41 @@ class Comet {
     }
 }
 
-// Sistema de diálogos
+// Sistema de diálogos mejorado para evitar SLOP
 const mockDialogues = [
     {
+        theme: "inception",
         lines: [
-            { voice: 1, text: "¿Qué pasaría si cada idea fuera un universo en sí mismo?" },
-            { voice: 2, text: "Entonces cada prototipo sería un big bang controlado." },
-            { voice: 1, text: "La creación a través de la iteración..." },
-            { voice: 2, text: "Donde el fracaso es solo otra dimensión por explorar." }
+            { voice: 1, text: "¿Qué es un prototipo sino una pregunta materializada?" },
+            { voice: 2, text: "Una hipótesis que respira." }
         ]
     },
     {
+        theme: "process",
         lines: [
-            { voice: 1, text: "Observa cómo las ideas orbitan entre sí." },
-            { voice: 2, text: "Algunas colisionan, otras se repelen." },
-            { voice: 1, text: "¿Y si pudiéramos predecir esas colisiones?" },
-            { voice: 2, text: "La inteligencia artificial como telescopio de posibilidades." }
+            { voice: 1, text: "El código no es el producto final." },
+            { voice: 2, text: "Es el diálogo entre la intención y la posibilidad." }
         ]
     },
     {
+        theme: "time",
         lines: [
-            { voice: 1, text: "Cada cliente llega con una nebulosa de intenciones." },
-            { voice: 2, text: "Nuestro trabajo es encontrar las constelaciones ocultas." },
-            { voice: 1, text: "¿Cómo distingues el ruido de la señal?" },
-            { voice: 2, text: "Escuchando el silencio entre las palabras." }
+            { voice: 1, text: "30 años de evolución tecnológica..." },
+            { voice: 2, text: "Y apenas estamos empezando a hacer las preguntas correctas." }
+        ]
+    },
+    {
+        theme: "collaboration",
+        lines: [
+            { voice: 1, text: "Cada cliente trae un universo de posibilidades." },
+            { voice: 2, text: "Nuestro trabajo es encontrar la constelación perfecta." }
+        ]
+    },
+    {
+        theme: "innovation",
+        lines: [
+            { voice: 1, text: "La innovación no es agregar complejidad." },
+            { voice: 2, text: "Es encontrar la simplicidad al otro lado del caos." }
         ]
     }
 ];
@@ -346,19 +220,25 @@ async function getDialogue() {
 
 function showLoading(show) {
     const loader = document.getElementById('loading');
-    loader.classList.toggle('active', show);
+    if (loader) {
+        loader.classList.toggle('active', show);
+    }
 }
 
 function showLoadingWithProgress() {
     const loader = document.getElementById('loading');
-    loader.classList.add('active');
-    loader.innerHTML = '<div class="pulse"></div><div style="font-size: 19px; margin-top: 10px; opacity: 0.6;">Conectando con 2 mentes de IA...</div>';
+    if (loader) {
+        loader.classList.add('active');
+        loader.innerHTML = '<div class="pulse"></div><div style="font-size: 19px; margin-top: 10px; opacity: 0.6;">Conectando con 2 mentes de IA...</div>';
+    }
 }
 
 function updateConnectionStatus(message, isConnected) {
     const status = document.getElementById('connection-status');
-    status.textContent = message;
-    status.className = `connection-status show ${isConnected ? 'connected' : 'error'}`;
+    if (status) {
+        status.textContent = message;
+        status.className = `connection-status show ${isConnected ? 'connected' : 'error'}`;
+    }
 }
 
 // Sistema de compartir diálogos
@@ -370,10 +250,15 @@ async function displayDialogue() {
 
     isDialogueActive = true;
     const container = document.getElementById('dialogue-content');
+    if (!container) return;
+
     container.innerHTML = '';
 
     // Ocultar botón de compartir al empezar nuevo diálogo
-    document.getElementById('share-dialogue').classList.remove('show');
+    const shareBtn = document.getElementById('share-dialogue');
+    if (shareBtn) {
+        shareBtn.classList.remove('show');
+    }
 
     // Mostrar indicador de carga con progreso
     showLoadingWithProgress();
@@ -382,9 +267,6 @@ async function displayDialogue() {
 
     // Guardar diálogo actual para compartir
     currentDialogueData = dialogue;
-
-    // Actualizar el tracker de ideas
-    ideasTracker.updateFromDialogue(dialogue);
 
     // Ocultar indicador
     showLoading(false);
@@ -404,7 +286,9 @@ async function displayDialogue() {
         } else {
             // Mostrar botón de compartir
             setTimeout(() => {
-                document.getElementById('share-dialogue').classList.add('show');
+                if (shareBtn) {
+                    shareBtn.classList.add('show');
+                }
             }, 1000);
 
             // Esperar más tiempo antes de desvanecer
@@ -421,7 +305,9 @@ async function displayDialogue() {
                     container.innerHTML = '';
                     isDialogueActive = false;
                     // Ocultar botón de compartir
-                    document.getElementById('share-dialogue').classList.remove('show');
+                    if (shareBtn) {
+                        shareBtn.classList.remove('show');
+                    }
                 }, 2500);
             }, CONFIG.DIALOGUE_DISPLAY_TIME);
         }
@@ -436,6 +322,8 @@ function openShareModal() {
 
     const modal = document.getElementById('share-modal');
     const preview = document.getElementById('share-preview');
+
+    if (!modal || !preview) return;
 
     // Generar preview
     let previewHTML = '';
@@ -455,7 +343,10 @@ function openShareModal() {
 }
 
 function closeShareModal() {
-    document.getElementById('share-modal').classList.remove('active');
+    const modal = document.getElementById('share-modal');
+    if (modal) {
+        modal.classList.remove('active');
+    }
 }
 
 function shareToTwitter() {
@@ -597,16 +488,17 @@ function initComets() {
     if (!canvas) return;
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
-    // En initComets() agregar una cometa especial
-	const specialComet = new Comet(centerX, centerY - 100, CONFIG.COMET_COUNT);
-	specialComet.isSpecial = true;
-	specialComet.color = 'gold';
-comets.push(specialComet);
+
+    // Agregar una cometa especial
+    const specialComet = new Comet(centerX, centerY - 100, CONFIG.COMET_COUNT);
+    specialComet.isSpecial = true;
+    specialComet.color = 'gold';
+    comets.push(specialComet);
 
     for (let i = 0; i < CONFIG.COMET_COUNT; i++) {
         const angle = (Math.PI * 2 / CONFIG.COMET_COUNT) * i;
         const isMobile = window.innerWidth < 768;
-	    const distance = isMobile ? (80 + Math.random() * 60) : (200 + Math.random() * 100);
+        const distance = isMobile ? (80 + Math.random() * 60) : (200 + Math.random() * 100);
         const x = centerX + Math.cos(angle) * distance;
         const y = centerY + Math.sin(angle) * distance;
 
@@ -616,60 +508,50 @@ comets.push(specialComet);
 
 // Interacciones mejoradas
 if (canvas) {
-canvas.addEventListener('click', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    canvas.addEventListener('click', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-    // Debug: mostrar dónde se hizo click
-    console.log('Click en:', x, y);
-    console.log('Canvas rect:', rect);
+        // Verificar click en cometas con área más grande
+        let clickDetected = false;
 
-    // Verificar click en cometas con área más grande
-    let clickDetected = false;
+        for (let comet of comets) {
+            const distance = Math.sqrt((x - comet.x) ** 2 + (y - comet.y) ** 2);
 
-    for (let comet of comets) {
-        const distance = Math.sqrt((x - comet.x) ** 2 + (y - comet.y) ** 2);
-        console.log(`Cometa en (${comet.x}, ${comet.y}) - distancia: ${distance}`);
-
-        if (distance < 70) { // Aumentado de 50 a 70
-            clickDetected = true;
-            currentDialogue++;
-            displayDialogue();
-            comets.forEach(c => c.disturb());
-            break;
+            if (distance < 70) { // Aumentado de 50 a 70
+                clickDetected = true;
+                currentDialogue++;
+                displayDialogue();
+                comets.forEach(c => c.disturb());
+                break;
+            }
         }
-    }
+    });
 
-    if (!clickDetected) {
-        console.log('No se detectó click en ninguna cometa');
-    }
-});
+    // Soporte para touch en móviles
+    canvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
 
-// Soporte para touch en móviles
-
-canvas.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    const rect = canvas.getBoundingClientRect();
-    const touch = e.touches[0];
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
-
-    // Verificar touch en cometas
-    for (let comet of comets) {
-        if (comet.isNear(x, y, 70)) { // Área más grande en móvil
-            currentDialogue++;
-            displayDialogue();
-            comets.forEach(c => c.disturb());
-            break;
+        // Verificar touch en cometas
+        for (let comet of comets) {
+            if (comet.isNear(x, y, 70)) { // Área más grande en móvil
+                currentDialogue++;
+                displayDialogue();
+                comets.forEach(c => c.disturb());
+                break;
+            }
         }
-      }
-  });
+    });
 }
 
 // Animación principal
 function animate() {
-	if (!canvas || !ctx) return;
+    if (!canvas || !ctx) return;
     // Fade trail effect
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -683,102 +565,86 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-// Mostrar mensaje de bienvenida
-function showWelcomeMessage() {
-    if (isFirstVisit) {
-        const welcome = document.getElementById('welcome-message');
-        welcome.textContent = 'PRIMERA VISITA DETECTADA';
-        welcome.classList.add('active');
-        localStorage.setItem('umbuskVisited', 'true');
-
-        // Iniciar primer diálogo después de 3 segundos
-        setTimeout(() => displayDialogue(), 3000);
-    }
-}
-
-// Cargar historial reciente para el ticker
-async function loadRecentHistory() {
-    try {
-        const response = await fetch('https://umbusksite.vercel.app/api/history?limit=10');
-        if (response.ok) {
-            const data = await response.json();
-
-            // Procesar diálogos históricos para el ticker
-            data.dialogues.reverse().forEach(dialogue => {
-                const historicalDialogue = {
-                    lines: [
-                        { voice: 1, text: dialogue.voice1_line1 },
-                        { voice: 2, text: dialogue.voice2_line1 },
-                        { voice: 1, text: dialogue.voice1_line2 },
-                        { voice: 2, text: dialogue.voice2_line2 }
-                    ]
-                };
-                ideasTracker.updateFromDialogue(historicalDialogue);
-            });
-        }
-    } catch (error) {
-        console.log('No se pudo cargar el historial para el ticker');
-    }
-}
-
-// Inicializar ticker con mensaje de espera
-// En app.js, en la función initializeTicker
-function initializeTicker() {
+// NUEVO: Sistema de ticker de navegación unificado
+function initializeNavigationTicker() {
     const tickerContent = document.getElementById('ticker-content');
-    tickerContent.innerHTML = `
-        <span class="ticker-item ticker-link" onclick="window.location.href='arqueologia.html'">
-            <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
-                EXPLORA 30 AÑOS DE EVOLUCIÓN TECNOLÓGICA
-            </span>
-        </span>
-    `;
-}
+    if (!tickerContent) return;
 
-function initializeTickerWorkflow() {
-    const tickerContentWorkflow = document.getElementById('ticker-content-workflow');
-    tickerContentWorkflow.innerHTML = `
-        <span class="ticker-item ticker-link" onclick="window.location.href='workflow.html'">
-            <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
-                DESCUBRE NUESTRO PROCESO DE TRABAJO INNOVADOR
-            </span>
+    // Detectar página actual
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+    // Crear HTML del ticker de navegación
+    let html = '';
+
+    // Items de navegación con estilos inline para simplicidad
+    const navStyle = 'color: rgba(255, 255, 255, 0.7); text-decoration: none; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease; padding: 5px 10px;';
+    const activeStyle = 'color: #4CAF50; text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);';
+
+    html += `
+        <span class="ticker-nav-item">
+            <a href="index.html" style="${navStyle}${currentPage === 'index.html' ? activeStyle : ''}"
+               onmouseover="this.style.color='#4CAF50'"
+               onmouseout="this.style.color='${currentPage === 'index.html' ? '#4CAF50' : 'rgba(255, 255, 255, 0.7)}'">
+                HOME
+            </a>
         </span>
+        <img src="imagenes/circulo.png" class="ticker-separator" alt="" style="width: 10px; height: 10px; margin: 0 20px;">
+        <span class="ticker-nav-item">
+            <a href="workflow.html" style="${navStyle}${currentPage === 'workflow.html' ? activeStyle : ''}"
+               onmouseover="this.style.color='#4CAF50'"
+               onmouseout="this.style.color='${currentPage === 'workflow.html' ? '#4CAF50' : 'rgba(255, 255, 255, 0.7)}'">
+                PROCESO
+            </a>
+        </span>
+        <img src="imagenes/circulo.png" class="ticker-separator" alt="" style="width: 10px; height: 10px; margin: 0 20px;">
+        <span class="ticker-nav-item">
+            <a href="arqueologia.html" style="${navStyle}${currentPage === 'arqueologia.html' ? activeStyle : ''}"
+               onmouseover="this.style.color='#4CAF50'"
+               onmouseout="this.style.color='${currentPage === 'arqueologia.html' ? '#4CAF50' : 'rgba(255, 255, 255, 0.7)}'">
+                ARQUEOLOGÍA
+            </a>
+        </span>
+        <img src="imagenes/circulo.png" class="ticker-separator" alt="" style="width: 10px; height: 10px; margin: 0 20px;">
     `;
+
+    // Duplicar el contenido para efecto continuo
+    tickerContent.innerHTML = html + html + html; // Triplicar para mejor efecto
 }
 
 // Inicialización
 window.addEventListener('load', () => {
-    resizeCanvas();
-    initComets();
-    initializeTicker();
-    initializeTickerWorkflow();
-//    showWelcomeMessage();
-    animate();
+    // Solo si existe el canvas (en index.html)
+    if (canvas) {
+        resizeCanvas();
+        initComets();
+        animate();
 
-    // Cargar historial para el ticker
-//     loadRecentHistory();
-
-    // Mostrar status en desarrollo
-    if (CONFIG.USE_MOCK_DATA) {
-        updateConnectionStatus('Modo desarrollo (sin API)', true);
+        // Mostrar status en desarrollo
+        if (CONFIG.USE_MOCK_DATA) {
+            updateConnectionStatus('Modo desarrollo (sin API)', true);
+        }
     }
+
+    // Inicializar ticker de navegación (funciona en todas las páginas)
+    initializeNavigationTicker();
 });
 
 window.addEventListener('resize', () => {
-if (canvas) {
-    resizeCanvas();
-    // Reposicionar cometas proporcionalmente
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    comets.forEach((comet, index) => {
-        comet.baseX = centerX;
-        comet.baseY = centerY;
-        // Reajustar la posición actual también
-        const angle = (Math.PI * 2 / CONFIG.COMET_COUNT) * index;
-        const distance = comet.orbitRadius * 0.5; // Reducir un poco el radio
-        comet.x = centerX + Math.cos(angle) * distance;
-        comet.y = centerY + Math.sin(angle) * distance;
-    });
-   }
+    if (canvas) {
+        resizeCanvas();
+        // Reposicionar cometas proporcionalmente
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        comets.forEach((comet, index) => {
+            comet.baseX = centerX;
+            comet.baseY = centerY;
+            // Reajustar la posición actual también
+            const angle = (Math.PI * 2 / CONFIG.COMET_COUNT) * index;
+            const distance = comet.orbitRadius * 0.5; // Reducir un poco el radio
+            comet.x = centerX + Math.cos(angle) * distance;
+            comet.y = centerY + Math.sin(angle) * distance;
+        });
+    }
 });
 
 // Sistema de historial
@@ -799,6 +665,7 @@ const historyManager = {
 
     displayHistory(dialogues) {
         const content = document.getElementById('history-content');
+        if (!content) return;
 
         // Agrupar por fecha
         const groupedByDate = {};
@@ -874,18 +741,20 @@ const historyManager = {
         this.isOpen = !this.isOpen;
         const container = document.getElementById('history-container');
 
-        if (this.isOpen) {
-            container.classList.add('active');
-            this.loadHistory();
-        } else {
-            container.classList.remove('active');
+        if (container) {
+            if (this.isOpen) {
+                container.classList.add('active');
+                this.loadHistory();
+            } else {
+                container.classList.remove('active');
+            }
         }
     }
 };
 
 // Sistema de cambio de modos
 function changeCosmosMode(newMode) {
-    if (currentMode === newMode) return;
+    if (currentMode === newMode || !canvas) return;
 
     currentMode = newMode;
     const modeConfig = COSMOS_MODES[newMode];
@@ -916,10 +785,8 @@ window.addEventListener('DOMContentLoaded', () => {
             changeCosmosMode(btn.dataset.mode);
         });
     });
-});
 
-// Event listeners para el historial - DEBEN IR DESPUÉS DE CARGAR EL DOM
-window.addEventListener('DOMContentLoaded', () => {
+    // Event listeners para el historial
     const historyTrigger = document.getElementById('history-trigger');
     const historyClose = document.getElementById('history-close');
 
