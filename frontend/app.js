@@ -728,7 +728,7 @@ function initializeTicker() {
 }
 
 function initializeTickerWorkflow() {
-    const tickerContent = document.getElementById('ticker-content-workflow');
+    const tickerContentWorkflow = document.getElementById('ticker-content-workflow');
     tickerContent.innerHTML = `
         <span class="ticker-item ticker-link" onclick="window.location.href='workflow.html'">
             <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
