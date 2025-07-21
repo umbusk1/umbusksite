@@ -146,7 +146,7 @@ const ideasTracker = {
 
         // Duplicar para efecto continuo
         tickerContent.innerHTML = items + items;
-    }
+    },
 
     // Actualizar la marquesina de workflow
     updateTickerWorkflow() {
