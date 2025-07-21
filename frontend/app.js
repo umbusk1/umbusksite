@@ -156,7 +156,7 @@ const ideasTracker = {
              tickerContentWorkflow.innerHTML = `
 		<span class="ticker-item ticker-link" onclick="window.location.href='workflow.html'">
 		            <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
-		                EXPLORA NUESTRA FORMA DE TRABAJAR
+		                DESCUBRE NUESTRO PROCESO DE TRABAJO INNOVADOR
 		            </span>
         </span>
              `;
@@ -729,10 +729,10 @@ function initializeTicker() {
 
 function initializeTickerWorkflow() {
     const tickerContentWorkflow = document.getElementById('ticker-content-workflow');
-    tickerContent.innerHTML = `
+    tickerContentWorkflow.innerHTML = `
         <span class="ticker-item ticker-link" onclick="window.location.href='workflow.html'">
             <span class="ticker-term" style="color: #4CAF50; cursor: pointer">
-                EXPLORA NUESTRA FORMA DE TRABAJAR
+                DESCUBRE NUESTRO PROCESO DE TRABAJO INNOVADOR
             </span>
         </span>
     `;
