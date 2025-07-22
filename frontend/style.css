@@ -288,7 +288,7 @@ body {
 
 @keyframes ticker {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    100% { transform: translateX(-100%); }
 }
 
 /* Estilos para los items de navegación en el ticker */

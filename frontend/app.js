@@ -489,6 +489,9 @@ function initComets() {
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
 
+    // Limpiar array de cometas
+    comets = [];
+
     // Agregar una cometa especial
     const specialComet = new Comet(centerX, centerY - 100, CONFIG.COMET_COUNT);
     specialComet.isSpecial = true;
@@ -565,7 +568,7 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-// NUEVO: Sistema de ticker de navegación unificado
+// Sistema de ticker de navegación unificado
 function initializeNavigationTicker() {
     const tickerContent = document.getElementById('ticker-content');
     if (!tickerContent) return;
@@ -576,51 +579,66 @@ function initializeNavigationTicker() {
     // Crear HTML del ticker de navegación
     let html = '';
 
-// Crear links de navegación
-// Crear patrón alternado para Home: Arqueología - Workflow - Arqueología...
-if (currentPage === 'index.html' || currentPage === '') {
-    // Repetir el patrón varias veces para llenar el ticker
-    for (let i = 0; i < 6; i++) {
-        html += '<span class="ticker-nav-item">';
-        html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
-        html += '</span>';
-        html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+    // Crear patrón alternado para Home: Arqueología - Workflow - Arqueología...
+    if (currentPage === 'index.html' || currentPage === '') {
+        // Repetir el patrón varias veces para llenar el ticker
+        for (let i = 0; i < 6; i++) {
+            html += '<span class="ticker-nav-item">';
+            html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
+            html += '</span>';
+            html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
 
-        html += '<span class="ticker-nav-item">';
-        html += '<a href="workflow.html" class="ticker-nav-link">WORKFLOW</a>';
-        html += '</span>';
-        html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
-    }
-} else {
-    // Para otras páginas, mostrar todo menos la página actual
-    if (currentPage !== 'index.html') {
-        html += '<span class="ticker-nav-item">';
-        html += '<a href="index.html" class="ticker-nav-link">HOME</a>';
-        html += '</span>';
-        html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+            html += '<span class="ticker-nav-item">';
+            html += '<a href="workflow.html" class="ticker-nav-link">WORKFLOW</a>';
+            html += '</span>';
+            html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+        }
+    } else {
+        // Para otras páginas, mostrar todo menos la página actual
+        if (currentPage !== 'index.html') {
+            html += '<span class="ticker-nav-item">';
+            html += '<a href="index.html" class="ticker-nav-link">HOME</a>';
+            html += '</span>';
+            html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+        }
+
+        if (currentPage !== 'workflow.html') {
+            html += '<span class="ticker-nav-item">';
+            html += '<a href="workflow.html" class="ticker-nav-link">WORKFLOW</a>';
+            html += '</span>';
+            html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+        }
+
+        if (currentPage !== 'arqueologia.html') {
+            html += '<span class="ticker-nav-item">';
+            html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
+            html += '</span>';
+        }
     }
 
-    if (currentPage !== 'workflow.html') {
-        html += '<span class="ticker-nav-item">';
-        html += '<a href="workflow.html" class="ticker-nav-link">WORKFLOW</a>';
-        html += '</span>';
-        html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
-    }
-
-    if (currentPage !== 'arqueologia.html') {
-        html += '<span class="ticker-nav-item">';
-        html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
-        html += '</span>';
-    }
+    // NO duplicar más, ya tenemos suficiente contenido
+    tickerContent.innerHTML = html;
 }
 
-// NO duplicar más, ya tenemos suficiente contenido
-tickerContent.innerHTML = html;
+// INICIALIZACIÓN PRINCIPAL
+window.addEventListener('load', () => {
+    // Solo si existe el canvas (en index.html)
+    if (canvas) {
+        resizeCanvas();
+        initComets();
+        animate();
+
+        // Mostrar status en desarrollo
+        if (CONFIG.USE_MOCK_DATA) {
+            updateConnectionStatus('Modo desarrollo (sin API)', true);
+        }
     }
 
     // Inicializar ticker de navegación (funciona en todas las páginas)
     initializeNavigationTicker();
+});
 
+// Resize handler
 window.addEventListener('resize', () => {
     if (canvas) {
         resizeCanvas();
