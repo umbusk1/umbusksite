@@ -577,42 +577,45 @@ function initializeNavigationTicker() {
     let html = '';
 
 // Crear links de navegación
-// Solo mostrar las páginas que NO son la actual
-if (currentPage !== 'index.html') {
-    html += '<span class="ticker-nav-item">';
-    html += '<a href="index.html" class="ticker-nav-link">HOME</a>';
-    html += '</span>';
-    html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+// Crear patrón alternado para Home: Arqueología - Workflow - Arqueología...
+if (currentPage === 'index.html' || currentPage === '') {
+    // Repetir el patrón varias veces para llenar el ticker
+    for (let i = 0; i < 6; i++) {
+        html += '<span class="ticker-nav-item">';
+        html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
+        html += '</span>';
+        html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+
+        html += '<span class="ticker-nav-item">';
+        html += '<a href="workflow.html" class="ticker-nav-link">WORKFLOW</a>';
+        html += '</span>';
+        html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+    }
+} else {
+    // Para otras páginas, mostrar todo menos la página actual
+    if (currentPage !== 'index.html') {
+        html += '<span class="ticker-nav-item">';
+        html += '<a href="index.html" class="ticker-nav-link">HOME</a>';
+        html += '</span>';
+        html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+    }
+
+    if (currentPage !== 'workflow.html') {
+        html += '<span class="ticker-nav-item">';
+        html += '<a href="workflow.html" class="ticker-nav-link">WORKFLOW</a>';
+        html += '</span>';
+        html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+    }
+
+    if (currentPage !== 'arqueologia.html') {
+        html += '<span class="ticker-nav-item">';
+        html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
+        html += '</span>';
+    }
 }
 
-if (currentPage !== 'workflow.html') {
-    html += '<span class="ticker-nav-item">';
-    html += '<a href="workflow.html" class="ticker-nav-link">PROCESO</a>';
-    html += '</span>';
-    html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
-}
-
-if (currentPage !== 'arqueologia.html') {
-    html += '<span class="ticker-nav-item">';
-    html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
-    html += '</span>';
-    html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
-}
-    html += '</span>';
-    html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
-
-    html += '<span class="ticker-nav-item">';
-    html += '<a href="workflow.html" class="ticker-nav-link">PROCESO</a>';
-    html += '</span>';
-    html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
-
-    html += '<span class="ticker-nav-item">';
-    html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
-    html += '</span>';
-    html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
-
-    // Duplicar el contenido
-    tickerContent.innerHTML = html + html + html;
+// NO duplicar más, ya tenemos suficiente contenido
+tickerContent.innerHTML = html;
     }
 
     // Inicializar ticker de navegación (funciona en todas las páginas)
