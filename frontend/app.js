@@ -582,7 +582,7 @@ function initializeNavigationTicker() {
     // Crear patrón alternado para Home: Arqueología - Workflow - Arqueología...
     if (currentPage === 'index.html' || currentPage === '') {
         // Repetir el patrón varias veces para llenar el ticker
-        for (let i = 0; i < 12; i++) {  // Duplicar las repeticiones
+        for (let i = 0; i < 48; i++) {  // Duplicar las repeticiones
             html += '<span class="ticker-nav-item">';
             html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
             html += '</span>';
