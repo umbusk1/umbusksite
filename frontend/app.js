@@ -594,10 +594,10 @@ function initializeNavigationTicker() {
 
     // Duplicar el contenido
     tickerContent.innerHTML = html + html + html;
+    }
 
     // Inicializar ticker de navegación (funciona en todas las páginas)
     initializeNavigationTicker();
-});
 
 window.addEventListener('resize', () => {
     if (canvas) {
