@@ -281,14 +281,14 @@ body {
 .ticker-content {
     display: flex;
     align-items: center;
-    animation: ticker 7s linear infinite;
+    animation: ticker 10s linear infinite;
     white-space: nowrap;
-    padding-left: 100%;
+    padding-left: 0;  /* Sin padding inicial */
 }
 
 @keyframes ticker {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    100% { transform: translateX(-50%); }
 }
 
 /* Estilos para los items de navegación en el ticker */
@@ -537,7 +537,7 @@ body {
     }
     
     .ticker-content {
-        animation-duration: 7s; /* Más rápido en móvil */
+        animation-duration: 10s; /* Más rápido en móvil */
     }
 }
 
