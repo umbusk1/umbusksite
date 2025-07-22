@@ -507,7 +507,7 @@
     <div class="header-container">
         <a href="index.html" class="back-link">
             <span class="lang-es">← VOLVER AL INICIO</span>
-            <span class="lang-en" style="display:none;">← BACK TO HOME</span>
+            <span class="lang-en">← BACK TO HOME</span>
         </a>
         <a href="index.html">
             <img src="imagenes/logo-umbusk.png" alt="Umbusk" class="logo-center">
@@ -527,6 +527,12 @@
 <div class="dust-particle"></div>
 <div class="dust-particle"></div>
 <div class="dust-particle"></div>
+
+<!-- Header principal (después del header secundario) -->
+<div>
+    <h1>ARQUEOLOGÍA</h1>
+    <p>30 años de evolución tecnológica, basada en una lista corta de proyectos relevantes.</p>
+</div>
 
 <!-- Ticker de navegación -->
 <div id="ticker-container" class="ticker-container">
@@ -1373,5 +1379,39 @@
             }
         });
     </script>
+
+    <script>
+	// Función para cambiar idioma
+	function toggleLanguage() {
+	    const body = document.body;
+	    const selector = document.querySelector('.lang-selector');
+
+	    if (body.classList.contains('en')) {
+	        body.classList.remove('en');
+	        selector.classList.remove('active-en');
+	        selector.classList.add('active-es');
+	        localStorage.setItem('language', 'es');
+	    } else {
+	        body.classList.add('en');
+	        selector.classList.remove('active-es');
+	        selector.classList.add('active-en');
+	        localStorage.setItem('language', 'en');
+	    }
+	}
+
+	// Cargar idioma guardado
+	document.addEventListener('DOMContentLoaded', function() {
+	    const savedLang = localStorage.getItem('language');
+	    if (savedLang === 'en') {
+	        document.body.classList.add('en');
+	        const selector = document.querySelector('.lang-selector');
+	        if (selector) {
+	            selector.classList.remove('active-es');
+	            selector.classList.add('active-en');
+	        }
+	    }
+	});
+</script>
+
 </body>
 </html>

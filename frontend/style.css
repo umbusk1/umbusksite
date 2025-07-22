@@ -1408,3 +1408,49 @@ iframe#chatbase-iframe {
 	        body.en .lang-es { display: none; }
 	        body.en .lang-en { display: block; }
         body.en .lang-en-inline { display: inline; }
+        
+        /* Fix para spans de idioma inline */
+	.lang-en-inline { display: none; }
+	body.en .lang-es-inline { display: none; }
+	body.en .lang-en-inline { display: inline; }
+	
+	/* Ajuste para el header principal en arqueología */
+	.arqueologia-page .header.with-secondary-header {
+	    margin-top: 0;
+	    padding-top: 40px;
+	}
+	
+	/* Fix para el z-index del header secundario */
+	.header-secondary {
+	    z-index: 1000 !important;
+	}
+	
+	/* Asegurar que los elementos de idioma funcionen correctamente */
+	.lang-es, .lang-en {
+	    display: block;
+	}
+	
+	span.lang-es, span.lang-en {
+	    display: inline;
+	}
+	
+	.lang-en, span.lang-en {
+	    display: none !important;
+	}
+	
+	body.en .lang-es, body.en span.lang-es {
+	    display: none !important;
+	}
+	
+	body.en .lang-en, body.en span.lang-en {
+	    display: inline !important;
+	}
+	
+	/* Para elementos block */
+	div.lang-en, p.lang-en, h1.lang-en, h2.lang-en, h3.lang-en, h4.lang-en {
+	    display: none !important;
+	}
+	
+	body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, body.en h3.lang-en, body.en h4.lang-en {
+	    display: block !important;
+}
