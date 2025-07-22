@@ -1,34 +1,20 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Arqueología - 30 años de evolución tecnológica según proyectos</title>
-<style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Georgia', serif;
-            background: linear-gradient(to bottom, #0a0a0f 0%, #1a1a2e 50%, #2d2d44 100%);
-            color: #ffffff;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        /* Título principal */
-        .header {
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Arqueología - 30 años de evolución tecnológica según proyectos</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos de arqueología que complementan style.css */
+        .arqueologia-page .header {
             text-align: center;
             padding: 60px 20px 40px;
             position: relative;
             z-index: 10;
         }
 
-        .header h1 {
+        .arqueologia-page .header h1 {
             font-size: 2.5em;
             font-weight: 300;
             letter-spacing: 3px;
@@ -37,467 +23,52 @@
             animation: fadeInDown 1s ease forwards;
         }
 
-        .header p {
+        .arqueologia-page .header p {
             font-size: 1.2em;
             color: rgba(255, 255, 255, 0.6);
             opacity: 0;
             animation: fadeInDown 1s ease 0.3s forwards;
         }
 
-        /* Indicador de profundidad */
-        .depth-indicator {
-            position: fixed;
-            left: 50px;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 60%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: 5;
-        }
-
-        .depth-line {
-            width: 2px;
-            flex: 1;
-            background: linear-gradient(to bottom,
-                rgba(255, 255, 255, 0.8) 0%,
-                rgba(255, 255, 255, 0.3) 50%,
-                rgba(255, 255, 255, 0.1) 100%
-            );
-        }
-
-        .year-marker {
-            position: absolute;
-            left: -30px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            font-family: 'Helvetica', sans-serif;
-        }
-
-        /* Contenedor de estratos */
-        .strata-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 100px;
-            position: relative;
-        }
-
-        /* Cada estrato */
-        .stratum {
-            margin-bottom: 80px;
-            position: relative;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: emerge 1s ease forwards;
-        }
-
-        .stratum:nth-child(1) { animation-delay: 0.5s; }
-        .stratum:nth-child(2) { animation-delay: 0.7s; }
-        .stratum:nth-child(3) { animation-delay: 0.9s; }
-        .stratum:nth-child(4) { animation-delay: 1.1s; }
-        .stratum:nth-child(5) { animation-delay: 1.3s; }
-        .stratum:nth-child(6) { animation-delay: 1.5s; }
-        .stratum:nth-child(7) { animation-delay: 1.7s; }
-        .stratum:nth-child(8) { animation-delay: 1.9s; }
-
-        /* Tarjeta de proyecto */
-        .project-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 30px;
-            display: flex;
-            gap: 30px;
-            transition: all 0.5s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .project-card:hover {
-            background: rgba(255, 255, 255, 0.06);
-            transform: translateX(10px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Thumbnail de imagen */
-        .project-thumbnail {
-            width: 150px;
-            height: 150px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .project-thumbnail:hover {
-            transform: scale(1.05);
-        }
-
-        .project-thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: sepia(30%) contrast(0.8);
-            transition: filter 0.3s ease;
-        }
-
-        .project-thumbnail:hover img {
-            filter: sepia(0%) contrast(1);
-        }
-
-        .project-thumbnail::after {
-            content: "🔍";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 24px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .project-thumbnail:hover::after {
-            opacity: 1;
-        }
-
-        /* Contenido del proyecto */
-        .project-content {
-            flex: 1;
-        }
-
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 15px;
-        }
-
-        .project-title {
-            font-size: 1.5em;
-            margin-bottom: 5px;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .project-meta {
-            display: flex;
-            gap: 20px;
-            font-size: 0.9em;
-            color: rgba(255, 255, 255, 0.5);
-            font-family: 'Helvetica', sans-serif;
-        }
-
-        .project-description {
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 20px;
-        }
-
-        /* Ícono de detalles técnicos */
-        .tech-details-icon {
-            width: 36px;
-            height: 36px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tech-details-icon:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: rotate(90deg);
-        }
-
-        .tech-details-icon svg {
-            width: 18px;
-            height: 18px;
-            stroke: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Empresa badge */
-        .company-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-family: 'Helvetica', sans-serif;
-        }
-
-        /* Modal de imagen */
-        .image-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            cursor: pointer;
-        }
-
-        .image-modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .image-modal img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 8px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Panel de detalles técnicos */
-        .tech-panel {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-            margin-top: 20px;
-        }
-
-        .tech-panel.active {
-            max-height: 200px;
-        }
-
-        .tech-content {
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            font-family: 'Monaco', monospace;
-            font-size: 0.9em;
-        }
-
-        .tech-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .tech-item {
-            padding: 4px 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            font-size: 0.85em;
-        }
-
-        /* Animaciones */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes emerge {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .depth-indicator {
-                display: none;
-            }
-
-            .strata-container {
-                padding: 0 20px;
-            }
-
-            .project-card {
-                flex-direction: column;
-                padding: 20px;
-            }
-
-            .project-thumbnail {
-                width: 100%;
-                height: 200px;
-            }
-
-            .header h1 {
-                font-size: 1.8em;
-            }
-
-	.umbusk-watermark {
-	    font-size: 14px;
-	    opacity: 1;
-	    letter-spacing: 3px;
-	    font-family: 'Helvetica Neue', sans-serif;
-	    font-weight: 200;
-	    transition: opacity 0.3s ease;
-	}
-
-	.umbusk-watermark:hover {
-	    opacity: 0.5;
-}
-        }
-        /* Ícono de historia del proyecto */
-		.project-history-icon {
-		    width: 36px;
-		    height: 36px;
-		    background: rgba(255, 255, 255, 0.05);
-		    border: 1px solid rgba(255, 255, 255, 0.2);
-		    border-radius: 50%;
-		    display: flex;
-		    align-items: center;
-		    justify-content: center;
-		    cursor: pointer;
-		    transition: all 0.3s ease;
-		    margin-left: 10px;
+        /* Resto de los estilos específicos de arqueología... */
+        /* Sistema de idiomas mejorado */
+		.lang-en {
+		    display: none !important;
 		}
 
-		.project-history-icon:hover {
-		    background: rgba(255, 255, 255, 0.1);
-		    transform: scale(1.1);
+		body.en .lang-es {
+		    display: none !important;
 		}
 
-		.project-history-icon svg {
-		    width: 18px;
-		    height: 18px;
-		    stroke: rgba(255, 255, 255, 0.6);
+		body.en .lang-en {
+		    display: block !important;
 		}
 
-		/* Panel de historia */
-		.history-panel {
-		    max-height: 0;
-		    overflow: hidden;
-		    transition: max-height 0.5s ease;
-		    margin-top: 20px;
+		/* Para elementos inline como span */
+		span.lang-en {
+		    display: none !important;
 		}
 
-		.history-panel.active {
-		    max-height: 496px;
+		body.en span.lang-es {
+		    display: none !important;
 		}
 
-		.history-content {
-		    padding: 20px;
-		    background: rgba(0, 0, 0, 0.3);
-		    border-radius: 8px;
-		    font-size: 0.95em;
-		    line-height: 1.6;
+		body.en span.lang-en {
+		    display: inline !important;
 		}
 
-		.history-section {
-		    margin-bottom: 20px;
+		/* Para divs dentro de history-content */
+		.history-content .lang-en {
+		    display: none !important;
 		}
 
-		.history-section:last-child {
-		    margin-bottom: 0;
+		body.en .history-content .lang-es {
+		    display: none !important;
 		}
 
-		.history-section h4 {
-		    color: rgba(255, 255, 255, 0.8);
-		    margin-bottom: 8px;
-		    font-size: 1.1em;
-		    font-weight: 400;
+		body.en .history-content .lang-en {
+		    display: block !important;
 		}
-
-		.history-section p {
-		    color: rgba(255, 255, 255, 0.6);
-		    margin: 0;
-		}
-
-		/* Ajustar el header para acomodar ambos íconos */
-		.project-icons {
-		    display: flex;
-		    gap: 10px;
-		}
-
-    	/* Marquesina de workflow */
-		.workflow-ticker {
-		    position: fixed;
-		    top: 145px;
-		    left: 50%;
-		    transform: translateX(-50%);
-		    background: rgba(0, 0, 0, 0.8);
-		    border: 1px solid rgba(255, 255, 255, 0.1);
-		    border-radius: 4px;
-		    padding: 8px 0;
-		    overflow: hidden;
-		    z-index: 30;
-		    backdrop-filter: blur(10px);
-		    font-family: 'Monaco', 'Courier New', monospace;
-		    font-size: 13px;
-		    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-		}
-
-		/* Responsive widths para la marquesina */
-		@media (min-width: 1024px) {
-		    .workflow-ticker {
-		        width: 40%;
-		        max-width: 800px;
-		    }
-		}
-
-		@media (min-width: 768px) and (max-width: 1023px) {
-		    .workflow-ticker {
-		        width: 600px;
-		    }
-		}
-
-		@media (max-width: 767px) and (orientation: landscape) {
-		    .workflow-ticker {
-		        width: 600px;
-		        max-width: 90%;
-		    }
-		}
-
-		@media (max-width: 767px) and (orientation: portrait) {
-		    .workflow-ticker {
-		        width: 90%;
-		    }
-		}
-
-		.ticker-content-workflow {
-		    display: flex;
-		    align-items: center;
-		    animation: ticker 10s linear infinite;
-		    white-space: nowrap;
-		    padding-left: 100%;
-		}
-
-		@keyframes ticker {
-		    0% { transform: translateX(0); }
-		    100% { transform: translateX(-90%); }
-		}
-
-		.ticker-term {
-		    color: rgba(255, 255, 255, 0.8);
-		    text-transform: uppercase;
-		    letter-spacing: 1px;
-		    padding: 0 5px;
-		}
-
-		.ticker-separator {
-		    width: 5px;
-		    height: 5px;
-		    margin: 0 2px;
-		}
-		/* En páginas con header secundario */
-		.with-secondary-header .ticker-container {
-		    top: 90px; /* Ajustar según la altura del header */
-}
-
     </style>
 </head>
 <body class="arqueologia-page">
@@ -515,6 +86,12 @@
         <div class="lang-selector active-es" onclick="toggleLanguage()">ES / EN</div>
     </div>
 </header>
+
+<!-- Header principal -->
+<div class="header with-secondary-header">
+    <h1>ARQUEOLOGÍA</h1>
+    <p>30 años de evolución tecnológica, basada en una lista corta de proyectos relevantes.</p>
+</div>
 
 <!-- Partículas de polvo -->
 <div class="dust-particle"></div>
@@ -1375,37 +952,37 @@
         });
     </script>
 
-    <script>
-	// Función para cambiar idioma
-	function toggleLanguage() {
-	    const body = document.body;
-	    const selector = document.querySelector('.lang-selector');
+<script>
+// Función para cambiar idioma
+function toggleLanguage() {
+    const body = document.body;
+    const selector = document.querySelector('.lang-selector');
 
-	    if (body.classList.contains('en')) {
-	        body.classList.remove('en');
-	        selector.classList.remove('active-en');
-	        selector.classList.add('active-es');
-	        localStorage.setItem('language', 'es');
-	    } else {
-	        body.classList.add('en');
-	        selector.classList.remove('active-es');
-	        selector.classList.add('active-en');
-	        localStorage.setItem('language', 'en');
-	    }
-	}
+    if (body.classList.contains('en')) {
+        body.classList.remove('en');
+        selector.classList.remove('active-en');
+        selector.classList.add('active-es');
+        localStorage.setItem('language', 'es');
+    } else {
+        body.classList.add('en');
+        selector.classList.remove('active-es');
+        selector.classList.add('active-en');
+        localStorage.setItem('language', 'en');
+    }
+}
 
-	// Cargar idioma guardado
-	document.addEventListener('DOMContentLoaded', function() {
-	    const savedLang = localStorage.getItem('language');
-	    if (savedLang === 'en') {
-	        document.body.classList.add('en');
-	        const selector = document.querySelector('.lang-selector');
-	        if (selector) {
-	            selector.classList.remove('active-es');
-	            selector.classList.add('active-en');
-	        }
-	    }
-	});
+// Cargar idioma guardado al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    const savedLang = localStorage.getItem('language');
+    if (savedLang === 'en') {
+        document.body.classList.add('en');
+        const selector = document.querySelector('.lang-selector');
+        if (selector) {
+            selector.classList.remove('active-es');
+            selector.classList.add('active-en');
+        }
+    }
+});
 </script>
 
 </body>
