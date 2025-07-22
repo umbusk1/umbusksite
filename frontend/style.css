@@ -281,7 +281,7 @@ body {
 .ticker-content {
     display: flex;
     align-items: center;
-    animation: ticker 30s linear infinite;
+    animation: ticker 15s linear infinite;
     white-space: nowrap;
     padding-left: 100%;
 }
@@ -537,7 +537,7 @@ body {
     }
     
     .ticker-content {
-        animation-duration: 20s; /* Más rápido en móvil */
+        animation-duration: 15s; /* Más rápido en móvil */
     }
 }
 

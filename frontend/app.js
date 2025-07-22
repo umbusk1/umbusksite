@@ -577,8 +577,27 @@ function initializeNavigationTicker() {
     let html = '';
 
 // Crear links de navegación
+// Solo mostrar las páginas que NO son la actual
+if (currentPage !== 'index.html') {
     html += '<span class="ticker-nav-item">';
     html += '<a href="index.html" class="ticker-nav-link">HOME</a>';
+    html += '</span>';
+    html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+}
+
+if (currentPage !== 'workflow.html') {
+    html += '<span class="ticker-nav-item">';
+    html += '<a href="workflow.html" class="ticker-nav-link">PROCESO</a>';
+    html += '</span>';
+    html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+}
+
+if (currentPage !== 'arqueologia.html') {
+    html += '<span class="ticker-nav-item">';
+    html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
+    html += '</span>';
+    html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+}
     html += '</span>';
     html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
 
