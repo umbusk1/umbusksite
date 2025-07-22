@@ -576,54 +576,24 @@ function initializeNavigationTicker() {
     // Crear HTML del ticker de navegación
     let html = '';
 
-    // Items de navegación con estilos inline para simplicidad
-    const navStyle = 'color: rgba(255, 255, 255, 0.7); text-decoration: none; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease; padding: 5px 10px;';
-    const activeStyle = 'color: #4CAF50; text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);';
+// Crear links de navegación
+    html += '<span class="ticker-nav-item">';
+    html += '<a href="index.html" class="ticker-nav-link">HOME</a>';
+    html += '</span>';
+    html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
 
-    html += `
-        <span class="ticker-nav-item">
-            <a href="index.html" style="${navStyle}${currentPage === 'index.html' ? activeStyle : ''}"
-               onmouseover="this.style.color='#4CAF50'"
-               onmouseout="this.style.color='${currentPage === 'index.html' ? '#4CAF50' : 'rgba(255, 255, 255, 0.7)}'">
-                HOME
-            </a>
-        </span>
-        <img src="imagenes/circulo.png" class="ticker-separator" alt="" style="width: 10px; height: 10px; margin: 0 20px;">
-        <span class="ticker-nav-item">
-            <a href="workflow.html" style="${navStyle}${currentPage === 'workflow.html' ? activeStyle : ''}"
-               onmouseover="this.style.color='#4CAF50'"
-               onmouseout="this.style.color='${currentPage === 'workflow.html' ? '#4CAF50' : 'rgba(255, 255, 255, 0.7)}'">
-                PROCESO
-            </a>
-        </span>
-        <img src="imagenes/circulo.png" class="ticker-separator" alt="" style="width: 10px; height: 10px; margin: 0 20px;">
-        <span class="ticker-nav-item">
-            <a href="arqueologia.html" style="${navStyle}${currentPage === 'arqueologia.html' ? activeStyle : ''}"
-               onmouseover="this.style.color='#4CAF50'"
-               onmouseout="this.style.color='${currentPage === 'arqueologia.html' ? '#4CAF50' : 'rgba(255, 255, 255, 0.7)}'">
-                ARQUEOLOGÍA
-            </a>
-        </span>
-        <img src="imagenes/circulo.png" class="ticker-separator" alt="" style="width: 10px; height: 10px; margin: 0 20px;">
-    `;
+    html += '<span class="ticker-nav-item">';
+    html += '<a href="workflow.html" class="ticker-nav-link">PROCESO</a>';
+    html += '</span>';
+    html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
 
-    // Duplicar el contenido para efecto continuo
-    tickerContent.innerHTML = html + html + html; // Triplicar para mejor efecto
-}
+    html += '<span class="ticker-nav-item">';
+    html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
+    html += '</span>';
+    html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
 
-// Inicialización
-window.addEventListener('load', () => {
-    // Solo si existe el canvas (en index.html)
-    if (canvas) {
-        resizeCanvas();
-        initComets();
-        animate();
-
-        // Mostrar status en desarrollo
-        if (CONFIG.USE_MOCK_DATA) {
-            updateConnectionStatus('Modo desarrollo (sin API)', true);
-        }
-    }
+    // Duplicar el contenido
+    tickerContent.innerHTML = html + html + html;
 
     // Inicializar ticker de navegación (funciona en todas las páginas)
     initializeNavigationTicker();
