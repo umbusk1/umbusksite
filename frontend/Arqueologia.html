@@ -493,10 +493,29 @@
 		    height: 5px;
 		    margin: 0 2px;
 		}
+		/* En páginas con header secundario */
+		.with-secondary-header .ticker-container {
+		    top: 90px; /* Ajustar según la altura del header */
+}
 
     </style>
 </head>
 <body class="arqueologia-page">
+
+<!-- Header con navegación -->
+<header class="header-secondary">
+    <div class="header-container">
+        <a href="index.html" class="back-link">
+            <span class="lang-es">← VOLVER AL INICIO</span>
+            <span class="lang-en" style="display:none;">← BACK TO HOME</span>
+        </a>
+        <a href="index.html">
+            <img src="imagenes/logo-umbusk.png" alt="Umbusk" class="logo-center">
+        </a>
+        <div class="lang-selector active-es" onclick="toggleLanguage()">ES / EN</div>
+    </div>
+</header>
+
 <!-- Partículas de polvo -->
 <div class="dust-particle"></div>
 <div class="dust-particle"></div>
@@ -509,27 +528,15 @@
 <div class="dust-particle"></div>
 <div class="dust-particle"></div>
 
-<!-- Luz superior -->
-<div class="arqueologia-light"></div>
-
-<!-- Sombras laterales -->
-<div class="arqueologia-shadows"></div>
-<!-- Logo -->
-<div class="header">
-<a href="index.html">
-<img alt="logo de Umbusk" height="60px" src="imagenes/logo-umbusk.png" width:"auto"=""/>
-</a>
-<div class="umbusk-watermark">UMBUSK</div>
+<!-- Ticker de navegación -->
+<div id="ticker-container" class="ticker-container">
+    <div class="ticker-content" id="ticker-content">
+        <!-- Se llenará dinámicamente desde app.js -->
+    </div>
 </div>
 
-    <!-- Marquesina y link a workflow-->
-    <div id="workflow-ticker" class="workflow-ticker">
-        <div class="ticker-content-workflow" id="ticker-content-workflow">
-        </div>
-    </div>
-
 <!-- Header -->
-<div class="header">
+<div class="main-content with-secondary-header">
 <h1>ARQUEOLOGÍA</h1>
 <p>30 años de evolución tecnológica, basada en una lista corta de proyectos relevantes.</p>
 </div>
@@ -1260,63 +1267,63 @@
 </div>
 
 <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <!-- Información de contacto -->
-            <div class="footer-section">
-                <h3 data-translate="footer-contact">CONTACTO</h3>
-                <div class="footer-info">
-                    <p>📍 Miami, FL, USA</p>
-                    <p>✉️ <a href="mailto:info@umbusk.com">info@umbusk.com</a></p>
-                    <p>🌐 <a href="https://umbusk.com">umbusk.com</a></p>
-                </div>
-            </div>
-
-            <!-- Enlaces de navegación -->
-            <div class="footer-section">
-                <h3 data-translate="footer-navigation">NAVEGACIÓN</h3>
-                <ul class="footer-nav">
-                    <li><a href="index.html">Home</a></li>
-                    <li>
-                        <a href="workflow.html">
-                            <span class="lang-es">Proceso de Trabajo</span>
-                            <span class="lang-en">Workflow Process</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="arqueologia.html">
-                            <span class="lang-es">Arqueología Digital</span>
-                            <span class="lang-en">Digital Archaeology</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Descripción -->
-            <div class="footer-section">
-                <h3>UMBUSK</h3>
-                <div class="footer-info">
-                    <p style="font-size: 13px; line-height: 1.6;" data-translate="footer-description">
-                        Donde las ideas cobran forma a través de la inteligencia artificial.
-                    </p>
-                </div>
-            </div>
-
-            <!-- QR WhatsApp -->
-            <div class="footer-section qr-section">
-                <img src="imagenes/qr-whatsapp.png" alt="WhatsApp QR" class="qr-code">
-                <p class="qr-label">WhatsApp Business</p>
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Información de contacto -->
+        <div class="footer-section">
+            <h3 data-translate="footer-contact">CONTACTO</h3>
+            <div class="footer-info">
+                <p>📍 Miami, FL, USA</p>
+                <p>✉️ <a href="mailto:info@umbusk.com">info@umbusk.com</a></p>
+                <p>🌐 <a href="https://umbusk.com">umbusk.com</a></p>
             </div>
         </div>
 
-        <!-- Copyright -->
-        <div class="footer-bottom">
-            <p class="copyright">© 2025 UMBUSK, LLC.
-                <span class="lang-es">Todos los derechos reservados.</span>
-                <span class="lang-en">All rights reserved.</span>
-            </p>
+        <!-- Enlaces de navegación -->
+        <div class="footer-section">
+            <h3 data-translate="footer-navigation">NAVEGACIÓN</h3>
+            <ul class="footer-nav">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="workflow.html">
+                        <span class="lang-es">Flujo de trabajo</span>
+                        <span class="lang-en">Workflow</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="arqueologia.html">
+                        <span class="lang-es">Arqueología</span>
+                        <span class="lang-en">Archaeology</span>
+                    </a>
+                </li>
+            </ul>
         </div>
-    </footer>
+
+        <!-- Descripción -->
+        <div class="footer-section">
+            <h3>UMBUSK</h3>
+            <div class="footer-info">
+                <p style="font-size: 13px; line-height: 1.6;" data-translate="footer-description">
+                    Donde las ideas cobran forma a través de la inteligencia artificial.
+                </p>
+            </div>
+        </div>
+
+        <!-- QR WhatsApp -->
+        <div class="footer-section qr-section">
+            <img src="imagenes/qr-whatsapp.png" alt="WhatsApp QR" class="qr-code">
+            <p class="qr-label">WhatsApp Business</p>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom">
+        <p class="copyright">© 2025 UMBUSK, LLC.
+            <span class="lang-es">Todos los derechos reservados.</span>
+            <span class="lang-en">All rights reserved.</span>
+        </p>
+    </div>
+</footer>
 
     <!-- Modal de imagen -->
     <div class="image-modal" id="imageModal" onclick="closeImage()">

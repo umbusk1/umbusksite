@@ -1076,3 +1076,335 @@ iframe#chatbase-iframe {
             color: #4CAF50;
             overflow-x: auto;
         }
+        
+                /* HEADER PARA ARQUEOLOGÍA Y WORKFLOW */
+	        .header-secondary {
+	            position: fixed;
+	            top: 0;
+	            left: 0;
+	            right: 0;
+	            background: rgba(0, 0, 0, 0.9);
+	            backdrop-filter: blur(10px);
+	            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	            z-index: 1000;
+	            padding: 20px 0;
+	        }
+	
+	        .header-container {
+	            max-width: 1400px;
+	            margin: 0 auto;
+	            padding: 0 40px;
+	            display: grid;
+	            grid-template-columns: 1fr auto 1fr;
+	            align-items: center;
+	            gap: 20px;
+	        }
+	
+	        /* Volver al inicio */
+	        .back-link {
+	            justify-self: start;
+	            color: rgba(255, 255, 255, 0.6);
+	            text-decoration: none;
+	            font-size: 13px;
+	            font-family: 'Helvetica Neue', sans-serif;
+	            letter-spacing: 1px;
+	            transition: all 0.3s ease;
+	            display: flex;
+	            align-items: center;
+	            gap: 8px;
+	        }
+	
+	        .back-link:hover {
+	            color: rgba(255, 255, 255, 0.9);
+	            transform: translateX(-5px);
+	        }
+	
+	        /* Logo centrado */
+	        .logo-center {
+	            justify-self: center;
+	            height: 50px;
+	            opacity: 0.9;
+	            transition: all 0.3s ease;
+	            cursor: pointer;
+	        }
+	
+	        .logo-center:hover {
+	            opacity: 1;
+	            transform: scale(1.05);
+	        }
+	
+	        /* Selector de idioma */
+	        .lang-selector {
+	            justify-self: end;
+	            color: rgba(255, 255, 255, 0.6);
+	            font-size: 13px;
+	            font-family: 'Helvetica Neue', sans-serif;
+	            letter-spacing: 1px;
+	            cursor: pointer;
+	            transition: all 0.3s ease;
+	            position: relative;
+	            user-select: none;
+	        }
+	
+	        .lang-selector:hover {
+	            color: rgba(255, 255, 255, 0.9);
+	        }
+	
+	        .lang-selector.active-es::after {
+	            content: '';
+	            position: absolute;
+	            bottom: -2px;
+	            left: 0;
+	            width: 15px;
+	            height: 1px;
+	            background: #4CAF50;
+	        }
+	
+	        .lang-selector.active-en::after {
+	            content: '';
+	            position: absolute;
+	            bottom: -2px;
+	            right: 0;
+	            width: 15px;
+	            height: 1px;
+	            background: #4CAF50;
+	        }
+	
+	        /* Selector de idioma para HOME */
+	        .lang-selector-home {
+	            position: fixed;
+	            top: 30px;
+	            right: 40px;
+	            color: rgba(255, 255, 255, 0.6);
+	            font-size: 13px;
+	            font-family: 'Helvetica Neue', sans-serif;
+	            letter-spacing: 1px;
+	            cursor: pointer;
+	            transition: all 0.3s ease;
+	            z-index: 100;
+	            user-select: none;
+	        }
+	
+	        .lang-selector-home:hover {
+	            color: rgba(255, 255, 255, 0.9);
+	        }
+	
+	        .lang-selector-home.active-es::after {
+	            content: '';
+	            position: absolute;
+	            bottom: -2px;
+	            left: 0;
+	            width: 15px;
+	            height: 1px;
+	            background: #4CAF50;
+	        }
+	
+	        .lang-selector-home.active-en::after {
+	            content: '';
+	            position: absolute;
+	            bottom: -2px;
+	            right: 0;
+	            width: 15px;
+	            height: 1px;
+	            background: #4CAF50;
+	        }
+	
+	        /* FOOTER COMÚN */
+	        .footer {
+	            background: rgba(0, 0, 0, 0.95);
+	            border-top: 1px solid rgba(255, 255, 255, 0.1);
+	            padding: 60px 0 40px;
+	            margin-top: 100px;
+	            position: relative;
+	            z-index: 50;
+	        }
+	
+	        .footer-container {
+	            max-width: 1200px;
+	            margin: 0 auto;
+	            padding: 0 40px;
+	            display: grid;
+	            grid-template-columns: 1fr 1fr 1fr 200px;
+	            gap: 60px;
+	            align-items: start;
+	        }
+	
+	        /* Información de contacto */
+	        .footer-section h3 {
+	            font-size: 14px;
+	            font-weight: 400;
+	            letter-spacing: 2px;
+	            margin-bottom: 20px;
+	            color: rgba(255, 255, 255, 0.8);
+	            text-transform: uppercase;
+	            font-family: 'Helvetica Neue', sans-serif;
+	        }
+	
+	        .footer-info {
+	            line-height: 1.8;
+	        }
+	
+	        .footer-info p {
+	            color: rgba(255, 255, 255, 0.6);
+	            font-size: 14px;
+	            margin-bottom: 10px;
+	            font-family: 'Helvetica Neue', sans-serif;
+	        }
+	
+	        .footer-info a {
+	            color: #4CAF50;
+	            text-decoration: none;
+	            transition: opacity 0.3s ease;
+	        }
+	
+	        .footer-info a:hover {
+	            opacity: 0.8;
+	        }
+	
+	        /* Enlaces de navegación */
+	        .footer-nav {
+	            list-style: none;
+	        }
+	
+	        .footer-nav li {
+	            margin-bottom: 12px;
+	        }
+	
+	        .footer-nav a {
+	            color: rgba(255, 255, 255, 0.6);
+	            text-decoration: none;
+	            font-size: 14px;
+	            font-family: 'Helvetica Neue', sans-serif;
+	            transition: all 0.3s ease;
+	            position: relative;
+	        }
+	
+	        .footer-nav a::after {
+	            content: '';
+	            position: absolute;
+	            bottom: -2px;
+	            left: 0;
+	            width: 0;
+	            height: 1px;
+	            background: #4CAF50;
+	            transition: width 0.3s ease;
+	        }
+	
+	        .footer-nav a:hover {
+	            color: rgba(255, 255, 255, 0.9);
+	        }
+	
+	        .footer-nav a:hover::after {
+	            width: 100%;
+	        }
+	
+	        /* QR Code */
+	        .qr-section {
+	            text-align: center;
+	        }
+	
+	        .qr-code {
+	            width: 150px;
+	            height: 150px;
+	            background: white;
+	            padding: 10px;
+	            border-radius: 10px;
+	            margin: 0 auto 15px;
+	            display: block;
+	        }
+	
+	        .qr-label {
+	            font-size: 12px;
+	            color: rgba(255, 255, 255, 0.5);
+	            font-family: 'Helvetica Neue', sans-serif;
+	        }
+	
+	        /* Copyright */
+	        .footer-bottom {
+	            margin-top: 60px;
+	            padding-top: 30px;
+	            border-top: 1px solid rgba(255, 255, 255, 0.05);
+	            text-align: center;
+	        }
+	
+	        .copyright {
+	            font-size: 12px;
+	            color: rgba(255, 255, 255, 0.4);
+	            font-family: 'Helvetica Neue', sans-serif;
+	            letter-spacing: 1px;
+	        }
+	
+	        /* Ajustes para páginas con header secundario */
+	        .with-secondary-header {
+	            padding-top: 100px;
+	        }
+	
+	        /* Responsive */
+	        @media (max-width: 1024px) {
+	            .footer-container {
+	                grid-template-columns: 1fr 1fr;
+	                gap: 40px;
+	            }
+	
+	            .qr-section {
+	                grid-column: span 2;
+	                margin: 0 auto;
+	            }
+	        }
+	
+	        @media (max-width: 768px) {
+	            .header-container {
+	                padding: 0 20px;
+	            }
+	
+	            .back-link {
+	                font-size: 11px;
+	            }
+	
+	            .logo-center {
+	                height: 40px;
+	            }
+	
+	            .lang-selector-home {
+	                top: 20px;
+	                right: 20px;
+	            }
+	
+	            .footer {
+	                margin-top: 50px;
+	                padding: 40px 0 30px;
+	            }
+	
+	            .footer-container {
+	                grid-template-columns: 1fr;
+	                gap: 40px;
+	                text-align: center;
+	                padding: 0 20px;
+	            }
+	
+	            .footer-nav {
+	                display: flex;
+	                justify-content: center;
+	                gap: 20px;
+	                flex-wrap: wrap;
+	            }
+	
+	            .footer-nav li {
+	                margin: 0;
+	            }
+	
+	            .qr-code {
+	                width: 120px;
+	                height: 120px;
+	            }
+	
+	            .with-secondary-header {
+	                padding-top: 80px;
+	            }
+	        }
+	
+	        /* Clases de traducción */
+	        .lang-en { display: none; }
+	        body.en .lang-es { display: none; }
+	        body.en .lang-en { display: block; }
+        body.en .lang-en-inline { display: inline; }
