@@ -58,7 +58,7 @@ export default async function handler(req, res) {
             "el espacio entre el pensamiento y la acción",
             "el diseño como puente que conecta ideas creativas con productos y servicios",
             "los prototipos como MVP que apoyan el desarrollo de negocios",
-            "Convertimos conceptos abstractos en experiencias concretas",
+            "Convertimos conceptos abstractos en artefactos capaces de producir experiencias concretas",
 			"Exploramos el cruce fértil entre creatividad humana y sistemas inteligentes",
 			"Cada proceso creativo es una travesía hacia lo desconocido",
 			"Innovar es probar, fallar, ajustar y volver a intentar",
