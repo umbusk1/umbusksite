@@ -22,14 +22,6 @@
             box-sizing: border-box;
         }
 
-        body.arqueologia-page {
-            font-family: 'Georgia', serif;
-            background: linear-gradient(to bottom, #0a0a0f 0%, #1a1a2e 50%, #2d2d44 100%);
-            color: #ffffff;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
         /* Título principal */
         .header {
             text-align: center;
@@ -472,63 +464,55 @@
         body.en .history-content .lang-en {
             display: block !important;
         }
-
-        /* Ajustar ticker para arqueología */
-        .arqueologia-page .ticker-container {
-            position: fixed;
-            top: 90px; /* Ajustado para estar debajo del header secundario */
-            z-index: 500; /* Menor que el header pero mayor que el contenido */
-        }
-
-        /* En páginas con header secundario */
-        .with-secondary-header .ticker-container {
-            top: 90px;
-        }
     </style>
 </head>
 <body class="arqueologia-page">
 
-    <!-- Header con navegación -->
+<!-- Partículas de polvo (PRIMERO para el fondo) -->
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+
+<!-- Luz arqueológica -->
+<div class="arqueologia-light"></div>
+<div class="arqueologia-shadows"></div>
+
+<!-- Header con navegación -->
+<header class="header-secondary">
     <div class="header-container">
-    	<a href="index.html" class="back-link">
-	     <span class="lang-es">← VOLVER AL INICIO</span>
-	     <span class="lang-en">← BACK TO HOME</span>
+        <a href="index.html" class="back-link">
+            <span class="lang-es">← VOLVER AL INICIO</span>
+            <span class="lang-en">← BACK TO HOME</span>
         </a>
-        <div>
-        <a href="index.html">
-    	<img src="imagenes/logo-umbusk.png" alt="logo de Umbusk" class="main-logo">
-    	</a>
-        <div class="umbusk-watermark">UMBUSK</div>
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="imagenes/logo-umbusk.png" alt="logo de Umbusk" class="logo-center">
+            </a>
+            <div class="umbusk-watermark">UMBUSK</div>
         </div>
+        <div class="lang-selector active-es" onclick="toggleLanguage()">ES / EN</div>
     </div>
-        <div class="lang-selector-home active-es" onclick="toggleLanguage()">ES / EN</div>
+</header>
+
+<!-- Ticker de navegación -->
+<div id="ticker-container" class="ticker-container">
+    <div class="ticker-content" id="ticker-content">
+        <!-- La navegación se llenará dinámicamente desde app.js -->
     </div>
+</div>
 
-    <!-- Ticker de navegación (reemplaza la marquesina de ideas) -->
-    <div id="ticker-container" class="ticker-container">
-        <div class="ticker-content" id="ticker-content">
-            <!-- La navegación se llenará dinámicamente desde app.js -->
-        </div>
-    </div>
-
-    <!-- Contenido principal -->
-
-<div class="header">
+<!-- Contenido principal -->
+<div class="header with-secondary-header">
     <h1>ARQUEOLOGÍA</h1>
     <p>30 años de evolución tecnológica, basada en una lista corta de proyectos relevantes.</p>
 </div>
-
-<!-- Partículas de polvo -->
-<div class="dust-particle"></div>
-<div class="dust-particle"></div>
-<div class="dust-particle"></div>
-<div class="dust-particle"></div>
-<div class="dust-particle"></div>
-<div class="dust-particle"></div>
-<div class="dust-particle"></div>
-<div class="dust-particle"></div>
-<div class="dust-particle"></div>
-<div class="dust-particle"></div>
 
 <div class="strata-container">
     <!-- Proyecto 1: Formación Smart (2025) -->
@@ -1261,7 +1245,10 @@
     <div class="footer-container">
         <!-- Información de contacto -->
         <div class="footer-section">
-            <h3 data-translate="footer-contact">CONTACTO</h3>
+            <h3>
+                <span class="lang-es">CONTACTO</span>
+                <span class="lang-en">CONTACT</span>
+            </h3>
             <div class="footer-info">
                 <p>📍 Miami, FL, USA</p>
                 <p>✉️ <a href="mailto:info@umbusk.com">info@umbusk.com</a></p>
@@ -1271,7 +1258,10 @@
 
         <!-- Enlaces de navegación -->
         <div class="footer-section">
-            <h3 data-translate="footer-navigation">NAVEGACIÓN</h3>
+            <h3>
+                <span class="lang-es">NAVEGACIÓN</span>
+                <span class="lang-en">NAVIGATION</span>
+            </h3>
             <ul class="footer-nav">
                 <li><a href="index.html">Home</a></li>
                 <li>
@@ -1293,8 +1283,9 @@
         <div class="footer-section">
             <h3>UMBUSK</h3>
             <div class="footer-info">
-                <p style="font-size: 13px; line-height: 1.6;" data-translate="footer-description">
-                    Donde las ideas cobran forma a través de la inteligencia artificial.
+                <p style="font-size: 13px; line-height: 1.6;">
+                    <span class="lang-es">Donde las ideas cobran forma a través de la inteligencia artificial.</span>
+                    <span class="lang-en">Where ideas take shape through artificial intelligence.</span>
                 </p>
             </div>
         </div>
