@@ -264,7 +264,7 @@ body.arqueologia-page {
 /* Ticker en páginas con header secundario */
 .arqueologia-page .ticker-container,
 .workflow-page .ticker-container {
-    top: 172px;
+    top: 118px;
     z-index: 500;
 }
 
@@ -1097,7 +1097,7 @@ body.arqueologia-page {
 /* HEADER PARA ARQUEOLOGÍA Y WORKFLOW */
 .header-secondary {
     position: fixed;
-    top: 0;
+    top: 172px;
     left: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.9);
@@ -1349,11 +1349,6 @@ body.arqueologia-page {
     color: rgba(255, 255, 255, 0.4);
     font-family: 'Helvetica Neue', sans-serif;
     letter-spacing: 1px;
-}
-
-/* Ajustes para páginas con header secundario */
-.secondary-header {
-    padding-top: 181px;
 }
 
 /* Responsive */
