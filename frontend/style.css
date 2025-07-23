@@ -1579,7 +1579,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 /* Estilo para los enlaces */
 .lang-selector-home a {
     text-decoration: none;
-    color: #333;     /* o el color que uses */
+    color: rgba(255, 255, 255, 0.6);
     padding: 5px;
     cursor: pointer;
 }
@@ -1599,6 +1599,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 .lang-selector-home.active-es a:first-child::after {
     content: '';
     position: absolute;
+    color: rgba(255, 255, 255, 1);
     bottom: -2px;
     left: 0;
     width: 100%;
@@ -1610,6 +1611,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 .lang-selector-home.active-en a:last-child::after {
     content: '';
     position: absolute;
+    color: rgba(255, 255, 255, 1);
     bottom: -2px;
     left: 0;
     width: 100%;
