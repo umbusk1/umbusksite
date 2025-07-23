@@ -140,7 +140,7 @@ body.arqueologia-page {
 }
 
 .umbusk-watermark {
-	justify-self: center;
+	left: 50%;
 	font-size: 14px;
 	opacity: 1;
 	letter-spacing: 3px;
@@ -358,7 +358,7 @@ body.arqueologia-page {
 /* Contenedor del historial */
 .history-container {
     position: fixed;
-    top: 10px;
+    top: 163px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -528,7 +528,7 @@ body.arqueologia-page {
     .history-container {
         width: 95%;
         padding: 15px;
-        top: 5px;
+        top: 82px;
         max-height: 90vh;
     }
     
