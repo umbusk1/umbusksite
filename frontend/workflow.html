@@ -1,275 +1,293 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umbusk - Proceso de Trabajo</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Arqueología - 30 años de evolución tecnológica según proyectos</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        /* Estilos específicos de Workflow que no están en styles.css */
+        /* Override para permitir scroll en arqueología */
+        body.arqueologia-page {
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            height: auto !important;
+            min-height: 100vh !important;
+            cursor: default !important;
+        }
+
+        /* Estilos específicos de arqueología */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #000;
-            color: #fff;
-            overflow-x: hidden;
-            line-height: 1.6;
+        /* Indicador de profundidad */
+        .depth-indicator {
+            position: fixed;
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 5;
         }
 
-        /* Canvas de partículas */
-        #particles-canvas {
+        .depth-line {
+            width: 2px;
+            flex: 1;
+            background: linear-gradient(to bottom,
+                rgba(255, 255, 255, 0.8) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0.1) 100%
+            );
+        }
+
+        .year-marker {
+            position: absolute;
+            left: -30px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Helvetica', sans-serif;
+        }
+
+        /* Contenedor de estratos */
+        .strata-container {
+            position: relative;
+            top: 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 10px;
+            margin-bottom: 80px;
+        }
+
+        /* Cada estrato */
+        .stratum {
+            margin-bottom: 80px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: emerge 1s ease forwards;
+        }
+
+        .stratum:nth-child(1) { animation-delay: 0.5s; }
+        .stratum:nth-child(2) { animation-delay: 0.7s; }
+        .stratum:nth-child(3) { animation-delay: 0.9s; }
+        .stratum:nth-child(4) { animation-delay: 1.1s; }
+        .stratum:nth-child(5) { animation-delay: 1.3s; }
+        .stratum:nth-child(6) { animation-delay: 1.5s; }
+        .stratum:nth-child(7) { animation-delay: 1.7s; }
+        .stratum:nth-child(8) { animation-delay: 1.9s; }
+
+        /* Tarjeta de proyecto */
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            gap: 30px;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(10px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Thumbnail de imagen */
+        .project-thumbnail {
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .project-thumbnail:hover {
+            transform: scale(1.05);
+        }
+
+        .project-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(30%) contrast(0.8);
+            transition: filter 0.3s ease;
+        }
+
+        .project-thumbnail:hover img {
+            filter: sepia(0%) contrast(1);
+        }
+
+        .project-thumbnail::after {
+            content: "🔍";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-thumbnail:hover::after {
+            opacity: 1;
+        }
+
+        /* Contenido del proyecto */
+        .project-content {
+            flex: 1;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .project-title {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Helvetica', sans-serif;
+        }
+
+        .project-description {
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        /* Ícono de detalles técnicos */
+        .tech-details-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tech-details-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .tech-details-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Empresa badge */
+        .company-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-family: 'Helvetica', sans-serif;
+        }
+
+        /* Modal de imagen */
+        .image-modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            opacity: 0.5;
-            z-index: 1;
-        }
-
-        /* Título de sección como Arqueología */
-        .page-header {
-            text-align: center;
-            padding: 20px 20px 80px;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Contenedor principal */
-        .main-container {
-            position: relative;
-            z-index: 10;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px 60px;
-        }
-
-        /* Etapas del proceso */
-        .workflow-container {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 100px;
-            position: relative;
-            flex-wrap: wrap;
-        }
-
-        /* Línea conectora */
-        .connector-line {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(to right, transparent, #1a365d, #164e63, #065f46, #1a365d, transparent);
-            z-index: 0;
-            opacity: 0.3;
-        }
-
-        .stage {
-            flex: 1;
-            min-width: 240px;
-            position: relative;
-            z-index: 1;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .stage:nth-child(1) { animation-delay: 0.3s; }
-        .stage:nth-child(2) { animation-delay: 0.4s; }
-        .stage:nth-child(3) { animation-delay: 0.5s; }
-        .stage:nth-child(4) { animation-delay: 0.6s; }
-        .stage:nth-child(5) { animation-delay: 0.7s; }
-
-        .stage-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px 25px;
-            height: 100%;
-            transition: all 0.4s ease;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
         }
 
-        .stage-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
+        .image-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .stage-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-10px);
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
-        .stage-card:hover::before {
-            opacity: 1;
-        }
-
-        .stage-number {
-            font-size: 4rem;
-            font-weight: 100;
-            line-height: 1;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #10b981 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            opacity: 0.8;
-        }
-
-        .stage-title {
-            font-size: 1.5rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-        }
-
-        .stage-subtitle {
-            font-size: 0.9rem;
-            color: #06b6d4;
-            margin-bottom: 20px;
-            font-weight: 400;
-            letter-spacing: 1px;
-        }
-
-        .stage-description {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 25px;
-            line-height: 1.8;
-        }
-
-        .stage-details {
+        /* Panel de detalles técnicos */
+        .tech-panel {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease;
+            transition: max-height 0.5s ease;
+            margin-top: 20px;
         }
 
-        .stage-card:hover .stage-details {
+        .tech-panel.active {
             max-height: 200px;
         }
 
-        .stage-details li {
-            font-size: 0.8rem;
-            color: #888;
-            margin-left: 20px;
-            margin-bottom: 8px;
-            list-style: none;
-            position: relative;
-            padding-left: 15px;
+        .tech-content {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.9em;
         }
 
-        .stage-details li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: #3b82f6;
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
         }
 
-        /* Características del proceso */
-        .process-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-bottom: 80px;
-        }
-
-        .feature {
-            text-align: center;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease 0.9s forwards;
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            display: block;
-            background: linear-gradient(135deg, #3b82f6, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .feature h3 {
-            font-size: 1.25rem;
-            font-weight: 300;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
-
-        .feature p {
-            font-size: 0.9rem;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* CTA */
-        .cta-section {
-            text-align: center;
-            padding: 60px 0;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease 1.1s forwards;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 18px 50px;
-            background: linear-gradient(135deg, #3b82f6, #06b6d4);
-            color: #000;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 500;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: left 0.3s ease;
-        }
-
-        .cta-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
-        .cta-note {
-            margin-top: 20px;
-            font-size: 0.85rem;
-            color: #666;
+        .tech-item {
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            font-size: 0.85em;
         }
 
         /* Animaciones */
-        @keyframes fadeInUp {
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes emerge {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -277,121 +295,200 @@
         }
 
         /* Responsive */
-        @media (max-width: 1024px) {
-            .workflow-container {
-                gap: 15px;
-            }
-
-            .connector-line {
+        @media (max-width: 768px) {
+            .depth-indicator {
                 display: none;
             }
-        }
 
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 20px 40px;
+            .strata-container {
+                padding: 0 20px;
             }
 
-            .page-header h1 {
-                font-size: 2.5rem;
-            }
-
-            .workflow-container {
+            .project-card {
                 flex-direction: column;
+                padding: 20px;
             }
 
-            .stage {
-                min-width: 100%;
+            .project-thumbnail {
+                width: 100%;
+                height: 200px;
             }
 
-            .process-features {
-                grid-template-columns: 1fr;
-                gap: 30px;
+            .header h1 {
+                font-size: 1.8em;
             }
+
         }
 
-        /* Mouse follower gradient */
-        .mouse-gradient {
-            position: fixed;
-            width: 400px;
-            height: 400px;
+        /* Ícono de historia del proyecto */
+        .project-history-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-            pointer-events: none;
-            opacity: 0.5;
-            z-index: 5;
-            transition: transform 0.2s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .project-history-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+
+        .project-history-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Panel de historia */
+        .history-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin-top: 20px;
+        }
+
+        .history-panel.active {
+            max-height: 496px;
+        }
+
+        .history-content {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .history-section {
+            margin-bottom: 20px;
+        }
+
+        .history-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .history-section h4 {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            font-weight: 400;
+        }
+
+        .history-section p {
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+        }
+
+        /* Ajustar el header para acomodar ambos íconos */
+        .project-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Sistema de idiomas mejorado */
+        .lang-en {
+            display: none !important;
+        }
+
+        body.en .lang-es {
+            display: none !important;
+        }
+
+        body.en .lang-en {
+            display: block !important;
+        }
+
+        /* Para elementos inline como span */
+        span.lang-en {
+            display: none !important;
+        }
+
+        body.en span.lang-es {
+            display: none !important;
+        }
+
+        body.en span.lang-en {
+            display: inline !important;
+        }
+
+        /* Para divs dentro de history-content */
+        .history-content .lang-en {
+            display: none !important;
+        }
+
+        body.en .history-content .lang-es {
+            display: none !important;
+        }
+
+        body.en .history-content .lang-en {
+            display: block !important;
         }
     </style>
 </head>
-<body>
-    <!-- Flecha arriba (oculta por defecto) -->
-    <a href="#top" class="scroll-top" id="scrollTop">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="18 15 12 9 6 15"></polyline>
-        </svg>
+<body class="arqueologia-page">
+
+<!-- Partículas de polvo (PRIMERO para el fondo) -->
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+<div class="dust-particle"></div>
+
+<!-- Luz arqueológica -->
+<div class="arqueologia-light"></div>
+<div class="arqueologia-shadows"></div>
+
+<!-- Selector de idioma (igual que en index.html) -->
+<div class="lang-selector-home active-es">
+    <a href="#" onclick="setLanguage('es'); return false;">ES</a>
+    <span>/</span>
+    <a href="#" onclick="setLanguage('en'); return false;">EN</a>
+</div>
+
+<!-- Back link posicionado de forma absoluta para no interferir -->
+<div class="back-link-arqueologia">
+    <a href="index.html">
+        <span class="lang-es">← VOLVER AL INICIO</span>
+        <span class="lang-en">← BACK TO HOME</span>
     </a>
+</div>
 
-    <!-- Header con navegación -->
-    <header class="header">
-        <nav class="nav-container">
-            <div class="nav-left">
-                <a href="index.html" class="nav-link">← VOLVER AL INICIO</a>
-            </div>
+<!-- Header exactamente igual que en index.html -->
+<div class="header">
+    <img src="imagenes/logo-umbusk.png" class="main-logo" alt="logo de Umbusk">
+    <div class="umbusk-watermark">UMBUSK</div>
+</div>
 
-            <div class="nav-center">
-                <img alt="logo de Umbusk" height="50px" src="imagenes/logo-umbusk.png" class="logo">
-                <div class="umbusk-watermark">UMBUSK</div>
-            </div>
-
-            <div class="nav-right">
-                <!-- Selector de idioma -->
-                <div class="lang-selector-home active-es">
-                    <a href="#" onclick="setLanguage('es'); return false;">ES</a>
-                    <span>/</span>
-                    <a href="#" onclick="setLanguage('en'); return false;">EN</a>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Canvas para partículas -->
-    <canvas id="particles-canvas"></canvas>
-
-    <!-- Ticker con navegación -->
-    <div class="ticker-wrapper">
-        <div class="ticker-content">
-            <span class="ticker-item">HOME</span>
-            <span class="ticker-separator">●</span>
-            <span class="ticker-item">WORKFLOW</span>
-            <span class="ticker-separator">●</span>
-            <span class="ticker-item">HOME</span>
-            <span class="ticker-separator">●</span>
-            <span class="ticker-item">WORKFLOW</span>
-            <span class="ticker-separator">●</span>
-            <span class="ticker-item">HOME</span>
-            <span class="ticker-separator">●</span>
-            <span class="ticker-item">WORKFLOW</span>
-            <span class="ticker-separator">●</span>
-        </div>
+<!-- Ticker exactamente igual que en index.html -->
+<div id="ticker-container" class="ticker-container">
+    <div class="ticker-content" id="ticker-content">
+        <!-- La navegación se llenará dinámicamente desde app.js -->
     </div>
+</div>
 
-    <!-- Gradiente que sigue al mouse -->
-    <div class="mouse-gradient" id="mouseGradient"></div>
-
-    <!-- Contenido principal -->
-    <main class="main-content">
-        <!-- Header de la página -->
-        <div class="page-header">
-            <h1 class="section-title">
-                <span class="es">FLUJO DE TRABAJO</span>
-                <span class="en">WORKFLOW</span>
-            </h1>
-            <p class="section-subtitle">
-                <span class="es">Un proceso orgánico y adaptativo donde la creatividad, el design thinking y la IA convergen para transformar ideas en realidades tangibles.</span>
-                <span class="en">An organic and adaptive process where creativity, design thinking and AI converge to transform ideas into tangible realities.</span>
-            </p>
-        </div>
+<!-- Título y subtítulo con el mismo espaciado -->
+<div class="arqueologia-title-section">
+<span class="lang-es">
+    <h1>FLUJO DE TRABAJO</h1>
+    <p>La creatividad, el design thinking y la IA convergen para transformar ideas en realidades tangibles.</p>
+    </span>
+    <span class="lang-en">
+    <h1>WORKFLOW</h1>
+    <p>Creativity, design thinking and AI converge to transform ideas into tangible realities.</p>
+    </span>
+</div>
 
         <div class="main-container">
             <!-- Workflow -->
@@ -402,29 +499,29 @@
                     <div class="stage-card">
                         <div class="stage-number">01</div>
                         <h2 class="stage-title">
-                            <span class="es">CHISPEAR</span>
-                            <span class="en">SPARK</span>
+                            <span class="lang-es">CHISPEAR</span>
+                            <span class="lang-en">SPARK</span>
                         </h2>
                         <p class="stage-subtitle">
-                            <span class="es">Ignición de Ideas</span>
-                            <span class="en">Idea Ignition</span>
+                            <span class="lang-es">Ignición de Ideas</span>
+                            <span class="lang-en">Idea Ignition</span>
                         </p>
                         <p class="stage-description">
-                            <span class="es">Primer contacto • Exploración • Visión compartida</span>
-                            <span class="en">First contact • Exploration • Shared vision</span>
+                            <span class="lang-es">Primer contacto • Exploración • Visión compartida</span>
+                            <span class="lang-en">First contact • Exploration • Shared vision</span>
                         </p>
                         <ul class="stage-details">
                             <li>
-                                <span class="es">Conversación inicial sin compromiso</span>
-                                <span class="en">Initial conversation without commitment</span>
+                                <span class="lang-es">Conversación inicial sin compromiso</span>
+                                <span class="lang-en">Initial conversation without commitment</span>
                             </li>
                             <li>
-                                <span class="es">Identificación de oportunidades con IA</span>
-                                <span class="en">AI-powered opportunity identification</span>
+                                <span class="lang-es">Identificación de oportunidades con IA</span>
+                                <span class="lang-en">AI-powered opportunity identification</span>
                             </li>
                             <li>
-                                <span class="es">Mapeo de posibilidades inexploradas</span>
-                                <span class="en">Mapping unexplored possibilities</span>
+                                <span class="lang-es">Mapeo de posibilidades inexploradas</span>
+                                <span class="lang-en">Mapping unexplored possibilities</span>
                             </li>
                         </ul>
                     </div>
@@ -434,29 +531,29 @@
                     <div class="stage-card">
                         <div class="stage-number">02</div>
                         <h2 class="stage-title">
-                            <span class="es">SINTETIZAR</span>
-                            <span class="en">SYNTHESIZE</span>
+                            <span class="lang-es">SINTETIZAR</span>
+                            <span class="lang-en">SYNTHESIZE</span>
                         </h2>
                         <p class="stage-subtitle">
-                            <span class="es">Fusión Inteligente</span>
-                            <span class="en">Intelligent Fusion</span>
+                            <span class="lang-es">Fusión Inteligente</span>
+                            <span class="lang-en">Intelligent Fusion</span>
                         </p>
                         <p class="stage-description">
-                            <span class="es">Análisis IA • Arquitectura • Estrategia</span>
-                            <span class="en">AI Analysis • Architecture • Strategy</span>
+                            <span class="lang-es">Análisis IA • Arquitectura • Estrategia</span>
+                            <span class="lang-en">AI Analysis • Architecture • Strategy</span>
                         </p>
                         <ul class="stage-details">
                             <li>
-                                <span class="es">Procesamiento con modelos de IA</span>
-                                <span class="en">Processing with AI models</span>
+                                <span class="lang-es">Procesamiento con modelos de IA</span>
+                                <span class="lang-en">Processing with AI models</span>
                             </li>
                             <li>
-                                <span class="es">Generación de múltiples caminos</span>
-                                <span class="en">Multiple pathway generation</span>
+                                <span class="lang-es">Generación de múltiples caminos</span>
+                                <span class="lang-en">Multiple pathway generation</span>
                             </li>
                             <li>
-                                <span class="es">Definición de alcance adaptativo</span>
-                                <span class="en">Adaptive scope definition</span>
+                                <span class="lang-es">Definición de alcance adaptativo</span>
+                                <span class="lang-en">Adaptive scope definition</span>
                             </li>
                         </ul>
                     </div>
@@ -466,29 +563,29 @@
                     <div class="stage-card">
                         <div class="stage-number">03</div>
                         <h2 class="stage-title">
-                            <span class="es">PROTOTIPAR</span>
-                            <span class="en">PROTOTYPE</span>
+                            <span class="lang-es">PROTOTIPAR</span>
+                            <span class="lang-en">PROTOTYPE</span>
                         </h2>
                         <p class="stage-subtitle">
-                            <span class="es">Materialización Rápida</span>
-                            <span class="en">Rapid Materialization</span>
+                            <span class="lang-es">Materialización Rápida</span>
+                            <span class="lang-en">Rapid Materialization</span>
                         </p>
                         <p class="stage-description">
-                            <span class="es">Iteración • Refinamiento • Co-creación</span>
-                            <span class="en">Iteration • Refinement • Co-creation</span>
+                            <span class="lang-es">Iteración • Refinamiento • Co-creación</span>
+                            <span class="lang-en">Iteration • Refinement • Co-creation</span>
                         </p>
                         <ul class="stage-details">
                             <li>
-                                <span class="es">Prototipos generados por IA</span>
-                                <span class="en">AI-generated prototypes</span>
+                                <span class="lang-es">Prototipos generados por IA</span>
+                                <span class="lang-en">AI-generated prototypes</span>
                             </li>
                             <li>
-                                <span class="es">Ciclos rápidos de mejora</span>
-                                <span class="en">Rapid improvement cycles</span>
+                                <span class="lang-es">Ciclos rápidos de mejora</span>
+                                <span class="lang-en">Rapid improvement cycles</span>
                             </li>
                             <li>
-                                <span class="es">Colaboración en tiempo real</span>
-                                <span class="en">Real-time collaboration</span>
+                                <span class="lang-es">Colaboración en tiempo real</span>
+                                <span class="lang-en">Real-time collaboration</span>
                             </li>
                         </ul>
                     </div>
@@ -498,29 +595,29 @@
                     <div class="stage-card">
                         <div class="stage-number">04</div>
                         <h2 class="stage-title">
-                            <span class="es">VALIDAR</span>
-                            <span class="en">VALIDATE</span>
+                            <span class="lang-es">VALIDAR</span>
+                            <span class="lang-en">VALIDATE</span>
                         </h2>
                         <p class="stage-subtitle">
-                            <span class="es">Evolución Continua</span>
-                            <span class="en">Continuous Evolution</span>
+                            <span class="lang-es">Evolución Continua</span>
+                            <span class="lang-en">Continuous Evolution</span>
                         </p>
                         <p class="stage-description">
-                            <span class="es">Testing • Datos • Optimización</span>
-                            <span class="en">Testing • Data • Optimization</span>
+                            <span class="lang-es">Testing • Datos • Optimización</span>
+                            <span class="lang-en">Testing • Data • Optimization</span>
                         </p>
                         <ul class="stage-details">
                             <li>
-                                <span class="es">Pruebas con usuarios reales</span>
-                                <span class="en">Testing with real users</span>
+                                <span class="lang-es">Pruebas con usuarios reales</span>
+                                <span class="lang-en">Testing with real users</span>
                             </li>
                             <li>
-                                <span class="es">Análisis predictivo de resultados</span>
-                                <span class="en">Predictive results analysis</span>
+                                <span class="lang-es">Análisis predictivo de resultados</span>
+                                <span class="lang-en">Predictive results analysis</span>
                             </li>
                             <li>
-                                <span class="es">Ajustes basados en aprendizaje</span>
-                                <span class="en">Learning-based adjustments</span>
+                                <span class="lang-es">Ajustes basados en aprendizaje</span>
+                                <span class="lang-en">Learning-based adjustments</span>
                             </li>
                         </ul>
                     </div>
@@ -530,29 +627,29 @@
                     <div class="stage-card">
                         <div class="stage-number">05</div>
                         <h2 class="stage-title">
-                            <span class="es">IMPLEMENTAR</span>
-                            <span class="en">IMPLEMENT</span>
+                            <span class="lang-es">IMPLEMENTAR</span>
+                            <span class="lang-en">IMPLEMENT</span>
                         </h2>
                         <p class="stage-subtitle">
-                            <span class="es">Lanzamiento Estratégico</span>
-                            <span class="en">Strategic Launch</span>
+                            <span class="lang-es">Lanzamiento Estratégico</span>
+                            <span class="lang-en">Strategic Launch</span>
                         </p>
                         <p class="stage-description">
-                            <span class="es">MVP • Sistema completo • Escalabilidad</span>
-                            <span class="en">MVP • Complete system • Scalability</span>
+                            <span class="lang-es">MVP • Sistema completo • Escalabilidad</span>
+                            <span class="lang-en">MVP • Complete system • Scalability</span>
                         </p>
                         <ul class="stage-details">
                             <li>
-                                <span class="es">Implementación gradual o completa</span>
-                                <span class="en">Gradual or complete implementation</span>
+                                <span class="lang-es">Implementación gradual o completa</span>
+                                <span class="lang-en">Gradual or complete implementation</span>
                             </li>
                             <li>
-                                <span class="es">Documentación inteligente</span>
-                                <span class="en">Intelligent documentation</span>
+                                <span class="lang-es">Documentación inteligente</span>
+                                <span class="lang-en">Intelligent documentation</span>
                             </li>
                             <li>
-                                <span class="es">Soporte para crecimiento futuro</span>
-                                <span class="en">Future growth support</span>
+                                <span class="lang-es">Soporte para crecimiento futuro</span>
+                                <span class="lang-en">Future growth support</span>
                             </li>
                         </ul>
                     </div>
@@ -564,77 +661,113 @@
                 <div class="feature">
                     <span class="feature-icon">∞</span>
                     <h3>
-                        <span class="es">Proceso Iterativo</span>
-                        <span class="en">Iterative Process</span>
+                        <span class="lang-es">Proceso Iterativo</span>
+                        <span class="lang-en">Iterative Process</span>
                     </h3>
                     <p>
-                        <span class="es">Ciclos continuos de mejora entre prototipo y validación, permitiendo ajustes ágiles basados en feedback real.</span>
-                        <span class="en">Continuous improvement cycles between prototype and validation, allowing agile adjustments based on real feedback.</span>
+                        <span class="lang-es">Ciclos continuos de mejora entre prototipo y validación, permitiendo ajustes ágiles basados en feedback real.</span>
+                        <span class="lang-en">Continuous improvement cycles between prototype and validation, allowing agile adjustments based on real feedback.</span>
                     </p>
                 </div>
                 <div class="feature">
                     <span class="feature-icon">⟳</span>
                     <h3>
-                        <span class="es">Flujo Adaptativo</span>
-                        <span class="en">Adaptive Flow</span>
+                        <span class="lang-es">Flujo Adaptativo</span>
+                        <span class="lang-en">Adaptive Flow</span>
                     </h3>
                     <p>
-                        <span class="es">Múltiples caminos según la complejidad del proyecto, con bifurcaciones inteligentes en cada etapa.</span>
-                        <span class="en">Multiple paths according to project complexity, with intelligent branching at each stage.</span>
+                        <span class="lang-es">Múltiples caminos según la complejidad del proyecto, con bifurcaciones inteligentes en cada etapa.</span>
+                        <span class="lang-en">Multiple paths according to project complexity, with intelligent branching at each stage.</span>
                     </p>
                 </div>
                 <div class="feature">
                     <span class="feature-icon">◈</span>
                     <h3>
-                        <span class="es">Colaboración Continua</span>
-                        <span class="en">Continuous Collaboration</span>
+                        <span class="lang-es">Colaboración Continua</span>
+                        <span class="lang-en">Continuous Collaboration</span>
                     </h3>
                     <p>
-                        <span class="es">El cliente puede aportar ideas y feedback en cualquier momento del proceso, enriqueciendo el resultado final.</span>
-                        <span class="en">The client can contribute ideas and feedback at any point in the process, enriching the final result.</span>
+                        <span class="lang-es">El cliente puede aportar ideas y feedback en cualquier momento del proceso, enriqueciendo el resultado final.</span>
+                        <span class="lang-en">The client can contribute ideas and feedback at any point in the process, enriching the final result.</span>
                     </p>
                 </div>
-            </section>
-
-            <!-- CTA -->
-            <section class="cta-section">
-                <a href="index.html#contact" class="cta-button">
-                    <span class="es">INICIAR CONVERSACIÓN</span>
-                    <span class="en">START CONVERSATION</span>
-                </a>
-                <p class="cta-note">
-                    <span class="es">Sin compromiso • Respuesta en 24h • Proceso transparente</span>
-                    <span class="en">No commitment • Response in 24h • Transparent process</span>
-                </p>
             </section>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="index.html" class="footer-link">
-                    <span class="es">Inicio</span>
-                    <span class="en">Home</span>
-                </a>
-                <span class="footer-separator">•</span>
-                <a href="arqueologia.html" class="footer-link">
-                    <span class="es">Arqueología</span>
-                    <span class="en">Archaeology</span>
-                </a>
-                <span class="footer-separator">•</span>
-                <a href="workflow.html" class="footer-link">
-                    <span class="es">Flujo de Trabajo</span>
-                    <span class="en">Workflow</span>
-                </a>
-            </div>
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Información de contacto -->
+        <div class="footer-section">
+            <h3>
+                <span class="lang-es">CONTACTO</span>
+                <span class="lang-en">CONTACT</span>
+            </h3>
             <div class="footer-info">
-                <p>&copy; 2024 Umbusk, LLC. <span class="es">Todos los derechos reservados.</span><span class="en">All rights reserved.</span></p>
+                <p>📍 Miami, FL, USA</p>
+                <p>✉️ <a href="mailto:info@umbusk.com">info@umbusk.com</a></p>
+                <p>🌐 <a href="https://umbusk.com">umbusk.com</a></p>
             </div>
         </div>
-    </footer>
 
+        <!-- Enlaces de navegación -->
+        <div class="footer-section">
+            <h3>
+                <span class="lang-es">NAVEGACIÓN</span>
+                <span class="lang-en">NAVIGATION</span>
+            </h3>
+            <ul class="footer-nav">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="workflow.html">
+                        <span class="lang-es">Flujo de trabajo</span>
+                        <span class="lang-en">Workflow</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="arqueologia.html">
+                        <span class="lang-es">Arqueología</span>
+                        <span class="lang-en">Archaeology</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Descripción -->
+        <div class="footer-section">
+            <h3>UMBUSK</h3>
+            <div class="footer-info">
+                <p style="font-size: 13px; line-height: 1.6;">
+                    <span class="lang-es">Donde las ideas cobran forma a través de la inteligencia artificial.</span>
+                    <span class="lang-en">Where ideas take shape through artificial intelligence.</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- QR WhatsApp -->
+        <div class="footer-section qr-section">
+            <img src="imagenes/qr-whatsapp.png" alt="WhatsApp QR" class="qr-code">
+            <p class="qr-label">WhatsApp Business</p>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom">
+        <p class="copyright">© 2025 UMBUSK, LLC.
+            <span class="lang-es">Todos los derechos reservados.</span>
+            <span class="lang-en">All rights reserved.</span>
+        </p>
+    </div>
+</footer>
+
+<!-- Modal de imagen -->
+<div class="image-modal" id="imageModal" onclick="closeImage()">
+    <img alt="" id="modalImage" src=""/>
+</div>
+
+<!-- Scripts -->
+<script src="app.js"></script>
     <script>
         // Sistema de partículas
         const canvas = document.getElementById('particles-canvas');
@@ -722,6 +855,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
-    <script src="app.js"></script>
+
 </body>
 </html>
