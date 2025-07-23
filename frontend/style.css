@@ -1352,7 +1352,7 @@ body.arqueologia-page {
 }
 
 /* Ajustes para páginas con header secundario */
-.with-secondary-header {
+.secondary-header {
     padding-top: 100px;
 }
 
@@ -1415,9 +1415,6 @@ body.arqueologia-page {
         height: 120px;
     }
 
-    .with-secondary-header {
-        padding-top: 80px;
-    }
 }
 
 /* Clases de traducción */
@@ -1431,11 +1428,6 @@ body.en .lang-en-inline { display: inline; }
 body.en .lang-es-inline { display: none; }
 body.en .lang-en-inline { display: inline; }
 
-/* Ajuste para el header principal en arqueología */
-.arqueologia-page .header.with-secondary-header {
-    margin-top: 0;
-    padding-top: 40px;
-}
 
 /* Fix para el z-index del header secundario */
 .header-secondary {
