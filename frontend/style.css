@@ -245,7 +245,6 @@ body.arqueologia-page {
 
 /* TICKER DE NAVEGACIÓN (actualizado) */
 .ticker-container {
-    position: fixed;
     top: 172px;
     left: 50%;
     transform: translateX(-50%);
