@@ -1486,9 +1486,15 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 /* Estilos para el back link posicionado de forma absoluta */
 .back-link-arqueologia {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1000;
+        top: 30px;
+        left: 40px;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 13px;
+        font-family: 'Helvetica Neue', sans-serif;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 100;
 }
 
 .back-link-arqueologia a {
