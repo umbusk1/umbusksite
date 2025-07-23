@@ -1116,6 +1116,11 @@ body.arqueologia-page {
     gap: 20px;
 }
 
+.text-header-secondary {
+    display: flex;
+    align-items: center;
+}
+
 /* Volver al inicio */
 .back-link {
     justify-self: start;
