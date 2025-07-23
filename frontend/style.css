@@ -1562,3 +1562,57 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     width: 15px;
     height: 1px;
 }
+
+/* Agrega estos estilos a tu CSS para corregir la visualización */
+
+/* Asegurar que el selector se vea correctamente */
+.lang-selector-home {
+    position: fixed;  /* o absolute si prefieres */
+    top: 20px;       /* ajusta según necesites */
+    right: 20px;     /* para que aparezca a la derecha */
+    z-index: 1000;   /* para que esté encima de otros elementos */
+    display: flex;
+    align-items: center;
+    gap: 5px;        /* espacio entre ES / EN */
+}
+
+/* Estilo para los enlaces */
+.lang-selector-home a {
+    text-decoration: none;
+    color: #333;     /* o el color que uses */
+    padding: 5px;
+    cursor: pointer;
+}
+
+/* Asegurar que el separador "/" se vea */
+.lang-selector-home {
+    font-size: 14px; /* ajusta el tamaño según necesites */
+}
+
+/* Corregir el posicionamiento del subrayado */
+.lang-selector-home a {
+    position: relative;
+    display: inline-block;
+}
+
+/* Subrayado para ES activo */
+.lang-selector-home.active-es a:first-child::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #00a8ff;
+}
+
+/* Subrayado para EN activo */
+.lang-selector-home.active-en a:last-child::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #00a8ff;
+}
