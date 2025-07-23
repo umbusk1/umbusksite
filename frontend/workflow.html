@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umbusk - Flujo de Trabajo</title>
+    <title>Umbusk - Proceso de Trabajo</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* Reset y estilos base */
+        /* Estilos específicos de Workflow que no están en styles.css */
         * {
             margin: 0;
             padding: 0;
@@ -16,150 +17,40 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #000;
             color: #fff;
-            line-height: 1.6;
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Ocultar textos según idioma */
-        .en { display: none; }
-        body.en .es { display: none; }
-        body.en .en { display: block; }
-
-        /* Header */
-        .header {
+        /* Canvas de partículas */
+        #particles-canvas {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.5;
+            z-index: 1;
         }
 
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .nav-left, .nav-center, .nav-right {
-            flex: 1;
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-center {
-            justify-content: center;
-        }
-
-        .nav-right {
-            justify-content: flex-end;
-        }
-
-        /* Home icon */
-        .home-icon {
-            color: #666;
-            transition: color 0.3s ease;
-            text-decoration: none;
-        }
-
-        .home-icon:hover {
-            color: #fff;
-        }
-
-        .home-icon svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        /* Logo */
-        .logo {
-            height: 40px;
-            width: auto;
-        }
-
-        /* Language selector */
-        .lang-selector-home {
-            position: relative;
-            color: #666;
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-
-        .lang-selector-home a {
-            color: #666;
-            text-decoration: none;
-            transition: color 0.3s ease;
-            padding: 0 2px;
-        }
-
-        .lang-selector-home a:hover {
-            color: #fff;
-        }
-
-        .lang-selector-home span {
-            color: #666;
-            margin: 0 5px;
-        }
-
-        /* Subrayado activo */
-        .lang-selector-home.active-es a:first-child::after,
-        .lang-selector-home.active-en a:last-child::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 15px;
-            height: 2px;
-            background: #00a8ff;
-        }
-
-        .lang-selector-home.active-en a:last-child::after {
-            left: auto;
-            right: 0;
-        }
-
-        /* Main content */
-        .main-content {
-            margin-top: 80px;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px;
-        }
-
-        /* Page header */
+        /* Título de sección como Arqueología */
         .page-header {
             text-align: center;
-            margin-bottom: 80px;
+            padding: 20px 20px 80px;
+            position: relative;
+            z-index: 10;
         }
 
-        .section-title {
-            font-size: 3.5rem;
-            font-weight: 200;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #fff 0%, #666 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: #666;
-            max-width: 800px;
+        /* Contenedor principal */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
             margin: 0 auto;
-            line-height: 1.8;
+            padding: 0 40px 60px;
         }
 
-        /* Workflow específico */
+        /* Etapas del proceso */
         .workflow-container {
             display: flex;
             gap: 20px;
@@ -168,6 +59,7 @@
             flex-wrap: wrap;
         }
 
+        /* Línea conectora */
         .connector-line {
             position: absolute;
             top: 50%;
@@ -290,12 +182,12 @@
             color: #3b82f6;
         }
 
-        /* Process features */
+        /* Características del proceso */
         .process-features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
-            margin: 80px 0;
+            margin-bottom: 80px;
         }
 
         .feature {
@@ -350,9 +242,24 @@
             overflow: hidden;
         }
 
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+        }
+
         .cta-button:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
         }
 
         .cta-note {
@@ -361,7 +268,7 @@
             color: #666;
         }
 
-        /* Animations */
+        /* Animaciones */
         @keyframes fadeInUp {
             to {
                 opacity: 1;
@@ -369,69 +276,56 @@
             }
         }
 
-        /* Scroll to top */
-        .scroll-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            text-decoration: none;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 999;
-        }
-
-        .scroll-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .scroll-top:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            transform: translateY(-3px);
-        }
-
         /* Responsive */
         @media (max-width: 1024px) {
             .workflow-container {
                 gap: 15px;
             }
+
             .connector-line {
                 display: none;
             }
         }
 
         @media (max-width: 768px) {
-            .nav-container {
-                padding: 15px 20px;
+            .main-container {
+                padding: 0 20px 40px;
             }
-            .section-title {
+
+            .page-header h1 {
                 font-size: 2.5rem;
             }
+
             .workflow-container {
                 flex-direction: column;
             }
+
             .stage {
                 min-width: 100%;
             }
+
             .process-features {
                 grid-template-columns: 1fr;
+                gap: 30px;
             }
+        }
+
+        /* Mouse follower gradient */
+        .mouse-gradient {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+            opacity: 0.5;
+            z-index: 5;
+            transition: transform 0.2s ease-out;
         }
     </style>
 </head>
 <body>
-    <!-- Flecha arriba -->
+    <!-- Flecha arriba (oculta por defecto) -->
     <a href="#top" class="scroll-top" id="scrollTop">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="18 15 12 9 6 15"></polyline>
@@ -442,19 +336,16 @@
     <header class="header">
         <nav class="nav-container">
             <div class="nav-left">
-                <a href="index.html" class="home-icon" aria-label="Volver al inicio">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                    </svg>
-                </a>
+                <a href="index.html" class="nav-link">← VOLVER AL INICIO</a>
             </div>
 
             <div class="nav-center">
-                <img alt="logo de Umbusk" height="40" src="imagenes/logo-umbusk.png" class="logo">
+                <img alt="logo de Umbusk" height="50px" src="imagenes/logo-umbusk.png" class="logo">
+                <div class="umbusk-watermark">UMBUSK</div>
             </div>
 
             <div class="nav-right">
+                <!-- Selector de idioma -->
                 <div class="lang-selector-home active-es">
                     <a href="#" onclick="setLanguage('es'); return false;">ES</a>
                     <span>/</span>
@@ -464,20 +355,45 @@
         </nav>
     </header>
 
-    <main class="main-content">
-        <div class="container">
-            <!-- Título de la sección -->
-            <div class="page-header">
-                <h1 class="section-title">
-                    <span class="es">Flujo de Trabajo</span>
-                    <span class="en">Workflow</span>
-                </h1>
-                <p class="section-subtitle">
-                    <span class="es">Un proceso orgánico y adaptativo donde la creatividad, el design thinking y la IA convergen para transformar ideas en realidades tangibles.</span>
-                    <span class="en">An organic and adaptive process where creativity, design thinking and AI converge to transform ideas into tangible realities.</span>
-                </p>
-            </div>
+    <!-- Canvas para partículas -->
+    <canvas id="particles-canvas"></canvas>
 
+    <!-- Ticker con navegación -->
+    <div class="ticker-wrapper">
+        <div class="ticker-content">
+            <span class="ticker-item">HOME</span>
+            <span class="ticker-separator">●</span>
+            <span class="ticker-item">WORKFLOW</span>
+            <span class="ticker-separator">●</span>
+            <span class="ticker-item">HOME</span>
+            <span class="ticker-separator">●</span>
+            <span class="ticker-item">WORKFLOW</span>
+            <span class="ticker-separator">●</span>
+            <span class="ticker-item">HOME</span>
+            <span class="ticker-separator">●</span>
+            <span class="ticker-item">WORKFLOW</span>
+            <span class="ticker-separator">●</span>
+        </div>
+    </div>
+
+    <!-- Gradiente que sigue al mouse -->
+    <div class="mouse-gradient" id="mouseGradient"></div>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Header de la página -->
+        <div class="page-header">
+            <h1 class="section-title">
+                <span class="es">FLUJO DE TRABAJO</span>
+                <span class="en">WORKFLOW</span>
+            </h1>
+            <p class="section-subtitle">
+                <span class="es">Un proceso orgánico y adaptativo donde la creatividad, el design thinking y la IA convergen para transformar ideas en realidades tangibles.</span>
+                <span class="en">An organic and adaptive process where creativity, design thinking and AI converge to transform ideas into tangible realities.</span>
+            </p>
+        </div>
+
+        <div class="main-container">
             <!-- Workflow -->
             <section class="workflow-container">
                 <div class="connector-line"></div>
@@ -694,8 +610,103 @@
         </div>
     </main>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">
+                    <span class="es">Inicio</span>
+                    <span class="en">Home</span>
+                </a>
+                <span class="footer-separator">•</span>
+                <a href="arqueologia.html" class="footer-link">
+                    <span class="es">Arqueología</span>
+                    <span class="en">Archaeology</span>
+                </a>
+                <span class="footer-separator">•</span>
+                <a href="workflow.html" class="footer-link">
+                    <span class="es">Flujo de Trabajo</span>
+                    <span class="en">Workflow</span>
+                </a>
+            </div>
+            <div class="footer-info">
+                <p>&copy; 2024 Umbusk, LLC. <span class="es">Todos los derechos reservados.</span><span class="en">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // Scroll to top button
+        // Sistema de partículas
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        const particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Crear partículas
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 3 + 1
+            });
+        }
+
+        function animateParticles() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach((particle, i) => {
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+
+                if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
+                if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(59, 130, 246, ${0.1 + (particle.size / 4) * 0.2})`;
+                ctx.fill();
+
+                // Conectar partículas cercanas
+                particles.forEach((other, j) => {
+                    if (i !== j) {
+                        const dx = particle.x - other.x;
+                        const dy = particle.y - other.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(particle.x, particle.y);
+                            ctx.lineTo(other.x, other.y);
+                            ctx.strokeStyle = `rgba(59, 130, 246, ${0.1 * (1 - distance / 100)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                });
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        // Mouse follower
+        const mouseGradient = document.getElementById('mouseGradient');
+        document.addEventListener('mousemove', (e) => {
+            mouseGradient.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`;
+        });
+
+        // Scroll to top
         const scrollTop = document.getElementById('scrollTop');
 
         window.addEventListener('scroll', () => {
