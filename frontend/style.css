@@ -21,6 +21,15 @@ body {
     cursor: crosshair;
 }
 
+/* Override para páginas específicas */
+body.arqueologia-page {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    cursor: default !important;
+}
+
 /* Canvas del cosmos */
 #cosmos {
     position: absolute;
@@ -249,6 +258,13 @@ body {
     font-family: 'Monaco', 'Courier New', monospace;
     font-size: 13px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Ticker en páginas con header secundario */
+.arqueologia-page .ticker-container,
+.workflow-page .ticker-container {
+    top: 90px;
+    z-index: 500;
 }
 
 /* Responsive widths para el ticker */
@@ -825,632 +841,632 @@ iframe#chatbase-iframe {
     }
 }
 
-        /* ESTILOS PARA AGREGAR A ARQUEOLOGÍA */
-        
-        /* Fondo base con gradiente de profundidad */
-        body.arqueologia-page {
-            background: linear-gradient(
-                180deg,
-                #1a1a1f 0%,        /* Superficie - gris azulado claro */
-                #141418 15%,       /* Primera capa */
-                #0f0f12 30%,       /* Segunda capa */
-                #0a0a0d 50%,       /* Tercera capa */
-                #050507 75%,       /* Cuarta capa */
-                #000000 100%       /* Profundidad máxima */
-            );
-            position: relative;
-            overflow-x: hidden;
-        }
+/* ESTILOS PARA AGREGAR A ARQUEOLOGÍA */
 
-        /* Capas de estratos geológicos */
-        .arqueologia-page::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                /* Líneas horizontales de estratos */
-                linear-gradient(180deg, 
-                    transparent 0%, 
-                    transparent 14.9%, 
-                    rgba(255, 255, 255, 0.02) 15%, 
-                    transparent 15.1%,
-                    transparent 29.9%,
-                    rgba(255, 255, 255, 0.015) 30%,
-                    transparent 30.1%,
-                    transparent 49.9%,
-                    rgba(255, 255, 255, 0.01) 50%,
-                    transparent 50.1%,
-                    transparent 74.9%,
-                    rgba(255, 255, 255, 0.008) 75%,
-                    transparent 75.1%
-                );
-            pointer-events: none;
-            z-index: 1;
-        }
+/* Fondo base con gradiente de profundidad */
+body.arqueologia-page {
+    background: linear-gradient(
+        180deg,
+        #1a1a1f 0%,        /* Superficie - gris azulado claro */
+        #141418 15%,       /* Primera capa */
+        #0f0f12 30%,       /* Segunda capa */
+        #0a0a0d 50%,       /* Tercera capa */
+        #050507 75%,       /* Cuarta capa */
+        #000000 100%       /* Profundidad máxima */
+    );
+    position: relative;
+    overflow-x: hidden;
+}
 
-        /* Textura de tierra/arena */
-        .arqueologia-page::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.03;
-            background-image: 
-                repeating-linear-gradient(
-                    45deg,
-                    transparent,
-                    transparent 35px,
-                    rgba(255, 255, 255, 0.01) 35px,
-                    rgba(255, 255, 255, 0.01) 70px
-                ),
-                repeating-linear-gradient(
-                    -45deg,
-                    transparent,
-                    transparent 35px,
-                    rgba(255, 255, 255, 0.01) 35px,
-                    rgba(255, 255, 255, 0.01) 70px
-                );
-            pointer-events: none;
-            z-index: 1;
-        }
+/* Capas de estratos geológicos */
+.arqueologia-page::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        /* Líneas horizontales de estratos */
+        linear-gradient(180deg, 
+            transparent 0%, 
+            transparent 14.9%, 
+            rgba(255, 255, 255, 0.02) 15%, 
+            transparent 15.1%,
+            transparent 29.9%,
+            rgba(255, 255, 255, 0.015) 30%,
+            transparent 30.1%,
+            transparent 49.9%,
+            rgba(255, 255, 255, 0.01) 50%,
+            transparent 50.1%,
+            transparent 74.9%,
+            rgba(255, 255, 255, 0.008) 75%,
+            transparent 75.1%
+        );
+    pointer-events: none;
+    z-index: 1;
+}
 
-        /* Partículas de polvo flotante */
-        @keyframes floatDust {
-            0% {
-                transform: translateY(100vh) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.3;
-            }
-            90% {
-                opacity: 0.3;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(100px);
-                opacity: 0;
-            }
-        }
+/* Textura de tierra/arena */
+.arqueologia-page::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.03;
+    background-image: 
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 35px,
+            rgba(255, 255, 255, 0.01) 35px,
+            rgba(255, 255, 255, 0.01) 70px
+        ),
+        repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 35px,
+            rgba(255, 255, 255, 0.01) 35px,
+            rgba(255, 255, 255, 0.01) 70px
+        );
+    pointer-events: none;
+    z-index: 1;
+}
 
-        .dust-particle {
-            position: fixed;
-            width: 2px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: floatDust 20s infinite linear;
-            z-index: 2;
-        }
+/* Partículas de polvo flotante */
+@keyframes floatDust {
+    0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(100px);
+        opacity: 0;
+    }
+}
 
-        /* Crear múltiples partículas con diferentes velocidades */
-        .dust-particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 25s; }
-        .dust-particle:nth-child(2) { left: 20%; animation-delay: 5s; animation-duration: 30s; }
-        .dust-particle:nth-child(3) { left: 30%; animation-delay: 10s; animation-duration: 20s; }
-        .dust-particle:nth-child(4) { left: 40%; animation-delay: 15s; animation-duration: 35s; }
-        .dust-particle:nth-child(5) { left: 50%; animation-delay: 20s; animation-duration: 25s; }
-        .dust-particle:nth-child(6) { left: 60%; animation-delay: 2s; animation-duration: 28s; }
-        .dust-particle:nth-child(7) { left: 70%; animation-delay: 7s; animation-duration: 22s; }
-        .dust-particle:nth-child(8) { left: 80%; animation-delay: 12s; animation-duration: 32s; }
-        .dust-particle:nth-child(9) { left: 90%; animation-delay: 17s; animation-duration: 27s; }
-        .dust-particle:nth-child(10) { left: 95%; animation-delay: 22s; animation-duration: 23s; }
+.dust-particle {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: floatDust 20s infinite linear;
+    z-index: 2;
+}
 
-        /* Luz superior */
-        .arqueologia-light {
-            position: fixed;
-            top: -50%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150%;
-            height: 100%;
-            background: radial-gradient(
-                ellipse at center,
-                rgba(255, 255, 255, 0.05) 0%,
-                transparent 50%
-            );
-            pointer-events: none;
-            z-index: 2;
-        }
+/* Crear múltiples partículas con diferentes velocidades */
+.dust-particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 25s; }
+.dust-particle:nth-child(2) { left: 20%; animation-delay: 5s; animation-duration: 30s; }
+.dust-particle:nth-child(3) { left: 30%; animation-delay: 10s; animation-duration: 20s; }
+.dust-particle:nth-child(4) { left: 40%; animation-delay: 15s; animation-duration: 35s; }
+.dust-particle:nth-child(5) { left: 50%; animation-delay: 20s; animation-duration: 25s; }
+.dust-particle:nth-child(6) { left: 60%; animation-delay: 2s; animation-duration: 28s; }
+.dust-particle:nth-child(7) { left: 70%; animation-delay: 7s; animation-duration: 22s; }
+.dust-particle:nth-child(8) { left: 80%; animation-delay: 12s; animation-duration: 32s; }
+.dust-particle:nth-child(9) { left: 90%; animation-delay: 17s; animation-duration: 27s; }
+.dust-particle:nth-child(10) { left: 95%; animation-delay: 22s; animation-duration: 23s; }
 
-        /* Sombras de profundidad en los laterales */
-        .arqueologia-shadows {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-            background: 
-                linear-gradient(90deg, 
-                    rgba(0, 0, 0, 0.3) 0%, 
-                    transparent 10%, 
-                    transparent 90%, 
-                    rgba(0, 0, 0, 0.3) 100%
-                );
-        }
+/* Luz superior */
+.arqueologia-light {
+    position: fixed;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150%;
+    height: 100%;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 50%
+    );
+    pointer-events: none;
+    z-index: 2;
+}
 
-        /* Ajustes para el contenido */
-        .arqueologia-page .main-content {
-            position: relative;
-            z-index: 10;
-        }
+/* Sombras de profundidad en los laterales */
+.arqueologia-shadows {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    background: 
+        linear-gradient(90deg, 
+            rgba(0, 0, 0, 0.3) 0%, 
+            transparent 10%, 
+            transparent 90%, 
+            rgba(0, 0, 0, 0.3) 100%
+        );
+}
 
-        /* Efecto de profundidad para las tarjetas de proyecto */
-        .arqueologia-page .project-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        }
+/* Ajustes para el contenido */
+.arqueologia-page .main-content {
+    position: relative;
+    z-index: 10;
+}
 
-        .arqueologia-page .project-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            box-shadow: 
-                0 8px 40px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
-        }
+/* Efecto de profundidad para las tarjetas de proyecto */
+.arqueologia-page .project-card {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
 
-        /* Indicador de profundidad mejorado */
-        .arqueologia-page .depth-indicator {
-            background: linear-gradient(
-                180deg,
-                rgba(255, 255, 255, 0.2) 0%,
-                rgba(255, 255, 255, 0.05) 100%
-            );
-            padding: 10px;
-            border-radius: 50px;
-            backdrop-filter: blur(5px);
-        }
+.arqueologia-page .project-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 
+        0 8px 40px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
 
-        .arqueologia-page .depth-line {
-            background: linear-gradient(
-                180deg,
-                rgba(255, 255, 255, 0.6) 0%,
-                rgba(255, 255, 255, 0.1) 100%
-            );
-        }
+/* Indicador de profundidad mejorado */
+.arqueologia-page .depth-indicator {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.05) 100%
+    );
+    padding: 10px;
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+}
 
-        /* Efecto de excavación para imágenes */
-        .arqueologia-page .project-thumbnail {
-            position: relative;
-            overflow: hidden;
-        }
+.arqueologia-page .depth-line {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(255, 255, 255, 0.1) 100%
+    );
+}
 
-        .arqueologia-page .project-thumbnail::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                135deg,
-                transparent 0%,
-                rgba(0, 0, 0, 0.1) 50%,
-                transparent 100%
-            );
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
+/* Efecto de excavación para imágenes */
+.arqueologia-page .project-thumbnail {
+    position: relative;
+    overflow: hidden;
+}
 
-        .arqueologia-page .project-thumbnail:hover::before {
-            transform: translateX(100%);
-        }
+.arqueologia-page .project-thumbnail::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(0, 0, 0, 0.1) 50%,
+        transparent 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
 
-        /* Ajuste de colores para mejor contraste */
-        .arqueologia-page .header h1 {
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
+.arqueologia-page .project-thumbnail:hover::before {
+    transform: translateX(100%);
+}
 
-        .arqueologia-page .year-marker {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 2px 8px;
-            border-radius: 3px;
-            backdrop-filter: blur(5px);
-        }
+/* Ajuste de colores para mejor contraste */
+.arqueologia-page .header h1 {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
 
-        /* Demo visual */
-        .demo-container {
-            padding: 40px;
-            margin: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.3);
-        }
+.arqueologia-page .year-marker {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2px 8px;
+    border-radius: 3px;
+    backdrop-filter: blur(5px);
+}
 
-        .implementation-code {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            font-family: monospace;
-            font-size: 14px;
-            color: #4CAF50;
-            overflow-x: auto;
-        }
-        
-                /* HEADER PARA ARQUEOLOGÍA Y WORKFLOW */
-	        .header-secondary {
-	            position: fixed;
-	            top: 0;
-	            left: 0;
-	            right: 0;
-	            background: rgba(0, 0, 0, 0.9);
-	            backdrop-filter: blur(10px);
-	            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-	            z-index: 1000;
-	            padding: 20px 0;
-	        }
-	
-	        .header-container {
-	            max-width: 1400px;
-	            margin: 0 auto;
-	            padding: 0 40px;
-	            display: grid;
-	            grid-template-columns: 1fr auto 1fr;
-	            align-items: center;
-	            gap: 20px;
-	        }
-	
-	        /* Volver al inicio */
-	        .back-link {
-	            justify-self: start;
-	            color: rgba(255, 255, 255, 0.6);
-	            text-decoration: none;
-	            font-size: 13px;
-	            font-family: 'Helvetica Neue', sans-serif;
-	            letter-spacing: 1px;
-	            transition: all 0.3s ease;
-	            display: flex;
-	            align-items: center;
-	            gap: 8px;
-	        }
-	
-	        .back-link:hover {
-	            color: rgba(255, 255, 255, 0.9);
-	            transform: translateX(-5px);
-	        }
-	
-	        /* Logo centrado */
-	        .logo-center {
-	            justify-self: center;
-	            height: 50px;
-	            opacity: 0.9;
-	            transition: all 0.3s ease;
-	            cursor: pointer;
-	        }
-	
-	        .logo-center:hover {
-	            opacity: 1;
-	            transform: scale(1.05);
-	        }
-	
-	        /* Selector de idioma */
-	        .lang-selector {
-	            justify-self: end;
-	            color: rgba(255, 255, 255, 0.6);
-	            font-size: 13px;
-	            font-family: 'Helvetica Neue', sans-serif;
-	            letter-spacing: 1px;
-	            cursor: pointer;
-	            transition: all 0.3s ease;
-	            position: relative;
-	            user-select: none;
-	        }
-	
-	        .lang-selector:hover {
-	            color: rgba(255, 255, 255, 0.9);
-	        }
-	
-	        .lang-selector.active-es::after {
-	            content: '';
-	            position: absolute;
-	            bottom: -2px;
-	            left: 0;
-	            width: 15px;
-	            height: 1px;
-	            background: #4CAF50;
-	        }
-	
-	        .lang-selector.active-en::after {
-	            content: '';
-	            position: absolute;
-	            bottom: -2px;
-	            right: 0;
-	            width: 15px;
-	            height: 1px;
-	            background: #4CAF50;
-	        }
-	
-	        /* Selector de idioma para HOME */
-	        .lang-selector-home {
-	            position: fixed;
-	            top: 30px;
-	            right: 40px;
-	            color: rgba(255, 255, 255, 0.6);
-	            font-size: 13px;
-	            font-family: 'Helvetica Neue', sans-serif;
-	            letter-spacing: 1px;
-	            cursor: pointer;
-	            transition: all 0.3s ease;
-	            z-index: 100;
-	            user-select: none;
-	        }
-	
-	        .lang-selector-home:hover {
-	            color: rgba(255, 255, 255, 0.9);
-	        }
-	
-	        .lang-selector-home.active-es::after {
-	            content: '';
-	            position: absolute;
-	            bottom: -2px;
-	            left: 0;
-	            width: 15px;
-	            height: 1px;
-	            background: #4CAF50;
-	        }
-	
-	        .lang-selector-home.active-en::after {
-	            content: '';
-	            position: absolute;
-	            bottom: -2px;
-	            right: 0;
-	            width: 15px;
-	            height: 1px;
-	            background: #4CAF50;
-	        }
-	
-	        /* FOOTER COMÚN */
-	        .footer {
-	            background: rgba(0, 0, 0, 0.95);
-	            border-top: 1px solid rgba(255, 255, 255, 0.1);
-	            padding: 60px 0 40px;
-	            margin-top: 100px;
-	            position: relative;
-	            z-index: 50;
-	        }
-	
-	        .footer-container {
-	            max-width: 1200px;
-	            margin: 0 auto;
-	            padding: 0 40px;
-	            display: grid;
-	            grid-template-columns: 1fr 1fr 1fr 200px;
-	            gap: 60px;
-	            align-items: start;
-	        }
-	
-	        /* Información de contacto */
-	        .footer-section h3 {
-	            font-size: 14px;
-	            font-weight: 400;
-	            letter-spacing: 2px;
-	            margin-bottom: 20px;
-	            color: rgba(255, 255, 255, 0.8);
-	            text-transform: uppercase;
-	            font-family: 'Helvetica Neue', sans-serif;
-	        }
-	
-	        .footer-info {
-	            line-height: 1.8;
-	        }
-	
-	        .footer-info p {
-	            color: rgba(255, 255, 255, 0.6);
-	            font-size: 14px;
-	            margin-bottom: 10px;
-	            font-family: 'Helvetica Neue', sans-serif;
-	        }
-	
-	        .footer-info a {
-	            color: #4CAF50;
-	            text-decoration: none;
-	            transition: opacity 0.3s ease;
-	        }
-	
-	        .footer-info a:hover {
-	            opacity: 0.8;
-	        }
-	
-	        /* Enlaces de navegación */
-	        .footer-nav {
-	            list-style: none;
-	        }
-	
-	        .footer-nav li {
-	            margin-bottom: 12px;
-	        }
-	
-	        .footer-nav a {
-	            color: rgba(255, 255, 255, 0.6);
-	            text-decoration: none;
-	            font-size: 14px;
-	            font-family: 'Helvetica Neue', sans-serif;
-	            transition: all 0.3s ease;
-	            position: relative;
-	        }
-	
-	        .footer-nav a::after {
-	            content: '';
-	            position: absolute;
-	            bottom: -2px;
-	            left: 0;
-	            width: 0;
-	            height: 1px;
-	            background: #4CAF50;
-	            transition: width 0.3s ease;
-	        }
-	
-	        .footer-nav a:hover {
-	            color: rgba(255, 255, 255, 0.9);
-	        }
-	
-	        .footer-nav a:hover::after {
-	            width: 100%;
-	        }
-	
-	        /* QR Code */
-	        .qr-section {
-	            text-align: center;
-	        }
-	
-	        .qr-code {
-	            width: 150px;
-	            height: 150px;
-	            background: white;
-	            padding: 10px;
-	            border-radius: 10px;
-	            margin: 0 auto 15px;
-	            display: block;
-	        }
-	
-	        .qr-label {
-	            font-size: 12px;
-	            color: rgba(255, 255, 255, 0.5);
-	            font-family: 'Helvetica Neue', sans-serif;
-	        }
-	
-	        /* Copyright */
-	        .footer-bottom {
-	            margin-top: 60px;
-	            padding-top: 30px;
-	            border-top: 1px solid rgba(255, 255, 255, 0.05);
-	            text-align: center;
-	        }
-	
-	        .copyright {
-	            font-size: 12px;
-	            color: rgba(255, 255, 255, 0.4);
-	            font-family: 'Helvetica Neue', sans-serif;
-	            letter-spacing: 1px;
-	        }
-	
-	        /* Ajustes para páginas con header secundario */
-	        .with-secondary-header {
-	            padding-top: 100px;
-	        }
-	
-	        /* Responsive */
-	        @media (max-width: 1024px) {
-	            .footer-container {
-	                grid-template-columns: 1fr 1fr;
-	                gap: 40px;
-	            }
-	
-	            .qr-section {
-	                grid-column: span 2;
-	                margin: 0 auto;
-	            }
-	        }
-	
-	        @media (max-width: 768px) {
-	            .header-container {
-	                padding: 0 20px;
-	            }
-	
-	            .back-link {
-	                font-size: 11px;
-	            }
-	
-	            .logo-center {
-	                height: 40px;
-	            }
-	
-	            .lang-selector-home {
-	                top: 20px;
-	                right: 20px;
-	            }
-	
-	            .footer {
-	                margin-top: 50px;
-	                padding: 40px 0 30px;
-	            }
-	
-	            .footer-container {
-	                grid-template-columns: 1fr;
-	                gap: 40px;
-	                text-align: center;
-	                padding: 0 20px;
-	            }
-	
-	            .footer-nav {
-	                display: flex;
-	                justify-content: center;
-	                gap: 20px;
-	                flex-wrap: wrap;
-	            }
-	
-	            .footer-nav li {
-	                margin: 0;
-	            }
-	
-	            .qr-code {
-	                width: 120px;
-	                height: 120px;
-	            }
-	
-	            .with-secondary-header {
-	                padding-top: 80px;
-	            }
-	        }
-	
-	        /* Clases de traducción */
-	        .lang-en { display: none; }
-	        body.en .lang-es { display: none; }
-	        body.en .lang-en { display: block; }
-        body.en .lang-en-inline { display: inline; }
-        
-        /* Fix para spans de idioma inline */
-	.lang-en-inline { display: none; }
-	body.en .lang-es-inline { display: none; }
-	body.en .lang-en-inline { display: inline; }
-	
-	/* Ajuste para el header principal en arqueología */
-	.arqueologia-page .header.with-secondary-header {
-	    margin-top: 0;
-	    padding-top: 40px;
-	}
-	
-	/* Fix para el z-index del header secundario */
-	.header-secondary {
-	    z-index: 1000 !important;
-	}
-	
-	/* Asegurar que los elementos de idioma funcionen correctamente */
-	.lang-es, .lang-en {
-	    display: block;
-	}
-	
-	span.lang-es, span.lang-en {
-	    display: inline;
-	}
-	
-	.lang-en, span.lang-en {
-	    display: none !important;
-	}
-	
-	body.en .lang-es, body.en span.lang-es {
-	    display: none !important;
-	}
-	
-	body.en .lang-en, body.en span.lang-en {
-	    display: inline !important;
-	}
-	
-	/* Para elementos block */
-	div.lang-en, p.lang-en, h1.lang-en, h2.lang-en, h3.lang-en, h4.lang-en {
-	    display: none !important;
-	}
-	
-	body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, body.en h3.lang-en, body.en h4.lang-en {
-	    display: block !important;
+/* Demo visual */
+.demo-container {
+    padding: 40px;
+    margin: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.implementation-code {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    font-family: monospace;
+    font-size: 14px;
+    color: #4CAF50;
+    overflow-x: auto;
+}
+
+/* HEADER PARA ARQUEOLOGÍA Y WORKFLOW */
+.header-secondary {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000 !important;
+    padding: 20px 0;
+}
+
+.header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Volver al inicio */
+.back-link {
+    justify-self: start;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 13px;
+    font-family: 'Helvetica Neue', sans-serif;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.back-link:hover {
+    color: rgba(255, 255, 255, 0.9);
+    transform: translateX(-5px);
+}
+
+/* Logo centrado */
+.logo-center {
+    justify-self: center;
+    height: 50px;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.logo-center:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* Selector de idioma */
+.lang-selector {
+    justify-self: end;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    font-family: 'Helvetica Neue', sans-serif;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    user-select: none;
+}
+
+.lang-selector:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.lang-selector.active-es::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 15px;
+    height: 1px;
+    background: #4CAF50;
+}
+
+.lang-selector.active-en::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    width: 15px;
+    height: 1px;
+    background: #4CAF50;
+}
+
+/* Selector de idioma para HOME */
+.lang-selector-home {
+    position: fixed;
+    top: 30px;
+    right: 40px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    font-family: 'Helvetica Neue', sans-serif;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+    user-select: none;
+}
+
+.lang-selector-home:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.lang-selector-home.active-es::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 15px;
+    height: 1px;
+    background: #4CAF50;
+}
+
+.lang-selector-home.active-en::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    width: 15px;
+    height: 1px;
+    background: #4CAF50;
+}
+
+/* FOOTER COMÚN */
+.footer {
+    background: rgba(0, 0, 0, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 60px 0 40px;
+    margin-top: 100px;
+    position: relative;
+    z-index: 50;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 200px;
+    gap: 60px;
+    align-items: start;
+}
+
+/* Información de contacto */
+.footer-section h3 {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+.footer-info {
+    line-height: 1.8;
+}
+
+.footer-info p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    margin-bottom: 10px;
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+.footer-info a {
+    color: #4CAF50;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.footer-info a:hover {
+    opacity: 0.8;
+}
+
+/* Enlaces de navegación */
+.footer-nav {
+    list-style: none;
+}
+
+.footer-nav li {
+    margin-bottom: 12px;
+}
+
+.footer-nav a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 14px;
+    font-family: 'Helvetica Neue', sans-serif;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.footer-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: #4CAF50;
+    transition: width 0.3s ease;
+}
+
+.footer-nav a:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.footer-nav a:hover::after {
+    width: 100%;
+}
+
+/* QR Code */
+.qr-section {
+    text-align: center;
+}
+
+.qr-code {
+    width: 150px;
+    height: 150px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 0 auto 15px;
+    display: block;
+}
+
+.qr-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+/* Copyright */
+.footer-bottom {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
+
+.copyright {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'Helvetica Neue', sans-serif;
+    letter-spacing: 1px;
+}
+
+/* Ajustes para páginas con header secundario */
+.with-secondary-header {
+    padding-top: 100px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
+
+    .qr-section {
+        grid-column: span 2;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        padding: 0 20px;
+    }
+
+    .back-link {
+        font-size: 11px;
+    }
+
+    .logo-center {
+        height: 40px;
+    }
+
+    .lang-selector-home {
+        top: 20px;
+        right: 20px;
+    }
+
+    .footer {
+        margin-top: 50px;
+        padding: 40px 0 30px;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+        padding: 0 20px;
+    }
+
+    .footer-nav {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .footer-nav li {
+        margin: 0;
+    }
+
+    .qr-code {
+        width: 120px;
+        height: 120px;
+    }
+
+    .with-secondary-header {
+        padding-top: 80px;
+    }
+}
+
+/* Clases de traducción */
+.lang-en { display: none; }
+body.en .lang-es { display: none; }
+body.en .lang-en { display: block; }
+body.en .lang-en-inline { display: inline; }
+
+/* Fix para spans de idioma inline */
+.lang-en-inline { display: none; }
+body.en .lang-es-inline { display: none; }
+body.en .lang-en-inline { display: inline; }
+
+/* Ajuste para el header principal en arqueología */
+.arqueologia-page .header.with-secondary-header {
+    margin-top: 0;
+    padding-top: 40px;
+}
+
+/* Fix para el z-index del header secundario */
+.header-secondary {
+    z-index: 1000 !important;
+}
+
+/* Asegurar que los elementos de idioma funcionen correctamente */
+.lang-es, .lang-en {
+    display: block;
+}
+
+span.lang-es, span.lang-en {
+    display: inline;
+}
+
+.lang-en, span.lang-en {
+    display: none !important;
+}
+
+body.en .lang-es, body.en span.lang-es {
+    display: none !important;
+}
+
+body.en .lang-en, body.en span.lang-en {
+    display: inline !important;
+}
+
+/* Para elementos block */
+div.lang-en, p.lang-en, h1.lang-en, h2.lang-en, h3.lang-en, h4.lang-en {
+    display: none !important;
+}
+
+body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, body.en h3.lang-en, body.en h4.lang-en {
+    display: block !important;
 }
