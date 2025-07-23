@@ -1217,28 +1217,6 @@ body.arqueologia-page {
     color: rgba(255, 255, 255, 1);
 }
 
-.lang-selector-home.active-es::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    border-bottom: 2px solid #00a8ff;
-    left: 0;
-    width: 15px;
-    height: 1px;
-    background: #4CAF50;
-}
-
-.lang-selector-home.active-en::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    border-bottom: 2px solid #00a8ff;
-    right: 0;
-    width: 15px;
-    height: 1px;
-    background: #4CAF50;
-}
-
 /* FOOTER COMÚN */
 .footer {
     background: rgba(0, 0, 0, 0.95);
