@@ -488,27 +488,25 @@
 </head>
 <body class="arqueologia-page">
 
-<!-- Header con navegación -->
-<header class="header-secondary">
+    <!-- Header con navegación -->
     <div class="header-container">
-        <a href="index.html" class="back-link">
-            <span class="lang-es">← VOLVER AL INICIO</span>
-            <span class="lang-en">← BACK TO HOME</span>
+    	<a href="index.html" class="back-link">
+	     <span class="lang-es">← VOLVER AL INICIO</span>
+	     <span class="lang-en">← BACK TO HOME</span>
         </a>
         <a href="index.html">
-            <img src="imagenes/logo-umbusk.png" alt="Umbusk" class="logo-center">
-            <div class="umbusk-watermark">UMBUSK</div>
+        <img src="imagenes/logo-umbusk.png" class="main-logo" alt="logo de Umbusk">
+        <div class="umbusk-watermark">UMBUSK</div>
         </a>
-        <div class="lang-selector active-es" onclick="toggleLanguage()">ES / EN</div>
+        <div class="lang-selector-home active-es" onclick="toggleLanguage()">ES / EN</div>
     </div>
-</header>
 
-<!-- Ticker de navegación -->
-<div id="ticker-container" class="ticker-container">
-    <div class="ticker-content" id="ticker-content">
-        <!-- Se llenará dinámicamente desde app.js -->
+    <!-- Ticker de navegación (reemplaza la marquesina de ideas) -->
+    <div id="ticker-container" class="ticker-container">
+        <div class="ticker-content" id="ticker-content">
+            <!-- La navegación se llenará dinámicamente desde app.js -->
+        </div>
     </div>
-</div>
 
     <!-- Contenido principal -->
 
