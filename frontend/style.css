@@ -245,7 +245,7 @@ body.arqueologia-page {
 
 /* TICKER DE NAVEGACIÓN (actualizado) */
 .ticker-container {
-    position: fixed;
+    position: relative;
     top: 127px;
     left: 50%;
     transform: translateX(-50%);
@@ -264,7 +264,6 @@ body.arqueologia-page {
 /* Ticker en páginas con header secundario */
 .arqueologia-page .ticker-container,
 .workflow-page .ticker-container {
-    top: 127px;
     z-index: 500;
 }
 
