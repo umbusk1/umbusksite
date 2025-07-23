@@ -1101,6 +1101,12 @@ body.arqueologia-page {
     padding: 20px 0;
 }
 
+.text-header-secondary {
+    text-align: center; /* Centra texto horizontalmente */
+    margin: 0 auto;
+    padding: 20px; /* Opcional, para separación */
+}
+
 .header-container {
     max-width: 1400px;
     margin: 0 auto;
