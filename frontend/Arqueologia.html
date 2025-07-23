@@ -474,38 +474,37 @@
 <div class="arqueologia-light"></div>
 <div class="arqueologia-shadows"></div>
 
-<!-- Header con navegación -->
-<header class="header-secondary">
-    <div class="header-container">
-        <a href="index.html" class="back-link">
-            <span class="lang-es">← VOLVER AL INICIO</span>
-            <span class="lang-en">← BACK TO HOME</span>
-        </a>
-        <div class="logo-container">
-            <a href="index.html">
-                <img src="imagenes/logo-umbusk.png" alt="logo de Umbusk" class="logo-center">
-            </a>
-            <div class="umbusk-watermark">UMBUSK</div>
-        </div>
-        <div class="lang-selector active-es" onclick="toggleLanguage()">ES / EN</div>
-    </div>
-</header>
+<!-- Selector de idioma (igual que en index.html) -->
+<div class="lang-selector-home active-es" onclick="toggleLanguage()">ES / EN</div>
 
-<!-- Ticker de navegación -->
+<!-- Back link posicionado de forma absoluta para no interferir -->
+<div class="back-link-arqueologia">
+    <a href="index.html">
+        <span class="lang-es">← VOLVER AL INICIO</span>
+        <span class="lang-en">← BACK TO HOME</span>
+    </a>
+</div>
+
+<!-- Header exactamente igual que en index.html -->
+<div class="header">
+    <img src="imagenes/logo-umbusk.png" class="main-logo" alt="logo de Umbusk">
+    <div class="umbusk-watermark">UMBUSK</div>
+</div>
+
+<!-- Ticker exactamente igual que en index.html -->
 <div id="ticker-container" class="ticker-container">
     <div class="ticker-content" id="ticker-content">
         <!-- La navegación se llenará dinámicamente desde app.js -->
     </div>
 </div>
 
-<!-- Contenido principal -->
-<div class="header-section-title">
-    <div class="text-header-secondary">
+<!-- Título y subtítulo con el mismo espaciado -->
+<div class="arqueologia-title-section">
     <h1>ARQUEOLOGÍA</h1>
     <p>30 años de evolución tecnológica, basada en una lista corta de proyectos relevantes.</p>
-    </div>
 </div>
 
+<!-- Strata container con el espaciado correcto -->
 <div class="strata-container">
     <!-- Proyecto 1: Formación Smart (2025) -->
     <div class="stratum">

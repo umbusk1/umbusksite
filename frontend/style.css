@@ -1483,3 +1483,69 @@ div.lang-en, p.lang-en, h1.lang-en, h2.lang-en, h3.lang-en, h4.lang-en {
 body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, body.en h3.lang-en, body.en h4.lang-en {
     display: block !important;
 }
+/* Estilos para el back link posicionado de forma absoluta */
+.back-link-arqueologia {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.back-link-arqueologia a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 300;
+    transition: opacity 0.3s ease;
+}
+
+.back-link-arqueologia a:hover {
+    opacity: 0.7;
+}
+
+/* Título de arqueología con el mismo espaciado que entre UMBUSK y ticker */
+.arqueologia-title-section {
+    text-align: center;
+    margin-top: 60px; /* Mismo espaciado que entre UMBUSK y ticker */
+    margin-bottom: 60px; /* Mismo espaciado hacia la strata */
+}
+
+.arqueologia-title-section h1 {
+    font-size: 3rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    margin: 0 0 20px 0;
+    color: #fff;
+}
+
+.arqueologia-title-section p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin: 0;
+    color: #ccc;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+/* Responsive para el back link */
+@media (max-width: 768px) {
+    .back-link-arqueologia {
+        top: 15px;
+        left: 15px;
+    }
+    
+    .back-link-arqueologia a {
+        font-size: 12px;
+    }
+    
+    .arqueologia-title-section h1 {
+        font-size: 2rem;
+    }
+    
+    .arqueologia-title-section p {
+        font-size: 1rem;
+        padding: 0 20px;
+    }
+}
