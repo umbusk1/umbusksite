@@ -595,12 +595,6 @@ function initializeNavigationTicker() {
         }
     } else {
         // Para otras páginas, mostrar todo menos la página actual
-        if (currentPage !== 'index.html') {
-            html += '<span class="ticker-nav-item">';
-            html += '<a href="index.html" class="ticker-nav-link">HOME</a>';
-            html += '</span>';
-            html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
-        }
 
         if (currentPage !== 'workflow.html') {
             html += '<span class="ticker-nav-item">';
