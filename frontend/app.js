@@ -597,6 +597,7 @@ function initializeNavigationTicker() {
         // Para otras páginas, mostrar todo menos la página actual
 
         if (currentPage !== 'workflow.html') {
+			for (let i = 0; i < 12; i++) {  // Duplicar las repeticiones
             html += '<span class="ticker-nav-item">';
             html += '<a href="workflow.html" class="ticker-nav-link">WORKFLOW</a>';
             html += '</span>';
@@ -606,9 +607,11 @@ function initializeNavigationTicker() {
 			html += '<a href="index.html" class="ticker-nav-link">HOME</a>';
 			html += '</span>';
             html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+            }
         }
 
         if (currentPage !== 'arqueologia.html') {
+			for (let i = 0; i < 12; i++) {  // Duplicar las repeticiones
             html += '<span class="ticker-nav-item">';
             html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
             html += '</span>';
@@ -618,6 +621,7 @@ function initializeNavigationTicker() {
 			html += '<a href="index.html" class="ticker-nav-link">HOME</a>';
 			html += '</span>';
             html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
+            }
         }
     }
 
