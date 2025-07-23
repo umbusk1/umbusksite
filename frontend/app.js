@@ -821,3 +821,100 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// AGREGAR ESTO A app.js PARA QUE FUNCIONE EN TODO EL SITIO
+
+// Sistema global de cambio de idioma
+function initLanguageSystem() {
+    // Función para cambiar idioma
+    window.toggleLanguage = function() {
+        const body = document.body;
+        // Buscar el selector - compatible con ambas clases
+        const selector = document.querySelector('.lang-selector-home') ||
+                        document.querySelector('.lang-selector');
+
+        if (body.classList.contains('en')) {
+            // Cambiar a Español
+            body.classList.remove('en');
+            if (selector) {
+                selector.classList.remove('active-en');
+                selector.classList.add('active-es');
+            }
+            localStorage.setItem('language', 'es');
+        } else {
+            // Cambiar a Inglés
+            body.classList.add('en');
+            if (selector) {
+                selector.classList.remove('active-es');
+                selector.classList.add('active-en');
+            }
+            localStorage.setItem('language', 'en');
+        }
+    }
+
+    // Función para establecer un idioma específico
+    window.setLanguage = function(lang) {
+        const body = document.body;
+        const selector = document.querySelector('.lang-selector-home') ||
+                        document.querySelector('.lang-selector');
+
+        if (lang === 'en') {
+            body.classList.add('en');
+            if (selector) {
+                selector.classList.remove('active-es');
+                selector.classList.add('active-en');
+            }
+        } else {
+            body.classList.remove('en');
+            if (selector) {
+                selector.classList.remove('active-en');
+                selector.classList.add('active-es');
+            }
+        }
+        localStorage.setItem('language', lang);
+    }
+}
+
+// Cargar idioma guardado al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar sistema de idiomas
+    initLanguageSystem();
+
+    // Cargar idioma guardado
+    const savedLang = localStorage.getItem('language') || 'es';
+    const selector = document.querySelector('.lang-selector-home') ||
+                    document.querySelector('.lang-selector');
+
+    if (savedLang === 'en') {
+        document.body.classList.add('en');
+        if (selector) {
+            selector.classList.remove('active-es');
+            selector.classList.add('active-en');
+        }
+    } else {
+        // Asegurar que ES esté activo por defecto
+        if (selector) {
+            selector.classList.add('active-es');
+        }
+    }
+
+    // Agregar event listeners a los enlaces de idioma
+    const esLink = document.querySelector('a[onclick*="setLanguage(\'es\')"]') ||
+                   document.querySelector('a[href="#es"]');
+    const enLink = document.querySelector('a[onclick*="setLanguage(\'en\')"]') ||
+                   document.querySelector('a[href="#en"]');
+
+    if (esLink) {
+        esLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            setLanguage('es');
+        });
+    }
+
+    if (enLink) {
+        enLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            setLanguage('en');
+        });
+    }
+});

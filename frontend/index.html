@@ -9,7 +9,10 @@
 </head>
 <body>
 <!-- Selector de idioma -->
-<div class="lang-selector-home active-es" onclick="toggleLanguage()">ES / EN</div>
+	<div class="lang-selector-home active-es">
+	    <a href="#" onclick="setLanguage('es'); return false;">ES</a> /
+	    <a href="#" onclick="setLanguage('en'); return false;">EN</a>
+	</div>
     <!-- Logo -->
     <div class="header">
         <img src="imagenes/logo-umbusk.png" class="main-logo" alt="logo de Umbusk">

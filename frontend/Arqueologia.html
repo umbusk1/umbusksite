@@ -451,7 +451,10 @@
 <div class="arqueologia-shadows"></div>
 
 <!-- Selector de idioma (igual que en index.html) -->
-<div class="lang-selector-home active-es" onclick="toggleLanguage()">ES / EN</div>
+<div class="lang-selector-home active-es">
+    <a href="#" onclick="setLanguage('es'); return false;">ES</a> /
+    <a href="#" onclick="setLanguage('en'); return false;">EN</a>
+</div>
 
 <!-- Back link posicionado de forma absoluta para no interferir -->
 <div class="back-link-arqueologia">
@@ -476,8 +479,14 @@
 
 <!-- Título y subtítulo con el mismo espaciado -->
 <div class="arqueologia-title-section">
+<span class="lang-es">
     <h1>ARQUEOLOGÍA</h1>
     <p>30 años de evolución tecnológica, basada en una lista corta de proyectos relevantes.</p>
+    </span>
+    <span class="lang-en">
+    <h1>ARCHEOLOGY</h1>
+    <p>30 years of technological evolution, based on a short list of relevant projects.</p>
+    </span>
 </div>
 
 <!-- Strata container con el espaciado correcto -->
@@ -1321,36 +1330,6 @@
         }
     });
 
-    // Función para cambiar idioma
-    function toggleLanguage() {
-        const body = document.body;
-        const selector = document.querySelector('.lang-selector');
-
-        if (body.classList.contains('en')) {
-            body.classList.remove('en');
-            selector.classList.remove('active-en');
-            selector.classList.add('active-es');
-            localStorage.setItem('language', 'es');
-        } else {
-            body.classList.add('en');
-            selector.classList.remove('active-es');
-            selector.classList.add('active-en');
-            localStorage.setItem('language', 'en');
-        }
-    }
-
-    // Cargar idioma guardado al cargar la página
-    document.addEventListener('DOMContentLoaded', function() {
-        const savedLang = localStorage.getItem('language');
-        if (savedLang === 'en') {
-            document.body.classList.add('en');
-            const selector = document.querySelector('.lang-selector');
-            if (selector) {
-                selector.classList.remove('active-es');
-                selector.classList.add('active-en');
-            }
-        }
-    });
 </script>
 
 </body>

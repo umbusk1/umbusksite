@@ -1558,3 +1558,29 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
         padding: 0 20px;
     }
 }
+
+.lang-selector-home, .lang-selector {
+    position: relative;
+}
+
+.lang-selector-home.active-es::after,
+.lang-selector.active-es::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    border-bottom: 2px solid #00a8ff;
+    left: 0;
+    width: 15px;
+    height: 1px;
+}
+
+.lang-selector-home.active-en::after,
+.lang-selector.active-en::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    border-bottom: 2px solid #00a8ff;
+    right: 0;
+    width: 15px;
+    height: 1px;
+}
