@@ -338,7 +338,7 @@ body.arqueologia-page {
 /* Trigger del historial */
 .history-trigger {
     position: fixed;
-    top: 175px;
+    top: 181px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 11px;
@@ -506,13 +506,7 @@ body.arqueologia-page {
         font-size: 11px;
         padding: 5px 0;
     }
-    
-    /* Ajustar trigger del historial */
-    .history-trigger {
-        top: 140px;
-        font-size: 10px;
-    }
-    
+     
     /* Contenedor de diálogos más pequeño */
     .dialogue-container {
         width: 95%;
