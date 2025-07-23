@@ -140,13 +140,14 @@ body.arqueologia-page {
 }
 
 .umbusk-watermark {
-    font-size: 14px;
-    opacity: 1;
-    letter-spacing: 3px;
-    font-family: 'Helvetica Neue', sans-serif;
-    font-weight: 200;
-    transition: opacity 0.3s ease;
-}
+	justify-self: center;
+	font-size: 14px;
+	opacity: 1;
+	letter-spacing: 3px;
+	font-family: 'Helvetica Neue', sans-serif;
+	font-weight: 200;
+	transition: opacity 0.3s ease;
+}                
 
 .umbusk-watermark:hover {
     opacity: 0.5;
