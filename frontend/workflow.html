@@ -4,19 +4,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Umbusk - Flujo de Trabajo</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
-        /* Estilos específicos para Workflow */
+        /* Reset y estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Ocultar textos según idioma */
+        .en { display: none; }
+        body.en .es { display: none; }
+        body.en .en { display: block; }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-left, .nav-center, .nav-right {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-center {
+            justify-content: center;
+        }
+
+        .nav-right {
+            justify-content: flex-end;
+        }
+
+        /* Home icon */
+        .home-icon {
+            color: #666;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .home-icon:hover {
+            color: #fff;
+        }
+
+        .home-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Logo */
+        .logo {
+            height: 40px;
+            width: auto;
+        }
+
+        /* Language selector */
+        .lang-selector-home {
+            position: relative;
+            color: #666;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .lang-selector-home a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            padding: 0 2px;
+        }
+
+        .lang-selector-home a:hover {
+            color: #fff;
+        }
+
+        .lang-selector-home span {
+            color: #666;
+            margin: 0 5px;
+        }
+
+        /* Subrayado activo */
+        .lang-selector-home.active-es a:first-child::after,
+        .lang-selector-home.active-en a:last-child::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 15px;
+            height: 2px;
+            background: #00a8ff;
+        }
+
+        .lang-selector-home.active-en a:last-child::after {
+            left: auto;
+            right: 0;
+        }
+
+        /* Main content */
+        .main-content {
+            margin-top: 80px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* Page header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #666 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Workflow específico */
         .workflow-container {
             display: flex;
             gap: 20px;
             margin-bottom: 100px;
             position: relative;
             flex-wrap: wrap;
-            margin-top: 50px;
         }
 
-        /* Línea conectora */
         .connector-line {
             position: absolute;
             top: 50%;
@@ -139,13 +290,12 @@
             color: #3b82f6;
         }
 
-        /* Características del proceso */
+        /* Process features */
         .process-features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
-            margin-bottom: 80px;
-            margin-top: 80px;
+            margin: 80px 0;
         }
 
         .feature {
@@ -200,24 +350,9 @@
             overflow: hidden;
         }
 
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: left 0.3s ease;
-        }
-
         .cta-button:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
         }
 
         .cta-note {
@@ -226,7 +361,7 @@
             color: #666;
         }
 
-        /* Animaciones */
+        /* Animations */
         @keyframes fadeInUp {
             to {
                 opacity: 1;
@@ -234,45 +369,69 @@
             }
         }
 
+        /* Scroll to top */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
             .workflow-container {
                 gap: 15px;
             }
-
             .connector-line {
                 display: none;
             }
         }
 
         @media (max-width: 768px) {
+            .nav-container {
+                padding: 15px 20px;
+            }
+            .section-title {
+                font-size: 2.5rem;
+            }
             .workflow-container {
                 flex-direction: column;
             }
-
             .stage {
                 min-width: 100%;
             }
-
             .process-features {
                 grid-template-columns: 1fr;
-                gap: 30px;
             }
-        }
-
-        /* Subtítulo descriptivo */
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: #666;
-            max-width: 800px;
-            margin: 0 auto 60px;
-            line-height: 1.8;
-            text-align: center;
         }
     </style>
 </head>
 <body>
-    <!-- Flecha arriba (oculta por defecto) -->
+    <!-- Flecha arriba -->
     <a href="#top" class="scroll-top" id="scrollTop">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="18 15 12 9 6 15"></polyline>
@@ -292,11 +451,10 @@
             </div>
 
             <div class="nav-center">
-                <img alt="logo de Umbusk" height="40px" src="imagenes/logo-umbusk.png" class="logo">
+                <img alt="logo de Umbusk" height="40" src="imagenes/logo-umbusk.png" class="logo">
             </div>
 
             <div class="nav-right">
-                <!-- Selector de idioma -->
                 <div class="lang-selector-home active-es">
                     <a href="#" onclick="setLanguage('es'); return false;">ES</a>
                     <span>/</span>
@@ -536,6 +694,23 @@
         </div>
     </main>
 
+    <script>
+        // Scroll to top button
+        const scrollTop = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 200) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        scrollTop.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
     <script src="app.js"></script>
 </body>
 </html>
