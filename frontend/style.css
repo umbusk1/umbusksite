@@ -264,7 +264,7 @@ body.arqueologia-page {
 /* Ticker en páginas con header secundario */
 .arqueologia-page .ticker-container,
 .workflow-page .ticker-container {
-    top: 90px;
+    top: 127px;
     z-index: 500;
 }
 
