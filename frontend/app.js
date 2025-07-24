@@ -7,6 +7,8 @@ const CONFIG = {
     DIALOGUE_DISPLAY_TIME: 5000
 };
 
+const API_BASE = 'https://umbusksite.vercel.app';
+
 function getOrCreateSessionId() {
     let sessionId = localStorage.getItem('umbusk_session_id');
     if (!sessionId) {
@@ -26,7 +28,7 @@ async function saveConversation(dialogue) {
             return `${voice}: ${line.text}`;
         }).join('\n');
 
-        const response = await fetch(`https://lab.umbusk.com/api/conversations`, {
+        const response = await fetch(`${API_BASE}/api/conversations`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -717,7 +719,7 @@ const historyManager = {
 
     async loadHistory() {
         try {
-            const response = await fetch(`https://lab.umbusk.com/api/history?session_id=${sessionId}&limit=50`);
+            const response = await fetch(`${API_BASE}/api/history?session_id=${sessionId}&limit=50`);
             if (response.ok) {
                 const data = await response.json();
                 this.displayHistory(data.dialogues);
