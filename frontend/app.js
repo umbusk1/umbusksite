@@ -261,7 +261,7 @@ async function getDialogue() {
 //             return mockDialogues[currentDialogue % mockDialogues.length];
 //         }
 //     }
-// }
+	}
 
 function showLoading(show) {
     const loader = document.getElementById('loading');
