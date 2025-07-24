@@ -1,11 +1,54 @@
 // Configuración
 const CONFIG = {
-    API_ENDPOINT: 'https://umbusksite.vercel.app/api/chat',
+    API_ENDPOINT: 'https://lab.umbusk.com/api/chat',
     USE_MOCK_DATA: false, // Por ahora usamos datos de prueba
     COMET_COUNT: 12,
     DIALOGUE_DELAY: 2500,
     DIALOGUE_DISPLAY_TIME: 5000
 };
+
+function getOrCreateSessionId() {
+    let sessionId = localStorage.getItem('umbusk_session_id');
+    if (!sessionId) {
+        sessionId = 'umbusk_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('umbusk_session_id', sessionId);
+    }
+    return sessionId;
+}
+
+async function saveConversation(dialogue) {
+    try {
+        const sessionId = getOrCreateSessionId();
+
+        // Formatear el texto del diálogo
+        const generatedText = dialogue.lines.map(line => {
+            const voice = line.voice === 1 ? 'Claude' : 'ChatGPT';
+            return `${voice}: ${line.text}`;
+        }).join('\n');
+
+        const response = await fetch('https://lab.umbusk.com/api/conversations', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                session_id: sessionId,
+                prompt_type: dialogue.theme || 'cosmos',
+                generated_text: generatedText
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Conversación guardada:', data);
+
+            // Actualizar el historial si está abierto
+            if (historyManager.isOpen) {
+                historyManager.loadHistory();
+            }
+        }
+    } catch (error) {
+        console.error('Error guardando conversación:', error);
+    }
+}
 
 // Configuración de modos
 const COSMOS_MODES = {
@@ -267,6 +310,8 @@ async function displayDialogue() {
 
     // Guardar diálogo actual para compartir
     currentDialogueData = dialogue;
+    // Guardar el diálogo en la base de datos
+	await saveConversation(dialogue);
 
     // Ocultar indicador
     showLoading(false);
@@ -672,7 +717,7 @@ const historyManager = {
 
     async loadHistory() {
         try {
-            const response = await fetch('https://umbusksite.vercel.app/api/history?limit=50');
+            const response = await fetch('https://lab.umbusk.com/api/history?session_id=${sessionId}&limit=50');
             if (response.ok) {
                 const data = await response.json();
                 this.displayHistory(data.dialogues);
