@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const sql = neon(process.env.NETLIFYDATABASEURL);
+        const sql = neon(process.env.DATABASEURL);
 
         // Obtener parámetros de consulta
         const limit = parseInt(req.query?.limit) || 50;
