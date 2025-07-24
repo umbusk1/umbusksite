@@ -26,7 +26,7 @@ async function saveConversation(dialogue) {
             return `${voice}: ${line.text}`;
         }).join('\n');
 
-        const response = await fetch('https://lab.umbusk.com/api/conversations', {
+        const response = await fetch(`https://lab.umbusk.com/api/conversations`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -256,7 +256,7 @@ async function getDialogue() {
             console.error('Error getting dialogue:', error);
             showLoading(false);
             updateConnectionStatus('Error de conexión', false);
-            return mockDialogues[0]; // Fallback
+            return mockDialogues[currentDialogue % mockDialogues.length];
         }
     }
 }
@@ -717,7 +717,7 @@ const historyManager = {
 
     async loadHistory() {
         try {
-            const response = await fetch('https://lab.umbusk.com/api/history?session_id=${sessionId}&limit=50');
+            const response = await fetch(`https://lab.umbusk.com/api/history?session_id=${sessionId}&limit=50`);
             if (response.ok) {
                 const data = await response.json();
                 this.displayHistory(data.dialogues);
