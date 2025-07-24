@@ -234,32 +234,32 @@ async function getDialogue() {
         return mockDialogues[currentDialogue % mockDialogues.length];
     } else {
         // Llamar a la API real
-        try {
-            showLoading(true);
-            const response = await fetch(CONFIG.API_ENDPOINT, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    context: 'cosmos_interaction',
-                    dialogueNumber: currentDialogue,
-                    timestamp: new Date().toISOString(),
-                    random: Math.random() // Evitar caché
-                })
-            });
-
-            if (!response.ok) throw new Error('API Error');
-
-            const data = await response.json();
-            showLoading(false);
-            return data;
-        } catch (error) {
-            console.error('Error getting dialogue:', error);
-            showLoading(false);
-            updateConnectionStatus('Error de conexión', false);
-            return mockDialogues[currentDialogue % mockDialogues.length];
-        }
-    }
-}
+//         try {
+//             showLoading(true);
+//             const response = await fetch(CONFIG.API_ENDPOINT, {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/json' },
+//                 body: JSON.stringify({
+//                     context: 'cosmos_interaction',
+//                     dialogueNumber: currentDialogue,
+//                     timestamp: new Date().toISOString(),
+//                     random: Math.random() // Evitar caché
+//                 })
+//             });
+//
+//             if (!response.ok) throw new Error('API Error');
+//
+//             const data = await response.json();
+//             showLoading(false);
+//             return data;
+//         } catch (error) {
+//             console.error('Error getting dialogue:', error);
+//             showLoading(false);
+//             updateConnectionStatus('Error de conexión', false);
+//             return mockDialogues[currentDialogue % mockDialogues.length];
+//         }
+//     }
+// }
 
 function showLoading(show) {
     const loader = document.getElementById('loading');
