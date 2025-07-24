@@ -1,80 +1,61 @@
-import { neon } from '@neondatabase/serverless';
+const { neon } = require('@neondatabase/serverless');
 
-export default async function handler(req, res) {
-    // Configurar CORS
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+module.exports = async (req, res) => {
+  // Configurar CORS
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
 
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Método no permitido' });
+  }
+
+  try {
+    const sql = neon(process.env.DATABASE_URL);
+    const { session_id, limit = 50 } = req.query;
+
+    let query;
+    let result;
+
+    if (session_id) {
+      // Consultar por session_id específico
+      result = await sql`
+        SELECT * FROM conversations
+        WHERE session_id = ${session_id}
+        ORDER BY timestamp DESC
+        LIMIT ${parseInt(limit)}
+      `;
+    } else {
+      // Consultar todos (para admin o testing)
+      result = await sql`
+        SELECT * FROM conversations
+        ORDER BY timestamp DESC
+        LIMIT ${parseInt(limit)}
+      `;
     }
 
-    if (req.method !== 'GET') {
-        return res.status(405).json({ error: 'Método no permitido' });
-    }
+    console.log(`Historial consultado: ${result.length} conversaciones encontradas`);
 
-    try {
-        const sql = neon(process.env.DATABASEURL);
+    res.status(200).json({
+      success: true,
+      conversations: result,
+      count: result.length
+    });
 
-        // Obtener parámetros de consulta
-        const limit = parseInt(req.query?.limit) || 50;
-        const offset = parseInt(req.query?.offset) || 0;
-
-        // Obtener diálogos recientes
-        const dialogues = await sql`
-            SELECT
-                id,
-                dialogue_number,
-                theme,
-                voice1_line1,
-                voice2_line1,
-                voice1_line2,
-                voice2_line2,
-                created_at,
-                visitor_id
-            FROM cosmic_dialogues
-            ORDER BY created_at DESC
-            LIMIT ${limit}
-            OFFSET ${offset}
-        `;
-
-        // Obtener estadísticas
-        const stats = await sql`
-            SELECT
-                COUNT(*) as total_dialogues,
-                COUNT(DISTINCT visitor_id) as unique_visitors,
-                COUNT(DISTINCT theme) as unique_themes
-            FROM cosmic_dialogues
-        `;
-
-        // Temas más explorados
-        const topThemes = await sql`
-            SELECT
-                theme,
-                COUNT(*) as count
-            FROM cosmic_dialogues
-            GROUP BY theme
-            ORDER BY count DESC
-            LIMIT 5
-        `;
-
-        res.status(200).json({
-            dialogues,
-            stats: stats[0],
-            topThemes,
-            pagination: {
-                limit,
-                offset,
-                hasMore: dialogues.length === limit
-            }
-        });
-
-    } catch (error) {
-        console.error('Error consultando historial:', error);
-        res.status(500).json({
-            error: 'Error al consultar historial',
-            details: error.message
-        });
-    }
-}
+  } catch (error) {
+    console.error('Error consultando historial:', error);
+    res.status(500).json({
+      error: 'Error al consultar historial',
+      details: error.message
+    });
+  }
+};
