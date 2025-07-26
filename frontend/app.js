@@ -260,7 +260,7 @@ async function getDialogue() {
 //             updateConnectionStatus('Error de conexión', false);
 //             return mockDialogues[currentDialogue % mockDialogues.length];
 //         }
-//     }
+		}
 	}
 
 function showLoading(show) {
@@ -965,4 +965,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-}
