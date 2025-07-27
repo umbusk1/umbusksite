@@ -94,6 +94,14 @@ function resizeCanvas() {
     if (canvas) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
+                // Ajustar para móvil
+		        if (window.innerWidth < 768) {
+		            canvas.style.marginTop = '90px'; // Espacio para header + ticker
+		        } else {
+		            canvas.style.marginTop = '0';
+        }
+
     }
 }
 
@@ -618,6 +626,7 @@ function animate() {
 }
 
 // Sistema de ticker de navegación unificado
+// Sistema de ticker de navegación bilingüe
 function initializeNavigationTicker() {
     const tickerContent = document.getElementById('ticker-content');
     if (!tickerContent) return;
@@ -628,54 +637,93 @@ function initializeNavigationTicker() {
     // Crear HTML del ticker de navegación
     let html = '';
 
-    // Crear patrón alternado para Home: Arqueología - Workflow - Arqueología...
+    // Para Home: mostrar Arqueología/Archaeology - Workflow/Workflow alternado
     if (currentPage === 'index.html' || currentPage === '') {
-        // Repetir el patrón varias veces para llenar el ticker
-        for (let i = 0; i < 12; i++) {  // Duplicar las repeticiones
+        for (let i = 0; i < 12; i++) {
             html += '<span class="ticker-nav-item">';
-            html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
+            html += '<a href="arqueologia.html" class="ticker-nav-link">';
+            html += '<span class="es">ARQUEOLOGÍA</span>';
+            html += '<span class="en">ARCHAEOLOGY</span>';
+            html += '</a>';
             html += '</span>';
             html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
 
             html += '<span class="ticker-nav-item">';
-            html += '<a href="workflow.html" class="ticker-nav-link">WORKFLOW</a>';
+            html += '<a href="workflow.html" class="ticker-nav-link">';
+            html += '<span class="es">FLUJO DE TRABAJO</span>';
+            html += '<span class="en">WORKFLOW</span>';
+            html += '</a>';
             html += '</span>';
             html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
         }
-    } else {
-        // Para otras páginas, mostrar todo menos la página actual
-
-        if (currentPage !== 'workflow.html') {
-			for (let i = 0; i < 12; i++) {  // Duplicar las repeticiones
+    }
+    // Para Workflow: mostrar Home - Arqueología alternado
+    else if (currentPage === 'workflow.html') {
+        for (let i = 0; i < 12; i++) {
             html += '<span class="ticker-nav-item">';
-            html += '<a href="workflow.html" class="ticker-nav-link">WORKFLOW</a>';
+            html += '<a href="index.html" class="ticker-nav-link">';
+            html += '<span class="es">INICIO</span>';
+            html += '<span class="en">HOME</span>';
+            html += '</a>';
             html += '</span>';
             html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
 
             html += '<span class="ticker-nav-item">';
-			html += '<a href="index.html" class="ticker-nav-link">HOME</a>';
-			html += '</span>';
+            html += '<a href="arqueologia.html" class="ticker-nav-link">';
+            html += '<span class="es">ARQUEOLOGÍA</span>';
+            html += '<span class="en">ARCHAEOLOGY</span>';
+            html += '</a>';
+            html += '</span>';
             html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
-            }
         }
-
-        if (currentPage !== 'arqueologia.html') {
-			for (let i = 0; i < 12; i++) {  // Duplicar las repeticiones
+    }
+    // Para Arqueología: mostrar Home - Workflow alternado
+    else if (currentPage === 'arqueologia.html') {
+        for (let i = 0; i < 12; i++) {
             html += '<span class="ticker-nav-item">';
-            html += '<a href="arqueologia.html" class="ticker-nav-link">ARQUEOLOGÍA</a>';
+            html += '<a href="index.html" class="ticker-nav-link">';
+            html += '<span class="es">INICIO</span>';
+            html += '<span class="en">HOME</span>';
+            html += '</a>';
             html += '</span>';
             html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
 
             html += '<span class="ticker-nav-item">';
-			html += '<a href="index.html" class="ticker-nav-link">HOME</a>';
-			html += '</span>';
+            html += '<a href="workflow.html" class="ticker-nav-link">';
+            html += '<span class="es">FLUJO DE TRABAJO</span>';
+            html += '<span class="en">WORKFLOW</span>';
+            html += '</a>';
+            html += '</span>';
             html += '<img src="imagenes/circulo.png" class="ticker-separator" alt="">';
-            }
         }
     }
 
-    // NO duplicar más, ya tenemos suficiente contenido
     tickerContent.innerHTML = html;
+}
+
+// También actualizar el sistema de cambio de idioma para refrescar el ticker
+window.setLanguage = function(lang) {
+    const body = document.body;
+    const selector = document.querySelector('.lang-selector-home') ||
+                    document.querySelector('.lang-selector');
+
+    if (lang === 'en') {
+        body.classList.add('en');
+        if (selector) {
+            selector.classList.remove('active-es');
+            selector.classList.add('active-en');
+        }
+    } else {
+        body.classList.remove('en');
+        if (selector) {
+            selector.classList.remove('active-en');
+            selector.classList.add('active-es');
+        }
+    }
+    localStorage.setItem('language', lang);
+
+    // Actualizar el ticker cuando cambia el idioma
+    // (El CSS se encarga de mostrar/ocultar el idioma correcto)
 }
 
 // INICIALIZACIÓN PRINCIPAL

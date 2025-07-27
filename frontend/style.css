@@ -328,6 +328,19 @@ body.arqueologia-page {
     text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
 }
 
+/* Sistema bilingüe para el ticker */
+.ticker-nav-item .en { 
+    display: none; 
+}
+
+body.en .ticker-nav-item .es { 
+    display: none; 
+}
+
+body.en .ticker-nav-item .en { 
+    display: inline; 
+}
+
 .ticker-separator {
     width: 10px;
     height: 10px;
@@ -1362,7 +1375,7 @@ body.arqueologia-page {
 
 @media (max-width: 768px) {
     .header-container {
-        padding: 0 20px;
+        padding: 0 10px;
     }
 
     .back-link {
@@ -1372,10 +1385,26 @@ body.arqueologia-page {
     .logo-center {
         height: 40px;
     }
+    
+        /* Ticker más cerca del header */
+        .ticker-wrapper {
+            top: 60px; /* Ajusta según la altura de tu header */
+            height: 30px;
+    }
 
     .lang-selector-home {
         top: 20px;
         right: 20px;
+    }
+    
+    .ticker-nav-link {
+            font-size: 11px;
+        }
+        
+    .ticker-separator {
+            width: 8px;
+            height: 8px;
+            margin: 0 8px;
     }
 
     .footer {
@@ -1408,6 +1437,33 @@ body.arqueologia-page {
 
     .with-secondary-header {
         padding-top: 80px;
+    }
+    
+        /* Canvas de cometas - ajustar posición */
+        #cosmos {
+            margin-top: 90px; /* Header + Ticker */
+        }
+        
+        /* Contenido principal */
+        .main-content {
+            padding-top: 100px; /* Dar espacio para header + ticker */
+        }
+        
+        /* Diálogos más pequeños */
+        .dialogue-content {
+            font-size: 14px;
+            padding: 10px;
+        }
+        
+        /* Botones de modo más pequeños */
+        .mode-selector {
+            bottom: 60px;
+            gap: 5px;
+        }
+        
+        .mode-btn {
+            padding: 8px 15px;
+            font-size: 12px;
     }
 }
 
@@ -1537,6 +1593,17 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     }
 }
 
+/* Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .ticker-wrapper {
+        top: 80px;
+    }
+    
+    #cosmos {
+        margin-top: 120px;
+    }
+}
+
 .lang-selector-home, .lang-selector {
     position: relative;
 }
@@ -1562,8 +1629,6 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     width: 15px;
     height: 1px;
 }
-
-/* Agrega estos estilos a tu CSS para corregir la visualización */
 
 /* Asegurar que el selector se vea correctamente */
 .lang-selector-home {
