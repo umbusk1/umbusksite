@@ -32,12 +32,6 @@ async function saveConversation(dialogue) {
             return `${voice}: ${line.text}`;
         }).join('\n');
 
-        // Formatear el texto del diálogo
-        const generatedText = dialogue.lines.map(line => {
-            const voice = line.voice === 1 ? 'Claude' : 'ChatGPT';
-            return `${voice}: ${line.text}`;
-        }).join('\n');
-
         const response = await fetch(`${API_BASE}/api/conversations`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
