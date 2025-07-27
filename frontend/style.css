@@ -1443,7 +1443,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
         position: fixed !important;
         top: 85px !important; /* Debajo del header + UMBUSK */
         height: 25px !important;
-        width: 100%;
+        width: 46%;
         z-index: 999 !important;
         background: rgba(0, 0, 0, 0.9);
         font-size: 11px;
