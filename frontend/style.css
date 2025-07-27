@@ -243,7 +243,7 @@ body.arqueologia-page {
     border-radius: 4px;
     padding: 8px 0;
     overflow: hidden;
-    z-index: 30;
+    z-index: 500;
     backdrop-filter: blur(10px);
     font-family: 'Monaco', 'Courier New', monospace;
     font-size: 13px;
@@ -266,7 +266,7 @@ body.arqueologia-page {
 
 @keyframes ticker {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    50% { transform: translateX(-50%); }
 }
 
 /* Estilos para los items de navegación en el ticker */
@@ -1625,6 +1625,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 @media (min-width: 768px) and (max-width: 1024px) {
     .ticker-container {
         width: 600px;
+        max-width: 50%;
     }
     
     .footer-container {
