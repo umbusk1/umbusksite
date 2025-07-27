@@ -32,8 +32,6 @@ async function saveConversation(dialogue) {
             return `${voice}: ${line.text}`;
         }).join('\n');
 
-        const sessionId = getOrCreateSessionId();
-
         // Formatear el texto del diálogo
         const generatedText = dialogue.lines.map(line => {
             const voice = line.voice === 1 ? 'Claude' : 'ChatGPT';
