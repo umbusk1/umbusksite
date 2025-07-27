@@ -719,107 +719,109 @@ window.addEventListener('resize', () => {
 const historyManager = {
     isOpen: false,
 
-    async loadHistory() {
-        try {
-            const sessionId = getOrCreateSessionId();
-            const response = await fetch(`${API_BASE}/api/history?session_id=${sessionId}&limit=50`);
-            if (response.ok) {
-                const data = await response.json();
-                this.displayHistory(data.dialogues);
-            }
-        } catch (error) {
-            console.error('Error cargando historial:', error);
+async loadHistory() {
+    try {
+        const sessionId = getOrCreateSessionId();
+        const response = await fetch(`${API_BASE}/api/history?session_id=${sessionId}&limit=50`);
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Historial cargado:', data);
+            this.displayHistory(data.conversations || []);
+        } else {
+            console.error('Error response:', response.status, response.statusText);
+            this.displayHistory([]);
         }
-    },
+    } catch (error) {
+        console.error('Error cargando historial:', error);
+        this.displayHistory([]);
+    }
+},
 
-    displayHistory(dialogues) {
-        const content = document.getElementById('history-content');
-        if (!content) return;
+displayHistory(conversations) {
+    const content = document.getElementById('history-content');
+    if (!content) return;
 
-        // Agrupar por fecha
-        const groupedByDate = {};
-        dialogues.forEach(dialogue => {
-            const date = new Date(dialogue.created_at).toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+    // Validar que conversations sea un array
+    if (!Array.isArray(conversations)) {
+        console.error('Conversations no es un array:', conversations);
+        conversations = [];
+    }
 
-            if (!groupedByDate[date]) {
-                groupedByDate[date] = [];
-            }
-            groupedByDate[date].push(dialogue);
+    if (conversations.length === 0) {
+        content.innerHTML = '<p class="no-history">No hay diálogos guardados aún.</p>';
+        return;
+    }
+
+    // Agrupar por fecha
+    const groupedByDate = {};
+    conversations.forEach(conv => {
+        const date = new Date(conv.timestamp).toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
         });
 
-        // Crear HTML
-        let html = '';
-        Object.entries(groupedByDate).forEach(([date, dialogues]) => {
+        if (!groupedByDate[date]) {
+            groupedByDate[date] = [];
+        }
+        groupedByDate[date].push(conv);
+    });
+
+    // Crear HTML
+    let html = '';
+    Object.entries(groupedByDate).forEach(([date, convs]) => {
+        html += `
+            <div class="date-item">
+                <div class="date-header" onclick="historyManager.toggleDate(this)">
+                    <span class="date-text">${date}</span>
+                    <span class="date-arrow">▼</span>
+                </div>
+                <div class="dialogues-content">
+        `;
+
+        convs.forEach((conv) => {
+            const time = new Date(conv.timestamp).toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            // Parsear el texto generado
+            const lines = conv.generated_text.split('\n');
+
             html += `
-                <div class="date-item">
-                    <div class="date-header" onclick="historyManager.toggleDate(this)">
-                        <span class="date-text">${date}</span>
-                        <span class="date-arrow">▼</span>
-                    </div>
-                    <div class="dialogues-content">
+                <div class="dialogue-group">
             `;
 
-            dialogues.forEach((dialogue, index) => {
-                const time = new Date(dialogue.created_at).toLocaleTimeString('es-ES', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-
-                html += `
-                    <div class="dialogue-group">
-                        <div class="dialogue-row">
-                            <span class="voice-label">Claude:</span>
-                            <span class="voice-text">${dialogue.voice1_line1}</span>
-                        </div>
-                        <div class="dialogue-row">
-                            <span class="voice-label">ChatGPT:</span>
-                            <span class="voice-text">${dialogue.voice2_line1}</span>
-                        </div>
-                        <div class="dialogue-row">
-                            <span class="voice-label">Claude:</span>
-                            <span class="voice-text">${dialogue.voice1_line2}</span>
-                        </div>
-                        <div class="dialogue-row">
-                            <span class="voice-label">ChatGPT:</span>
-                            <span class="voice-text">${dialogue.voice2_line2}</span>
-                        </div>
-                        <div class="dialogue-time">${time}</div>
-                    </div>
-                `;
+            lines.forEach(line => {
+                if (line.includes(':')) {
+                    const [voice, ...textParts] = line.split(':');
+                    const text = textParts.join(':').trim();
+                    if (voice && text) {
+                        html += `
+                            <div class="dialogue-row">
+                                <span class="voice-label">${voice}:</span>
+                                <span class="voice-text">${text}</span>
+                            </div>
+                        `;
+                    }
+                }
             });
 
             html += `
-                    </div>
+                    <div class="dialogue-time">${time}</div>
                 </div>
             `;
         });
 
-        content.innerHTML = html;
-    },
+        html += `
+                </div>
+            </div>
+        `;
+    });
 
-    toggleDate(header) {
-        header.classList.toggle('active');
-        header.nextElementSibling.classList.toggle('active');
-    },
-
-    toggle() {
-        this.isOpen = !this.isOpen;
-        const container = document.getElementById('history-container');
-
-        if (container) {
-            if (this.isOpen) {
-                container.classList.add('active');
-                this.loadHistory();
-            } else {
-                container.classList.remove('active');
-            }
-        }
-    }
-};
+    content.innerHTML = html;
+},
 
 // Sistema de cambio de modos
 function changeCosmosMode(newMode) {
