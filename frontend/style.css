@@ -1642,7 +1642,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 @media (max-width: 767px) and (orientation: landscape) {
     .ticker-container {
         width: 600px;
-        max-width: 90%;
+        max-width: 50%;
     }
     
     #cosmos {
