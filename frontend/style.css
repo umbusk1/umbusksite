@@ -1461,7 +1461,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     }
     
     .ticker-content {
-        animation-duration: 30s; /* Más rápido en móvil */
+        animation-duration: 10s; /* Más rápido en móvil */
     }
     
     /* --- CANVAS COSMOS --- */
