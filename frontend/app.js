@@ -821,7 +821,7 @@ displayHistory(conversations) {
     });
 
     content.innerHTML = html;
-},
+};
 
 // Sistema de cambio de modos
 function changeCosmosMode(newMode) {
