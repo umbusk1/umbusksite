@@ -259,14 +259,14 @@ body.arqueologia-page {
 .ticker-content {
     display: flex;
     align-items: center;
-    animation: ticker 10s linear infinite;
+    animation: ticker 30s linear infinite;
     white-space: nowrap;
     padding-left: 0;  /* Sin padding inicial */
 }
 
 @keyframes ticker {
     0% { transform: translateX(0); }
-    50% { transform: translateX(-50%); }
+    100% { transform: translateX(-50%); }
 }
 
 /* Estilos para los items de navegación en el ticker */
@@ -1461,7 +1461,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     }
     
     .ticker-content {
-        animation-duration: 10s; /* Más rápido en móvil */
+        animation-duration: 30s; /* Más rápido en móvil */
     }
     
     /* --- CANVAS COSMOS --- */
