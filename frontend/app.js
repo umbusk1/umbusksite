@@ -821,6 +821,26 @@ displayHistory(conversations) {
     });
 
     content.innerHTML = html;
+},
+
+toggleDate(header) {
+    header.classList.toggle('active');
+    header.nextElementSibling.classList.toggle('active');
+},
+
+toggle() {
+    this.isOpen = !this.isOpen;
+    const container = document.getElementById('history-container');
+
+    if (container) {
+        if (this.isOpen) {
+            container.classList.add('active');
+            this.loadHistory();
+        } else {
+            container.classList.remove('active');
+        }
+    }
+}
 };
 
 // Sistema de cambio de modos
