@@ -20,6 +20,18 @@ function getOrCreateSessionId() {
 
 async function saveConversation(dialogue) {
     try {
+        if (!dialogue || !dialogue.lines) {
+            console.error('Diálogo inválido:', dialogue);
+            return;
+        }
+
+        const sessionId = getOrCreateSessionId();
+
+        const generatedText = dialogue.lines.map(line => {
+            const voice = line.voice === 1 ? 'Claude' : 'ChatGPT';
+            return `${voice}: ${line.text}`;
+        }).join('\n');
+
         const sessionId = getOrCreateSessionId();
 
         // Formatear el texto del diálogo
@@ -719,6 +731,7 @@ const historyManager = {
 
     async loadHistory() {
         try {
+            const sessionId = getOrCreateSessionId();
             const response = await fetch(`${API_BASE}/api/history?session_id=${sessionId}&limit=50`);
             if (response.ok) {
                 const data = await response.json();
