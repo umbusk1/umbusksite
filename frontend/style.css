@@ -1377,93 +1377,106 @@ body.arqueologia-page {
     .header-container {
         padding: 0 10px;
     }
-
     .back-link {
         font-size: 11px;
     }
-
     .logo-center {
         height: 40px;
     }
     
-        /* Ticker más cerca del header */
-        .ticker-wrapper {
-            top: 60px; /* Ajusta según la altura de tu header */
-            height: 30px;
+    /* Ticker PEGADO al header */
+    .ticker-wrapper {
+        top: 45px !important; /* Más cerca del header */
+        height: 25px !important; /* Más delgado */
     }
-
+    
     .lang-selector-home {
         top: 20px;
         right: 20px;
     }
     
     .ticker-nav-link {
-            font-size: 11px;
-        }
+        font-size: 11px;
+    }
         
     .ticker-separator {
-            width: 8px;
-            height: 8px;
-            margin: 0 8px;
+        width: 8px;
+        height: 8px;
+        margin: 0 8px;
     }
-
+    
+    /* Canvas de cometas - SIN margen superior */
+    #cosmos {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        margin: 0 !important;
+        width: 100vw;
+        height: 100vh;
+        z-index: 1;
+    }
+    
+    /* Contenedor de diálogos centrado en pantalla */
+    .dialogue-container {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 100;
+        width: 90%;
+        max-width: 350px;
+    }
+    
+    /* Contenido principal */
+    .main-content {
+        padding-top: 70px; /* Solo espacio para header + ticker */
+    }
+    
+    /* Diálogos más pequeños */
+    .dialogue-content {
+        font-size: 14px;
+        padding: 10px;
+    }
+    
+    /* Botones de modo más arriba */
+    .mode-selector {
+        position: fixed !important;
+        bottom: 20px !important;
+        gap: 5px;
+        z-index: 100;
+    }
+    
+    .mode-btn {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+    
+    /* Footer responsive */
     .footer {
         margin-top: 50px;
         padding: 40px 0 30px;
     }
-
     .footer-container {
         grid-template-columns: 1fr;
         gap: 40px;
         text-align: center;
         padding: 0 20px;
     }
-
     .footer-nav {
         display: flex;
         justify-content: center;
         gap: 20px;
         flex-wrap: wrap;
     }
-
     .footer-nav li {
         margin: 0;
     }
-
     .qr-code {
         width: 120px;
         height: 120px;
     }
-
     .with-secondary-header {
         padding-top: 80px;
-    }
-    
-        /* Canvas de cometas - ajustar posición */
-        #cosmos {
-            margin-top: 90px; /* Header + Ticker */
-        }
-        
-        /* Contenido principal */
-        .main-content {
-            padding-top: 100px; /* Dar espacio para header + ticker */
-        }
-        
-        /* Diálogos más pequeños */
-        .dialogue-content {
-            font-size: 14px;
-            padding: 10px;
-        }
-        
-        /* Botones de modo más pequeños */
-        .mode-selector {
-            bottom: 60px;
-            gap: 5px;
-        }
-        
-        .mode-btn {
-            padding: 8px 15px;
-            font-size: 12px;
     }
 }
 
