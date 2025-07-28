@@ -1397,27 +1397,27 @@ body.en .ticker-nav-item .en {
 
 /* ===== TICKER CENTRADO EN PANTALLAS GRANDES ===== */
 @media (min-width: 1024px) {
-    .ticker-wrapper, .ticker-container {
-        width: 33.33% !important; /* Un tercio del ancho */
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        margin: 0 auto;
-        align-self: center; /* Centrar contenido */
+/* TICKER CENTRADO Y LIMITADO */
+    .ticker-wrapper {
+        width: 500px !important; /* Ancho fijo en lugar de porcentaje */
+        max-width: 33.33vw !important;
     }
+    
+    .ticker-content {
+        width: 100%;
+    }
+
 }
 
 /* ===== RESPONSIVE: MÓVILES (max-width: 768px) ===== */
 @media (max-width: 768px) {
-    /* --- HEADER --- */
+    /* HEADER - estructura flex para centrar */
     .header {
         position: fixed !important;
         top: 0 !important;
-        margin: 0 !important;
         width: 100%;
-        padding: 10px 0;
         z-index: 1000 !important;
         background: rgba(0, 0, 0, 0.95);
-        align-self: center; /* Centrar contenido */
     }
     
     .header-container {
@@ -1436,14 +1436,18 @@ body.en .ticker-nav-item .en {
         margin: 0 auto;
     }
     
-    /* UMBUSK CENTRADO DEBAJO DEL LOGO */
+    /* UMBUSK - evitar que se corte */
     .umbusk-watermark {
+        position: relative !important;
         display: block !important;
+        width: 100% !important;
         text-align: center !important;
-        margin: 5px auto 0 !important;
-        font-size: 12px;
-        position: relative;
-        z-index: 1001;
+        margin: 5px 0 !important;
+        padding: 0 !important;
+        left: 0 !important;
+        transform: none !important;
+        font-size: 14px !important; /* Un poco más grande */
+        letter-spacing: 2px; /* Espaciado entre letras */
     }
     
     /* --- NAVEGACIÓN --- */
@@ -1463,32 +1467,41 @@ body.en .ticker-nav-item .en {
         font-size: 12px;
     }
     
-        /* Navegación lateral (si existe) */
-        .nav-left, .nav-right {
-            position: absolute;
-            top: 10px;
-            z-index: 1002;
-        }
-        
-        .nav-left {
-            left: 10px;
-        }
-        
-        .nav-right {
-            right: 10px;
+    /* Ocultar navegación lateral en móvil */
+    .nav-left, .nav-right {
+        position: absolute !important;
     }
     
-    /* --- TICKER --- */
+    .nav-left {
+        left: 10px;
+        top: 10px;
+    }
+    
+    .nav-right {
+        right: 10px;
+        top: 10px;
+    }
+    
+    /* Nav center para que no corte contenido */
+    .nav-center {
+        width: 100%;
+        padding: 0 60px; /* Espacio para ES/EN a la derecha */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+        
+    .nav-container {
+        display: flex;
+        flex-direction: column !important;
+        align-items: center !important;
+        padding: 10px;
+        }
+    
+    /* TICKER */
     .ticker-wrapper, .ticker-container {
-        position: fixed !important;
-        top: 75px !important; /* Ajusta según altura real del header */
-        height: 25px !important;
+        top: 80px !important; /* Ajusta según la altura real de tu header */
         width: 100% !important;
-        left: 0 !important;
-        transform: none !important;
-        z-index: 999 !important;
-        background: rgba(0, 0, 0, 0.9);
-	align-self: center; /* Centrar contenido */
     }
     
     .ticker-nav-link {
@@ -1557,15 +1570,19 @@ body.en .ticker-nav-item .en {
     }
     
     /* --- HISTORIAL --- */
+    /* DIÁLOGOS GENERADOS CENTRADO */
     .history-trigger {
         position: fixed !important;
-        top: 105px !important; /* ticker top + ticker height + espacio */
-        right: 20px !important;
+        top: 110px !important; /* ticker + altura */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        right: auto !important;
         z-index: 998 !important;
         font-size: 12px;
-        padding: 5px 10px;
-        background: rgba(0, 0, 0, 0.7);
-        border-radius: 5px;
+        padding: 5px 15px;
+        background: rgba(0, 0, 0, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
     }
     
     /* CAJA DE HISTORIAL CENTRADA */
@@ -1676,22 +1693,19 @@ body.en .ticker-nav-item .en {
         width: 100% !important;
         left: 0 !important;
         transform: none !important;
-        align-self: center; /* Centrar contenido */
     }
 }
 
 /* ===== RESPONSIVE: PANTALLAS MUY PEQUEÑAS (max-width: 480px) ===== */
 @media (max-width: 480px) {
     .ticker-wrapper, .ticker-container {
-        top: 60px !important; /* Más arriba en pantallas pequeñas */
+        top: 75px !important; /* Más arriba en pantallas pequeñas */
         font-size: 10px !important;
-        align-self: center; /* Centrar contenido */
     }
     
     .history-trigger {
-        top: 98px !important;
+        top: 103px !important;
         font-size: 11px;
-        padding: 4px 8px;
     }
     
     .history-container {
@@ -1705,7 +1719,14 @@ body.en .ticker-nav-item .en {
     
     .umbusk-watermark {
         font-size: 11px;
-        align-self: center; /* Centrar contenido */
+        margin-top: 3px;
+    	position: relative !important;
+    	left: 50% !important;
+    	transform: translateX(-50%) !important;
+    	display: inline-block !important;
+    	text-align: center !important;
+    	font-size: 12px !important;
+        letter-spacing: 1.5px;
     }
     
     .mode-selector {
@@ -1719,6 +1740,14 @@ body.en .ticker-nav-item .en {
     
     .ticker-content {
         animation-duration: 15s;
+    }
+    
+        .nav-container {
+            padding: 8px;
+    }
+    
+        .nav-center {
+            padding: 0 50px;
     }
 }
 
