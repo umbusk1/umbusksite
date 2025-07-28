@@ -1326,7 +1326,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     font-family: 'Helvetica Neue', sans-serif;
     font-size: 13px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-
+    align-self: center; /* Centrar contenido */
 }
 
 /* ===== HOVER PARA PAUSAR TICKER ===== */
@@ -1488,6 +1488,7 @@ body.en .ticker-nav-item .en {
         transform: none !important;
         z-index: 999 !important;
         background: rgba(0, 0, 0, 0.9);
+	align-self: center; /* Centrar contenido */
     }
     
     .ticker-nav-link {
@@ -1675,7 +1676,7 @@ body.en .ticker-nav-item .en {
         width: 100% !important;
         left: 0 !important;
         transform: none !important;
-     /* Centrar contenido */
+        align-self: center; /* Centrar contenido */
     }
 }
 
@@ -1704,7 +1705,7 @@ body.en .ticker-nav-item .en {
     
     .umbusk-watermark {
         font-size: 11px;
-     /* Centrar contenido */
+        align-self: center; /* Centrar contenido */
     }
     
     .mode-selector {
@@ -1736,7 +1737,7 @@ body.en .ticker-nav-item .en {
     
     .umbusk-watermark {
         font-size: 11px;
-     /* Centrar contenido */
+        align-self: center; /* Centrar contenido */
     }
 
     .qr-section {
