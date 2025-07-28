@@ -232,90 +232,6 @@ body.arqueologia-page {
     }
 }
 
-/* TICKER DE NAVEGACIÓN (actualizado) */
-.ticker-container {
-    position: relative;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    padding: 8px 0;
-    overflow: hidden;
-    z-index: 500;
-    backdrop-filter: blur(10px);
-    font-family: 'Helvetica Neue', sans-serif;
-    font-size: 13px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    text-align: center;
-}
-
-/* ===== HOVER PARA PAUSAR TICKER ===== */
-.ticker-wrapper:hover .ticker-content,
-.ticker-container:hover .ticker-content {
-    animation-play-state: paused !important;
-}
-
-/* Ticker en páginas con header secundario */
-.arqueologia-page .ticker-container,
-.workflow-page .ticker-container {
-    z-index: 500;
-}
-
-.ticker-content {
-    display: flex;
-    align-items: center;
-    animation: ticker 30s linear infinite;
-    white-space: nowrap;
-    padding-left: 0;  /* Sin padding inicial */
-}
-
-@keyframes ticker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
-/* Estilos para los items de navegación en el ticker */
-.ticker-nav-item {
-    display: inline-flex;
-    align-items: center;
-    margin: 0 10px;
-}
-
-.ticker-nav-item a {
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    transition: all 0.3s ease;
-    padding: 5px 10px;
-}
-
-.ticker-nav-item a:hover {
-    color: #4CAF50;
-    text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
-}
-
-/* Sistema bilingüe para el ticker */
-.ticker-nav-item .en { 
-    display: none; 
-}
-
-body.en .ticker-nav-item .es { 
-    display: none; 
-}
-
-body.en .ticker-nav-item .en { 
-    display: inline; 
-}
-
-.ticker-separator {
-    width: 10px;
-    height: 10px;
-    margin: 0 20px;
-}
-
 /* Trigger del historial */
 .history-trigger {
     position: fixed;
@@ -1394,6 +1310,92 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     background: #00a8ff;
 }
 
+/* TICKER DE NAVEGACIÓN (actualizado) */
+.ticker-container {
+    position: relative;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 8px 0;
+    overflow: hidden;
+    z-index: 500;
+    backdrop-filter: blur(10px);
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+/* ===== HOVER PARA PAUSAR TICKER ===== */
+.ticker-wrapper:hover .ticker-content,
+.ticker-container:hover .ticker-content {
+    animation-play-state: paused !important;
+}
+
+/* Ticker en páginas con header secundario */
+.arqueologia-page .ticker-container,
+.workflow-page .ticker-container {
+    z-index: 500;
+}
+
+.ticker-content {
+    display: flex;
+    align-items: center;
+    animation: ticker 30s linear infinite;
+    white-space: nowrap;
+    padding-left: 0;  /* Sin padding inicial */
+}
+
+@keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Estilos para los items de navegación en el ticker */
+.ticker-nav-item {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.ticker-nav-item a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+}
+
+.ticker-nav-item a:hover {
+    color: #4CAF50;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+/* Sistema bilingüe para el ticker */
+.ticker-nav-item .en { 
+    display: none; 
+}
+
+body.en .ticker-nav-item .es { 
+    display: none; 
+}
+
+body.en .ticker-nav-item .en { 
+    display: inline; 
+}
+
+.ticker-separator {
+    width: 10px;
+    height: 10px;
+    margin: 0 20px;
+}
+
 /* ===== TICKER CENTRADO EN PANTALLAS GRANDES ===== */
 @media (min-width: 1024px) {
     .ticker-wrapper, .ticker-container {
@@ -1480,6 +1482,8 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     /* --- TICKER --- */
     .ticker-wrapper, .ticker-container {
         position: fixed !important;
+    	display: flex;
+    	justify-content: center; /* Centra horizontalmente el contenido */
         top: 75px !important; /* Ajusta según altura real del header */
         height: 25px !important;
         width: 100% !important;
@@ -1671,6 +1675,8 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 
 @media (min-width: 768px) and (max-width: 1023px) {
     .ticker-wrapper, .ticker-container {
+    	display: flex;
+    	justify-content: center; /* Centra horizontalmente el contenido */
         width: 100% !important;
         left: 0 !important;
         transform: none !important;
@@ -1681,6 +1687,8 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 /* ===== RESPONSIVE: PANTALLAS MUY PEQUEÑAS (max-width: 480px) ===== */
 @media (max-width: 480px) {
     .ticker-wrapper, .ticker-container {
+        display: flex;
+    	justify-content: center; /* Centra horizontalmente el contenido */
         top: 60px !important; /* Más arriba en pantallas pequeñas */
         font-size: 10px !important;
         align-self: center; /* Centrar contenido */
@@ -1723,6 +1731,8 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 /* ===== RESPONSIVE: TABLETS (768px - 1024px) ===== */
 @media (min-width: 768px) and (max-width: 1024px) {
     .ticker-container {
+        display: flex;
+    	justify-content: center; /* Centra horizontalmente el contenido */
         width: 600px;
         max-width: 50%;
         align-self: center; /* Centrar contenido */
@@ -1747,6 +1757,8 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 /* ===== RESPONSIVE: LANDSCAPE MÓVIL ===== */
 @media (max-width: 767px) and (orientation: landscape) {
     .ticker-container {
+        display: flex;
+    	justify-content: center; /* Centra horizontalmente el contenido */
         width: 600px;
         max-width: 50%;
         align-self: center; /* Centrar contenido */
@@ -1764,6 +1776,8 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 /* ===== RESPONSIVE: PORTRAIT MÓVIL ===== */
 @media (max-width: 767px) and (orientation: portrait) {
     .ticker-container {
+        display: flex;
+    	justify-content: center; /* Centra horizontalmente el contenido */
         width: 90%;
         align-self: center; /* Centrar contenido */
     }
