@@ -1414,7 +1414,7 @@ body.en .ticker-nav-item .en {
 @media (max-width: 768px) {
     /* HEADER - estructura flex para centrar */
     .header {
-        position: fixed !important;
+        position: relative !important;
         top: 0 !important;
         width: 100%;
         z-index: 1000 !important;
