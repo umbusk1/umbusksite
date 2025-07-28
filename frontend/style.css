@@ -1221,6 +1221,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 
 /* Título de arqueología con el mismo espaciado que entre UMBUSK y ticker */
 .arqueologia-title-section {
+    text-align: center;
     margin-top: 91px; /* Mismo espaciado que entre UMBUSK y ticker */
     margin-bottom: 60px; /* Mismo espaciado hacia la strata */
     left: 50% !important;
