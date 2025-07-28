@@ -925,19 +925,11 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Event listeners para el historial
+// Event listeners para el historial
     const historyTrigger = document.getElementById('history-trigger');
     const historyClose = document.getElementById('history-close');
-	const historyContainer = document.getElementById('history-container');
+    const historyContainer = document.getElementById('history-container');
 
-	if (historyContainer) {
-	    historyContainer.addEventListener('click', (e) => {
-	        // Si el click es en el fondo (no en el contenido)
-	        if (e.target === historyContainer) {
-	            historyManager.toggle();
-	        }
-	    });
-	}
     if (historyTrigger) {
         historyTrigger.addEventListener('click', () => {
             historyManager.toggle();
@@ -949,6 +941,29 @@ window.addEventListener('DOMContentLoaded', () => {
             historyManager.toggle();
         });
     }
+
+    // Cerrar al hacer clic fuera de la caja
+    if (historyContainer) {
+        historyContainer.addEventListener('click', (e) => {
+            // Si el click es exactamente en el contenedor (el fondo oscuro)
+            if (e.target.id === 'history-container') {
+                historyManager.toggle();
+            }
+        });
+    }
+
+    // También cerrar al hacer clic en cualquier parte cuando está abierto
+    document.addEventListener('click', (e) => {
+        if (historyManager.isOpen && historyContainer) {
+            // Si el clic no es en el trigger ni dentro del contenedor
+            const isClickInside = historyContainer.contains(e.target) ||
+                                  (historyTrigger && historyTrigger.contains(e.target));
+
+            if (!isClickInside) {
+                historyManager.toggle();
+            }
+        }
+    });
 });
 
 // AGREGAR ESTO A app.js PARA QUE FUNCIONE EN TODO EL SITIO
