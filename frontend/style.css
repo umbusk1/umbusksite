@@ -245,7 +245,7 @@ body.arqueologia-page {
     overflow: hidden;
     z-index: 500;
     backdrop-filter: blur(10px);
-    font-family: 'Monaco', 'Courier New', monospace;
+    font-family: 'Helvetica Neue', sans-serif;
     font-size: 13px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     text-align: center;
