@@ -1400,7 +1400,7 @@ body.en .ticker-nav-item .en {
 @media (min-width: 1024px) {
 /* TICKER CENTRADO Y LIMITADO */
     .ticker-wrapper {
-        position: fixed !important;
+        position: relative !important;
         width: 33.33% !important; /* Exactamente 1/3 */
         max-width: 600px !important; /* Límite máximo */
         left: 50% !important;
@@ -1418,7 +1418,7 @@ body.en .ticker-nav-item .en {
 @media (max-width: 768px) {
     /* Calcular altura del header dinámicamente */
     .header {
-        position: fixed !important;
+        position: relative !important;
         top: 0 !important;
         width: 100%;
         z-index: 1000 !important;
