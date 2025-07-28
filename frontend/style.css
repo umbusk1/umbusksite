@@ -1315,6 +1315,8 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 /* TICKER DE NAVEGACIÓN (actualizado) */
 .ticker-container {
     position: relative;
+    width: 33.33vw; /* un tercio del ancho de la pantalla */
+    margin: 0 auto; /* lo centra horizontalmente */
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
