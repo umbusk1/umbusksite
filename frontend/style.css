@@ -248,6 +248,7 @@ body.arqueologia-page {
     font-family: 'Monaco', 'Courier New', monospace;
     font-size: 13px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
 }
 
 /* ===== HOVER PARA PAUSAR TICKER ===== */
