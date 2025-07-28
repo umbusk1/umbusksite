@@ -1441,7 +1441,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     /* --- TICKER --- */
     .ticker-wrapper, .ticker-container {
         position: fixed !important;
-        top: 85px !important; /* Debajo del header + UMBUSK */
+        top: 73px !important; /* Debajo del header + UMBUSK */
         height: 25px !important;
         width: 46%;
         z-index: 999 !important;
