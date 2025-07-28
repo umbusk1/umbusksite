@@ -1221,7 +1221,6 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 
 /* Título de arqueología con el mismo espaciado que entre UMBUSK y ticker */
 .arqueologia-title-section {
-    align-self: center; /* Centrar contenido */
     margin-top: 91px; /* Mismo espaciado que entre UMBUSK y ticker */
     margin-bottom: 60px; /* Mismo espaciado hacia la strata */
 }
@@ -1230,7 +1229,8 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     font-size: 3rem;
     font-weight: 300;
     letter-spacing: 0.2em;
-    margin: 0 0 20px 0;
+    margin-left: auto;
+    margin-right: auto;
     color: #fff;
 }
 
@@ -1704,7 +1704,7 @@ body.en .ticker-nav-item .en {
     }
     
     .history-trigger {
-        top: 103px !important;
+        top: px !important;
         font-size: 11px;
     }
     
