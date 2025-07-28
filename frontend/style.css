@@ -1392,10 +1392,11 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     /* --- HEADER --- */
     .header {
         position: fixed !important;
-        top: 0;
+        top: 0 !important;
+        margin-top: 0 !important; /* Eliminar cualquier margen */
         width: 100%;
         height: auto;
-        padding: 15px 0;
+        padding: 10px 0;
         z-index: 1000 !important;
         background: rgba(0, 0, 0, 0.95);
     }
@@ -1441,13 +1442,11 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     /* --- TICKER --- */
     .ticker-wrapper, .ticker-container {
         position: fixed !important;
-        top: 73px !important; /* Debajo del header + UMBUSK */
+        top: 100px !important; /* Aumentar para que esté DEBAJO de UMBUSK */
         height: 25px !important;
-        width: 46%;
+        width: 100%;
         z-index: 999 !important;
         background: rgba(0, 0, 0, 0.9);
-        font-size: 11px;
-        padding: 5px 0;
     }
     
     .ticker-nav-link {
@@ -1472,8 +1471,8 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
         width: 100vw !important;
         height: 100vh !important;
         margin: 0 !important;
-        z-index: 1 !important; /* Detrás de todo */
-    }
+        z-index: 1 !important;
+    
     
     /* --- CONTENIDO PRINCIPAL --- */
     .main-content {
@@ -1516,11 +1515,35 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     }
     
     /* --- HISTORIAL --- */
+    .history-trigger {
+        position: fixed !important;
+        top: 130px !important; /* Justo debajo del ticker */
+        right: 20px !important;
+        z-index: 998 !important;
+    }
+    
+    /* CAJA DE HISTORIAL MÁS PEQUEÑA Y CENTRADA */
     .history-container {
-        width: 95%;
-        padding: 15px;
-        top: 5px;
-        max-height: 90vh;
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 90%;
+        max-width: 400px;
+        max-height: 70vh !important; /* Menos altura */
+        padding: 20px;
+        z-index: 2000 !important;
+    }
+    
+    /* Botón de cerrar más visible */
+    .history-close {
+        position: absolute;
+        top: 10px !important;
+        right: 10px !important;
+        font-size: 24px !important;
+        padding: 5px 10px !important;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
     }
     
     .dialogue-group {
@@ -1600,6 +1623,8 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
         padding: 0 20px;
     }
 }
+
+
 
 /* ===== RESPONSIVE: PANTALLAS MUY PEQUEÑAS (max-width: 480px) ===== */
 @media (max-width: 480px) {

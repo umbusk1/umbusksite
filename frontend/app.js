@@ -1,6 +1,6 @@
 // Configuración
 const CONFIG = {
-    API_ENDPOINT: 'https://lab.umbusk.com/api/chat',
+    API_ENDPOINT: 'https://umbusksite.vercel.app/api/chat',
     USE_MOCK_DATA: false, // Por ahora usamos datos de prueba
     COMET_COUNT: 12,
     DIALOGUE_DELAY: 2500,
@@ -928,7 +928,16 @@ window.addEventListener('DOMContentLoaded', () => {
     // Event listeners para el historial
     const historyTrigger = document.getElementById('history-trigger');
     const historyClose = document.getElementById('history-close');
+	const historyContainer = document.getElementById('history-container');
 
+	if (historyContainer) {
+	    historyContainer.addEventListener('click', (e) => {
+	        // Si el click es en el fondo (no en el contenido)
+	        if (e.target === historyContainer) {
+	            historyManager.toggle();
+	        }
+	    });
+	}
     if (historyTrigger) {
         historyTrigger.addEventListener('click', () => {
             historyManager.toggle();
