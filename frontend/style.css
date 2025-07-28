@@ -1401,7 +1401,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
         left: 50% !important;
         transform: translateX(-50%) !important;
         margin: 0 auto;
-        text-align: center; /* Centrar contenido */
+        align-self: center; /* Centrar contenido */
     }
 }
 
@@ -1416,7 +1416,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
         padding: 10px 0;
         z-index: 1000 !important;
         background: rgba(0, 0, 0, 0.95);
-        text-align: center; /* Centrar contenido */
+        align-self: center; /* Centrar contenido */
     }
     
     .header-container {
@@ -1681,9 +1681,9 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 /* ===== RESPONSIVE: PANTALLAS MUY PEQUEÑAS (max-width: 480px) ===== */
 @media (max-width: 480px) {
     .ticker-wrapper, .ticker-container {
-        top: 70px !important; /* Más arriba en pantallas pequeñas */
+        top: 60px !important; /* Más arriba en pantallas pequeñas */
         font-size: 10px !important;
-        text-align: center; /* Centrar contenido */
+        align-self: center; /* Centrar contenido */
     }
     
     .history-trigger {
@@ -1725,7 +1725,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     .ticker-container {
         width: 600px;
         max-width: 50%;
-        text-align: center; /* Centrar contenido */
+        align-self: center; /* Centrar contenido */
     }
     
     .footer-container {
@@ -1749,7 +1749,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
     .ticker-container {
         width: 600px;
         max-width: 50%;
-        text-align: center; /* Centrar contenido */
+        align-self: center; /* Centrar contenido */
     }
     
     #cosmos {
@@ -1765,6 +1765,6 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
 @media (max-width: 767px) and (orientation: portrait) {
     .ticker-container {
         width: 90%;
-        text-align: center; /* Centrar contenido */
+        align-self: center; /* Centrar contenido */
     }
 }
