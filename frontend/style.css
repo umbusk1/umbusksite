@@ -1400,6 +1400,7 @@ body.en div.lang-en, body.en p.lang-en, body.en h1.lang-en, body.en h2.lang-en, 
         left: 50% !important;
         transform: translateX(-50%) !important;
         margin: 0 auto;
+        text-align: center; /* Centrar contenido */
     }
 }
 
