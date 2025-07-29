@@ -15,18 +15,34 @@ body {
     overflow-x: hidden;
 }
 
-/* Footer al final */
-.footer-index {
-    position: relative;
-    z-index: 1000;
-    background: #000;
-    margin-top: 50px; /* Espacio antes del footer */
+/* Logo y ticker siempre visibles */
+.header {
+    position: fixed;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
 }
 
-/* Main wrapper debe tener altura mínima */
-.main-wrapper {
-    min-height: 200vh; /* Doble altura para asegurar scroll */
+.ticker-container {
+    position: fixed;
+    top: 120px; /* Ajustar según altura del logo */
+    width: 100%;
+    z-index: 100;
+}
+
+/* Footer con z-index alto para tapar los botones */
+.footer-index {
     position: relative;
+    z-index: 1000; /* Mayor que los botones (50) */
+    background: #000;
+    margin-top: 100vh;
+}
+
+/* Main wrapper para permitir scroll */
+.main-wrapper {
+    min-height: 200vh;
+    padding-top: 200px; /* Espacio para logo y ticker */
 }
 
 /* Canvas fijo en el viewport */
@@ -39,13 +55,13 @@ body {
     z-index: -1;
 }
 
-/* Selector de modos NO sticky */
+/* Botones visibles pero no tan abajo */
 .cosmos-mode-selector {
-    position: absolute; /* Cambiar de fixed a absolute */
-    bottom: 20px;
+    position: fixed;
+    bottom: 80px; /* Más arriba para que se vean */
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10;
+    z-index: 50; /* Menor que el footer */
 }
 
 </style>
