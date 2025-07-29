@@ -1697,9 +1697,9 @@ body.en .ticker-nav-item .en {
 
 @media (min-width: 500px) and (max-width: 1023px) {
     .ticker-wrapper, .ticker-container {
-    	width: 33.33vw; /* un tercio del ancho de la pantalla */
-    	left: 50%;
-    	transform: none !important;
+        width: 100% !important;
+        left: 0 !important;
+        transform: none !important;
     }
 }
 
