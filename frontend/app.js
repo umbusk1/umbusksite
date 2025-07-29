@@ -276,6 +276,8 @@ async function getDialogue() {
     } else {
         try {
             showLoading(true);
+            const isEn = document.body.classList.contains('en'); // Detectar idioma
+
             const response = await fetch(CONFIG.API_ENDPOINT, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -283,6 +285,7 @@ async function getDialogue() {
                     context: 'cosmos_interaction',
                     dialogueNumber: currentDialogue,
                     timestamp: new Date().toISOString(),
+                    language: isEn ? 'en' : 'es', // ENVIAR IDIOMA A LA API
                     random: Math.random()
                 })
             });
@@ -596,26 +599,25 @@ function initComets() {
 
 // Interacciones mejoradas
 if (canvas) {
-    canvas.addEventListener('click', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-        // Verificar click en cometas con área más grande
-        let clickDetected = false;
-
-        for (let comet of comets) {
-            const distance = Math.sqrt((x - comet.x) ** 2 + (y - comet.y) ** 2);
-
-            if (distance < 70) { // Aumentado de 50 a 70
-                clickDetected = true;
-                currentDialogue++;
-                displayDialogue();
-                comets.forEach(c => c.disturb());
-                break;
-            }
+    // Verificar click en CUALQUIER cometa
+    for (let comet of comets) {
+        if (comet.isNear(x, y, 100)) { // Aumentar área de clic
+            currentDialogue++;
+            displayDialogue();
+            // Perturbar todas las cometas
+            comets.forEach(c => {
+                c.angle += (Math.random() - 0.5) * 0.5;
+                c.orbitRadius *= 0.8 + Math.random() * 0.4;
+            });
+            break;
         }
-    });
+    }
+});
 
     // Soporte para touch en móviles
     canvas.addEventListener('touchstart', (e) => {
@@ -1090,3 +1092,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Sistema de información de modos - AÑADIR AL FINAL DE app.js
+const modeDescriptions = {
+    normal: {
+        es: "Movimiento Browniano - Paseo aleatorio donde Δθ = v₀ + ξ(t)",
+        en: "Brownian Motion - Random walk where Δθ = v₀ + ξ(t)"
+    },
+    zen: {
+        es: "Oscilador Armónico - Respiración sinusoidal r(t) = r₀ + A·sin(2θ)",
+        en: "Harmonic Oscillator - Sinusoidal breathing r(t) = r₀ + A·sin(2θ)"
+    },
+    chaos: {
+        es: "Sistema N-cuerpos - Fuerzas Lennard-Jones F ∝ -1/r² (repulsión) y 1/r² (atracción)",
+        en: "N-body System - Lennard-Jones forces F ∝ -1/r² (repulsion) and 1/r² (attraction)"
+    }
+};
+
+window.toggleModeInfo = function(mode) {
+    const panel = document.getElementById('mode-info-panel');
+    const content = panel.querySelector('.mode-info-content');
+    const isEn = document.body.classList.contains('en');
+
+    content.textContent = modeDescriptions[mode][isEn ? 'en' : 'es'];
+    panel.classList.toggle('active');
+
+    setTimeout(() => panel.classList.remove('active'), 3000);
+}
