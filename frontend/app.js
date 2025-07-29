@@ -138,22 +138,50 @@ class Comet {
         this.wobbleAmp = 10 + Math.random() * 20;
     }
 
-    update() {
-        this.angle += this.speed;
-        this.pulsePhase += this.pulseSpeed;
+update() {
+    const mode = COSMOS_MODES[currentMode];
 
-        // Movimiento espiral con perturbaciones
-        const spiral = this.orbitRadius * (1 + this.spiralFactor * Math.sin(this.angle * 2));
-        const wobbleX = this.wobbleAmp * Math.sin(this.angle * this.wobbleFreq);
-        const wobbleY = this.wobbleAmp * Math.cos(this.angle * this.wobbleFreq * 1.3);
+    switch(currentMode) {
+        case 'normal': // AZAR - Movimiento browniano
+            this.angle += this.speed + (Math.random() - 0.5) * 0.002;
+            this.orbitRadius += (Math.random() - 0.5) * 2;
+            this.orbitRadius = Math.max(50, Math.min(400, this.orbitRadius));
+            break;
 
-        // Suavizar el movimiento
-        const targetX = this.baseX + Math.cos(this.angle) * spiral + wobbleX;
-        const targetY = this.baseY + Math.sin(this.angle) * spiral + wobbleY;
+        case 'zen': // ZEN - Movimiento armónico
+            this.angle += this.speed * 0.3;
+            const breathing = Math.sin(this.angle * 2) * 20;
+            this.x = this.baseX + Math.cos(this.angle) * (this.orbitRadius + breathing);
+            this.y = this.baseY + Math.sin(this.angle) * (this.orbitRadius + breathing);
+            return; // Salir temprano, ya calculamos x,y
 
-        this.x += (targetX - this.x) * 0.02;
-        this.y += (targetY - this.y) * 0.02;
+        case 'chaos': // CAOS - Interacciones entre cometas
+            let fx = 0, fy = 0;
+            comets.forEach(other => {
+                if (other !== this) {
+                    const dx = other.x - this.x;
+                    const dy = other.y - this.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist > 10 && dist < 200) {
+                        const force = dist < 80 ? -30/dist : 10/dist;
+                        fx += dx * force * 0.001;
+                        fy += dy * force * 0.001;
+                    }
+                }
+            });
+            this.angle += this.speed + fx;
+            this.orbitRadius = Math.max(50, Math.min(400, this.orbitRadius + fy));
+            break;
     }
+
+    // Aplicar posición (excepto para zen que ya lo hizo)
+    if (currentMode !== 'zen') {
+        this.x = this.baseX + Math.cos(this.angle) * this.orbitRadius;
+        this.y = this.baseY + Math.sin(this.angle) * this.orbitRadius;
+    }
+
+    this.pulsePhase += this.pulseSpeed;
+}
 
     draw() {
         const pulse = 1 + 0.3 * Math.sin(this.pulsePhase);
