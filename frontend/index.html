@@ -8,6 +8,7 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='3' fill='white'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='white' stroke-width='0.5' opacity='0.5'/%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='white' stroke-width='0.3' opacity='0.3'/%3E%3C/svg%3E">
 </head>
 <body>
+<div class="main-wrapper">
 <!-- Selector de idioma -->
 <div class="lang-selector-home active-es">
     <a href="#" onclick="setLanguage('es'); return false;">ES</a>
@@ -124,7 +125,72 @@
 
     <!-- Status de conexión (solo para desarrollo) -->
     <div id="connection-status" class="connection-status"></div>
+</div>
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Información de contacto -->
+        <div class="footer-section">
+            <h3>
+                <span class="lang-es">CONTACTO</span>
+                <span class="lang-en">CONTACT</span>
+            </h3>
+            <div class="footer-info">
+                <p>📍 TARPON SPRINGS, FL, USA</p>
+                <p>✉️ <a href="mailto:info@umbusk.com">moises@umbusk.com</a></p>
+                <p>🌐 <a href="https://umbusk.com">umbusk.com</a></p>
+            </div>
+        </div>
 
+        <!-- Enlaces de navegación -->
+        <div class="footer-section">
+            <h3>
+                <span class="lang-es">NAVEGACIÓN</span>
+                <span class="lang-en">NAVIGATION</span>
+            </h3>
+            <ul class="footer-nav">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="workflow.html">
+                        <span class="lang-es">Flujo de trabajo</span>
+                        <span class="lang-en">Workflow</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="arqueologia.html">
+                        <span class="lang-es">Arqueología</span>
+                        <span class="lang-en">Archaeology</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Descripción -->
+        <div class="footer-section">
+            <h3>UMBUSK</h3>
+            <div class="footer-info">
+                <p style="font-size: 13px; line-height: 1.6;">
+                    <span class="lang-es">Donde las ideas cobran forma a través de la inteligencia artificial.</span>
+                    <span class="lang-en">Where ideas take shape through artificial intelligence.</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- QR WhatsApp -->
+        <div class="footer-section qr-section">
+            <img src="imagenes/qr-code-umbusk-whatsapp.png" alt="WhatsApp QR" class="qr-code">
+            <p class="qr-label">WhatsApp</p>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom">
+        <p class="copyright">© 2025 UMBUSK, LLC.
+            <span class="lang-es">Todos los derechos reservados.</span>
+            <span class="lang-en">All rights reserved.</span>
+        </p>
+    </div>
+</footer>
     <!-- Script de Chatbase -->
     <script>
     (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="kWYJKrurs-VW1FY0jdhFW";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
