@@ -1116,6 +1116,7 @@ body.arqueologia-page {
 
 .qr-label {
     font-size: 12px;
+    text-align: center;
     color: rgba(255, 255, 255, 0.5);
     font-family: 'Helvetica Neue', sans-serif;
 }
