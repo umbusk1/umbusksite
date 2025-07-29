@@ -57,6 +57,31 @@ body {
     z-index: 50; /* Menor que el footer */
 }
 
+        /* Ícono de detalles técnicos */
+        .tech-details-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tech-details-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .tech-details-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: rgba(255, 255, 255, 0.6);
+        }
+
 </style>
 <body>
 <div class="main-wrapper">
