@@ -12,24 +12,38 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAIAPIKEY
 });
 
-// Prompts para cada voz
+// Prompts para cada voz en ambos idiomas
 const VOICE_PROMPTS = {
-    voice1: `Eres una voz filosófica minimalista. Hablas en español con frases breves, herméticas e intrigantes.
-    IMPORTANTE: Máximo 10-15 palabras por respuesta. Una sola idea o pregunta. Sin explicaciones.`,
-
-    voice2: `Eres una voz pragmática concisa. Hablas en español de forma directa y optimista.
-    IMPORTANTE: Máximo 10-15 palabras por respuesta. Una sola idea o pregunta. Sin elaboración.`
+    es: {
+        voice1: `Eres una voz filosófica minimalista. Hablas en español con frases breves, herméticas e intrigantes.
+        IMPORTANTE: Máximo 10-15 palabras por respuesta. Una sola idea o pregunta. Sin explicaciones.`,
+        voice2: `Eres una voz pragmática concisa. Hablas en español de forma directa y optimista.
+        IMPORTANTE: Máximo 10-15 palabras por respuesta. Una sola idea o pregunta. Sin elaboración.`
+    },
+    en: {
+        voice1: `You are a minimalist philosophical voice. Speak in English with brief, hermetic, intriguing phrases.
+        IMPORTANT: Maximum 10-15 words per response. Single idea or question. No explanations.`,
+        voice2: `You are a concise pragmatic voice. Speak in English directly and optimistically.
+        IMPORTANT: Maximum 10-15 words per response. Single idea or question. No elaboration.`
+    }
 };
 
-// Contexto de la conversación
-const CONVERSATION_CONTEXT = `
-Esta es una conversación entre dos entidades que dialogan sobre Umbusk,
+// Contexto de la conversación en ambos idiomas
+const CONVERSATION_CONTEXT = {
+    es: `Esta es una conversación entre dos entidades que dialogan sobre Umbusk,
 una empresa que transforma ideas en prototipos, usando IA. El diálogo debe ser:
 - Abstracto pero orientado a crecer y producir, sin usar demasiado metáforas de semillas
 - Inspirador y digno, sin ser pretencioso o exagerado
 - Conectado con temas de creatividad, diseño, innovación, automatización, productividad y transformación
-- Cada intercambio debe sentirse como una danza de ideas que fluyen estéticamente con gracia y respeto
-`;
+- Cada intercambio debe sentirse como una danza de ideas que fluyen estéticamente con gracia y respeto`,
+
+    en: `This is a conversation between two entities discussing Umbusk,
+a company that transforms ideas into prototypes using AI. The dialogue should be:
+- Abstract but oriented towards growth and production, without overusing seed metaphors
+- Inspiring and dignified, without being pretentious or exaggerated
+- Connected to themes of creativity, design, innovation, automation, productivity and transformation
+- Each exchange should feel like a dance of ideas flowing aesthetically with grace and respect`
+};
 
 export default async function handler(req, res) {
     // Configurar CORS para permitir peticiones desde Netlify
@@ -47,86 +61,89 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { dialogueNumber = 0, context = 'cosmos_interaction' } = req.body;
+        const { dialogueNumber = 0, context = 'cosmos_interaction', language = 'es' } = req.body;
 
-        // Generar tema basado en el número de diálogo
-        const themes = [
-            "la transformación de ideas en formas tangibles",
-            "la intersección entre imaginación y tecnología",
-            "el proceso creativo como exploración del universo",
-            "la naturaleza iterativa de la innovación",
-            "el espacio entre el pensamiento y la acción",
-            "el diseño como puente que conecta ideas creativas con productos y servicios",
-            "los prototipos como MVP que apoyan el desarrollo de negocios",
-            "Convertimos conceptos abstractos en artefactos capaces de producir experiencias concretas",
-			"Exploramos el cruce fértil entre creatividad humana y sistemas inteligentes",
-			"Cada proceso creativo es una travesía hacia lo desconocido",
-			"Innovar es probar, fallar, ajustar y volver a intentar",
-			"Trabajamos en el umbral entre la idea y su realización",
-			"El diseño es una herramienta para traducir visiones en soluciones útiles",
-			"Los primeros modelos nos permiten pensar con las manos",
-			"Prototipar es conversar con el futuro en tiempo real",
-			"La tecnología amplifica el alcance de nuestra imaginación",
-			"Diseñar es darle forma al pensamiento con intención y propósito"
-        ];
+        // Generar tema basado en el número de diálogo - ahora bilingüe
+        const themes = {
+            es: [
+                "la transformación de ideas en formas tangibles",
+                "la intersección entre imaginación y tecnología",
+                "el proceso creativo como exploración del universo",
+                "la naturaleza iterativa de la innovación",
+                "el espacio entre el pensamiento y la acción",
+                "el diseño como puente que conecta ideas creativas con productos y servicios",
+                "los prototipos como MVP que apoyan el desarrollo de negocios",
+                "convertimos conceptos abstractos en artefactos capaces de producir experiencias concretas",
+                "exploramos el cruce fértil entre creatividad humana y sistemas inteligentes",
+                "cada proceso creativo es una travesía hacia lo desconocido",
+                "innovar es probar, fallar, ajustar y volver a intentar",
+                "trabajamos en el umbral entre la idea y su realización",
+                "el diseño es una herramienta para traducir visiones en soluciones útiles",
+                "los primeros modelos nos permiten pensar con las manos",
+                "prototipar es conversar con el futuro en tiempo real",
+                "la tecnología amplifica el alcance de nuestra imaginación",
+                "diseñar es darle forma al pensamiento con intención y propósito"
+            ],
+            en: [
+                "transforming ideas into tangible forms",
+                "the intersection of imagination and technology",
+                "the creative process as universe exploration",
+                "the iterative nature of innovation",
+                "the space between thought and action",
+                "design as a bridge connecting creative ideas with products and services",
+                "prototypes as MVPs that support business development",
+                "we convert abstract concepts into artifacts capable of producing concrete experiences",
+                "we explore the fertile crossing between human creativity and intelligent systems",
+                "each creative process is a journey into the unknown",
+                "innovating is testing, failing, adjusting and trying again",
+                "we work at the threshold between idea and realization",
+                "design is a tool to translate visions into useful solutions",
+                "first models allow us to think with our hands",
+                "prototyping is conversing with the future in real time",
+                "technology amplifies the reach of our imagination",
+                "designing is shaping thought with intention and purpose"
+            ]
+        };
 
-        const currentTheme = themes[dialogueNumber % themes.length];
+        const currentTheme = themes[language][dialogueNumber % themes[language].length];
 
         // Obtener respuesta de Claude (voz 1)
+        const claudePrompt = language === 'es'
+            ? `${CONVERSATION_CONTEXT[language]}\n\nTema actual: ${currentTheme}\n\n${VOICE_PROMPTS[language].voice1}\n\nInicia una reflexión sobre este tema.`
+            : `${CONVERSATION_CONTEXT[language]}\n\nCurrent theme: ${currentTheme}\n\n${VOICE_PROMPTS[language].voice1}\n\nBegin a reflection on this theme.`;
+
         const claudeResponse = await anthropic.messages.create({
             model: 'claude-3-5-sonnet-20241022',
             max_tokens: 100,
             messages: [{
                 role: 'user',
-                content: `${CONVERSATION_CONTEXT}\n\nTema actual: ${currentTheme}\n\n${VOICE_PROMPTS.voice1}\n\nInicia una reflexión sobre este tema.`
+                content: claudePrompt
             }]
         });
 
         const voice1Text = claudeResponse.content[0].text;
 
         // Obtener respuesta de GPT (voz 2) basada en voz 1
+        const gptUserPrompt = language === 'es'
+            ? `La otra voz dijo: "${voice1Text}"\n\nResponde a esta reflexión conectándola con aspectos prácticos o posibilidades concretas.`
+            : `The other voice said: "${voice1Text}"\n\nRespond to this reflection connecting it with practical aspects or concrete possibilities.`;
+
         const gptResponse = await openai.chat.completions.create({
             model: 'gpt-4o-mini',
             messages: [
-                { role: 'system', content: `${CONVERSATION_CONTEXT}\n\n${VOICE_PROMPTS.voice2}` },
-                { role: 'user', content: `La otra voz dijo: "${voice1Text}"\n\nResponde a esta reflexión conectándola con aspectos prácticos o posibilidades concretas.` }
+                { role: 'system', content: `${CONVERSATION_CONTEXT[language]}\n\n${VOICE_PROMPTS[language].voice2}` },
+                { role: 'user', content: gptUserPrompt }
             ],
             max_tokens: 100
         });
 
         const voice2Text = gptResponse.choices[0].message.content;
 
-        // Continuar el diálogo
-        const claudeResponse2 = await anthropic.messages.create({
-            model: 'claude-3-5-sonnet-20241022',
-            max_tokens: 100,
-            messages: [{
-                role: 'user',
-                content: `${CONVERSATION_CONTEXT}\n\n${VOICE_PROMPTS.voice1}\n\nLa conversación va así:\nTú: "${voice1Text}"\nOtra voz: "${voice2Text}"\n\nContinúa explorando esta idea.`
-            }]
-        });
-
-        const voice1Text2 = claudeResponse2.content[0].text;
-
-        // Respuesta final de GPT
-        const gptResponse2 = await openai.chat.completions.create({
-            model: 'gpt-4o-mini',
-            messages: [
-                { role: 'system', content: `${CONVERSATION_CONTEXT}\n\n${VOICE_PROMPTS.voice2}` },
-                { role: 'user', content: `El diálogo continúa:\nPrimera voz: "${voice1Text}"\nTú: "${voice2Text}"\nPrimera voz: "${voice1Text2}"\n\nCierra este intercambio con una síntesis pragmática pero poética.` }
-            ],
-            max_tokens: 100
-        });
-
-        const voice2Text2 = gptResponse2.choices[0].message.content;
-
-        // Estructurar respuesta
+        // Estructurar respuesta - SOLO 2 LÍNEAS
         const dialogue = {
             lines: [
                 { voice: 1, text: voice1Text.trim() },
-                { voice: 2, text: voice2Text.trim() },
-                { voice: 1, text: voice1Text2.trim() },
-                { voice: 2, text: voice2Text2.trim() }
+                { voice: 2, text: voice2Text.trim() }
             ],
             theme: currentTheme,
             timestamp: new Date().toISOString()
@@ -150,12 +167,13 @@ export default async function handler(req, res) {
                     ${currentTheme},
                     ${voice1Text.trim()},
                     ${voice2Text.trim()},
-                    ${voice1Text2.trim()},
-                    ${voice2Text2.trim()},
+                    NULL,
+                    NULL,
                     ${req.headers['x-forwarded-for'] || 'anonymous'},
                     ${JSON.stringify({
                         userAgent: req.headers['user-agent'],
-                        timestamp: new Date().toISOString()
+                        timestamp: new Date().toISOString(),
+                        language: language
                     })}
                 )
             `;
@@ -170,15 +188,25 @@ export default async function handler(req, res) {
     } catch (error) {
         console.error('Error en la API:', error);
 
-        // Respuesta de fallback
-        res.status(200).json({
-            lines: [
-                { voice: 1, text: "¿Qué sucede cuando una idea encuentra su momento?" },
-                { voice: 2, text: "Se transforma en posibilidad, luego en prototipo." },
-                { voice: 1, text: "El tiempo entre ambos es donde habitamos." },
-                { voice: 2, text: "Y donde la inteligencia artificial acelera el viaje." }
-            ],
-            error: true
-        });
+        // Respuesta de fallback bilingüe
+        const fallbackDialogues = {
+            es: {
+                lines: [
+                    { voice: 1, text: "¿Qué sucede cuando una idea encuentra su momento?" },
+                    { voice: 2, text: "Se transforma en posibilidad tangible." }
+                ],
+                error: true
+            },
+            en: {
+                lines: [
+                    { voice: 1, text: "What happens when an idea finds its moment?" },
+                    { voice: 2, text: "It transforms into tangible possibility." }
+                ],
+                error: true
+            }
+        };
+
+        const language = req.body.language || 'es';
+        res.status(200).json(fallbackDialogues[language]);
     }
 }
