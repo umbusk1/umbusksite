@@ -271,6 +271,39 @@ const mockDialogues = [
     }
 ];
 
+async function getDialogue() {
+    if (CONFIG.USE_MOCK_DATA) {
+        return mockDialogues[currentDialogue % mockDialogues.length];
+    } else {
+        try {
+            showLoading(true);
+            const isEn = document.body.classList.contains('en');
+            const response = await fetch(CONFIG.API_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    context: 'cosmos_interaction',
+                    dialogueNumber: currentDialogue,
+                    timestamp: new Date().toISOString(),
+                    language: isEn ? 'en' : 'es',
+                    random: Math.random()
+                })
+            });
+
+            if (!response.ok) throw new Error('API Error');
+
+            const data = await response.json();
+            showLoading(false);
+            return data;
+        } catch (error) {
+            console.error('Error getting dialogue:', error);
+            showLoading(false);
+            updateConnectionStatus('Error de conexión', false);
+            return mockDialogues[currentDialogue % mockDialogues.length];
+        }
+    }
+}
+
 async function saveConversation(dialogue) {
     try {
         if (!dialogue || !dialogue.lines) {
