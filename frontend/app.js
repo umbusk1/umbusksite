@@ -790,21 +790,24 @@ window.setLanguage = function(lang) {
     localStorage.setItem('language', lang);
 
     // Actualizar historial si está abierto
-    if (historyManager && historyManager.isOpen) {
+    if (typeof historyManager !== 'undefined' && historyManager.isOpen) {
         historyManager.loadHistory();
     }
 
     // Actualizar panel de info si está abierto
-    if (currentInfoPanel && document.getElementById('mode-info-panel').classList.contains('active')) {
-        const content = document.querySelector('.mode-info-content');
-        const isEn = lang === 'en';
-        const lines = modeDescriptions[currentInfoPanel][isEn ? 'en' : 'es'].split('\n');
-        content.innerHTML = `
-            <div style="font-weight: 600; margin-bottom: 5px;">${lines[0]}</div>
-            <div style="font-family: 'Courier New', monospace; opacity: 0.8;">${lines[1]}</div>
-        `;
+    if (typeof currentInfoPanel !== 'undefined' && currentInfoPanel) {
+        const panel = document.getElementById('mode-info-panel');
+        if (panel && panel.classList.contains('active')) {
+            const content = document.querySelector('.mode-info-content');
+            const isEn = lang === 'en';
+            const lines = modeDescriptions[currentInfoPanel][isEn ? 'en' : 'es'].split('\n');
+            content.innerHTML = `
+                <div style="font-weight: 600; margin-bottom: 5px;">${lines[0]}</div>
+                <div style="font-family: 'Courier New', monospace; opacity: 0.8;">${lines[1]}</div>
+            `;
+        }
     }
-}
+}; // <-- Asegúrate de que termine con punto y coma
 
 // INICIALIZACIÓN PRINCIPAL
 window.addEventListener('load', () => {
