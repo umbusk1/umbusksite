@@ -271,36 +271,42 @@ const mockDialogues = [
     }
 ];
 
-async function getDialogue() {
-    if (CONFIG.USE_MOCK_DATA) {
-        return mockDialogues[currentDialogue % mockDialogues.length];
-    } else {
-        try {
-            showLoading(true);
-            const isEn = document.body.classList.contains('en'); // Detectar idioma
-
-            const response = await fetch(`${API_BASE}/api/conversations`, {
-			    method: 'POST',
-			    headers: { 'Content-Type': 'application/json' },
-			    body: JSON.stringify({
-			        session_id: sessionId,
-			        prompt_type: dialogue.theme || 'cosmos',
-			        generated_text: generatedText,  // <-- COMA AQUÍ
-			        language: isEn ? 'en' : 'es'
-			    })
-			});
-
-            if (!response.ok) throw new Error('API Error');
-
-            const data = await response.json();
-            showLoading(false);
-            return data;
-        } catch (error) {
-            console.error('Error getting dialogue:', error);
-            showLoading(false);
-            updateConnectionStatus('Error de conexión', false);
-            return mockDialogues[currentDialogue % mockDialogues.length];
+async function saveConversation(dialogue) {
+    try {
+        if (!dialogue || !dialogue.lines) {
+            console.error('Diálogo inválido:', dialogue);
+            return;
         }
+
+        const sessionId = getOrCreateSessionId();
+        const isEn = document.body.classList.contains('en');
+
+        const generatedText = dialogue.lines.map(line => {
+            const voice = line.voice === 1 ? 'Claude' : 'ChatGPT';
+            return `${voice}: ${line.text}`;
+        }).join('\n');
+
+        const response = await fetch(`${API_BASE}/api/conversations`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                session_id: sessionId,
+                prompt_type: dialogue.theme || 'cosmos',
+                generated_text: generatedText,
+                language: isEn ? 'en' : 'es'
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Conversación guardada:', data);
+
+            if (historyManager.isOpen) {
+                historyManager.loadHistory();
+            }
+        }
+    } catch (error) {
+        console.error('Error guardando conversación:', error);
     }
 }
 
