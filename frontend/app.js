@@ -39,6 +39,7 @@ async function saveConversation(dialogue) {
                 session_id: sessionId,
                 prompt_type: dialogue.theme || 'cosmos',
                 generated_text: generatedText
+                language: isEn ? 'en' : 'es' // ESTA LÍNEA ES IMPORTANTE
             })
         });
 
@@ -1252,4 +1253,49 @@ window.setLanguage = function(lang) {
         content.textContent = modeDescriptions[currentInfoPanel][isEn ? 'en' : 'es'];
     }
 }
-}
+}´
+
+// Sistema de información de modos - AÑADIR AL FINAL DE app.js
+const modeDescriptions = {
+    normal: {
+        es: "Movimiento Browniano\nΔθ = v₀ + ξ(t)",
+        en: "Brownian Motion\nΔθ = v₀ + ξ(t)"
+    },
+    zen: {
+        es: "Oscilador Armónico\nr(t) = r₀ + A·sin(2θ)",
+        en: "Harmonic Oscillator\nr(t) = r₀ + A·sin(2θ)"
+    },
+    chaos: {
+        es: "Sistema N-cuerpos\nF = -1/r² (rep.) + 1/r² (atr.)",
+        en: "N-body System\nF = -1/r² (rep.) + 1/r² (attr.)"
+    }
+};
+
+let currentInfoPanel = null;
+
+window.toggleModeInfo = function(mode) {
+    const panel = document.getElementById('mode-info-panel');
+    const content = panel.querySelector('.mode-info-content');
+    const isEn = document.body.classList.contains('en');
+
+    if (currentInfoPanel === mode && panel.classList.contains('active')) {
+        panel.classList.remove('active');
+        currentInfoPanel = null;
+        return;
+    }
+
+    // Dividir en líneas y crear HTML
+    const lines = modeDescriptions[mode][isEn ? 'en' : 'es'].split('\n');
+    content.innerHTML = `
+        <div style="font-weight: 600; margin-bottom: 5px;">${lines[0]}</div>
+        <div style="font-family: 'Courier New', monospace; opacity: 0.8;">${lines[1]}</div>
+    `;
+
+    panel.classList.add('active');
+    currentInfoPanel = mode;
+
+    setTimeout(() => {
+        panel.classList.remove('active');
+        currentInfoPanel = null;
+    }, 5000);
+};
