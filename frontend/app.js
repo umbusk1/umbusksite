@@ -604,15 +604,22 @@ canvas.addEventListener('click', (e) => {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
+    // Debug
+    console.log('Click en:', x, y);
+    console.log('Cometas:', comets.map(c => ({x: c.x, y: c.y})));
+
     // Verificar click en CUALQUIER cometa
     for (let comet of comets) {
-        if (comet.isNear(x, y, 100)) { // Aumentar área de clic
+        const distance = Math.sqrt((x - comet.x) ** 2 + (y - comet.y) ** 2);
+        console.log('Distancia a cometa:', distance);
+
+        if (distance < 100) { // Área generosa
+            console.log('¡Cometa clickeada!');
             currentDialogue++;
             displayDialogue();
             // Perturbar todas las cometas
             comets.forEach(c => {
                 c.angle += (Math.random() - 0.5) * 0.5;
-                c.orbitRadius *= 0.8 + Math.random() * 0.4;
             });
             break;
         }
@@ -1118,4 +1125,44 @@ window.toggleModeInfo = function(mode) {
     panel.classList.toggle('active');
 
     setTimeout(() => panel.classList.remove('active'), 3000);
+}
+
+// Sistema de información de modos mejorado
+let currentInfoPanel = null;
+
+window.toggleModeInfo = function(mode) {
+    const panel = document.getElementById('mode-info-panel');
+    const content = panel.querySelector('.mode-info-content');
+    const isEn = document.body.classList.contains('en');
+
+    // Si ya está mostrando este modo, ocultarlo
+    if (currentInfoPanel === mode && panel.classList.contains('active')) {
+        panel.classList.remove('active');
+        currentInfoPanel = null;
+        return;
+    }
+
+    // Actualizar contenido
+    content.textContent = modeDescriptions[mode][isEn ? 'en' : 'es'];
+    panel.classList.add('active');
+    currentInfoPanel = mode;
+
+    // Auto-ocultar después de 5 segundos
+    setTimeout(() => {
+        panel.classList.remove('active');
+        currentInfoPanel = null;
+    }, 5000);
+}
+
+// Actualizar el panel cuando cambia el idioma
+const originalSetLanguage = window.setLanguage;
+window.setLanguage = function(lang) {
+    originalSetLanguage(lang);
+
+    // Si hay un panel abierto, actualizar su contenido
+    if (currentInfoPanel && document.getElementById('mode-info-panel').classList.contains('active')) {
+        const content = document.querySelector('.mode-info-content');
+        const isEn = lang === 'en';
+        content.textContent = modeDescriptions[currentInfoPanel][isEn ? 'en' : 'es'];
+    }
 }
