@@ -292,8 +292,8 @@ async function saveConversation(dialogue) {
             body: JSON.stringify({
                 session_id: sessionId,
                 prompt_type: dialogue.theme || 'cosmos',
-                generated_text: generatedText,
-                language: isEn ? 'en' : 'es'
+                generated_text: generatedText
+//                language: isEn ? 'en' : 'es'
             })
         });
 
