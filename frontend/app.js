@@ -1252,3 +1252,4 @@ window.setLanguage = function(lang) {
         content.textContent = modeDescriptions[currentInfoPanel][isEn ? 'en' : 'es'];
     }
 }
+}
