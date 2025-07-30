@@ -1073,40 +1073,25 @@ function initLanguageSystem() {
     }
 
     // Función para establecer un idioma específico
-	window.setLanguage = function(lang) {
-    const body = document.body;
-    const selector = document.querySelector('.lang-selector-home') ||
-                    document.querySelector('.lang-selector');
+    window.setLanguage = function(lang) {
+        const body = document.body;
+        const selector = document.querySelector('.lang-selector-home') ||
+                        document.querySelector('.lang-selector');
 
-    if (lang === 'en') {
-        body.classList.add('en');
-        if (selector) {
-            selector.classList.remove('active-es');
-            selector.classList.add('active-en');
+        if (lang === 'en') {
+            body.classList.add('en');
+            if (selector) {
+                selector.classList.remove('active-es');
+                selector.classList.add('active-en');
+            }
+        } else {
+            body.classList.remove('en');
+            if (selector) {
+                selector.classList.remove('active-en');
+                selector.classList.add('active-es');
+            }
         }
-    } else {
-        body.classList.remove('en');
-        if (selector) {
-            selector.classList.remove('active-en');
-            selector.classList.add('active-es');
-        }
-    }
-    localStorage.setItem('language', lang);
-
-    // Actualizar historial si está abierto
-    if (historyManager && historyManager.isOpen) {
-        historyManager.loadHistory();
-    }
-
-    // Actualizar panel de info si está abierto
-    if (currentInfoPanel && document.getElementById('mode-info-panel').classList.contains('active')) {
-        const content = document.querySelector('.mode-info-content');
-        const isEn = lang === 'en';
-        const lines = modeDescriptions[currentInfoPanel][isEn ? 'en' : 'es'].split('\n');
-        content.innerHTML = `
-            <div style="font-weight: 600; margin-bottom: 5px;">${lines[0]}</div>
-            <div style="font-family: 'Courier New', monospace; opacity: 0.8;">${lines[1]}</div>
-        `;
+        localStorage.setItem('language', lang);
     }
 }
 
