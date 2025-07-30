@@ -220,7 +220,7 @@ update() {
         ctx.fill();
     }
 
-    isNear(x, y, threshold = 50) {
+    isNear(x, y, threshold = 100) {
         const distance = Math.sqrt((x - this.x) ** 2 + (y - this.y) ** 2);
         return distance < threshold;
     }
@@ -598,35 +598,61 @@ function initComets() {
 }
 
 // Interacciones mejoradas
+// Reemplaza todo el bloque de interacciones con este código mejorado:
 if (canvas) {
-canvas.addEventListener('click', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    canvas.addEventListener('click', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-    // Debug
-    console.log('Click en:', x, y);
-    console.log('Cometas:', comets.map(c => ({x: c.x, y: c.y})));
+        // Debug básico
+        console.log('=== CLICK DETECTADO ===');
+        console.log('Posición del click:', {x, y});
+        console.log('Número de cometas:', comets.length);
 
-    // Verificar click en CUALQUIER cometa
-    for (let comet of comets) {
-        const distance = Math.sqrt((x - comet.x) ** 2 + (y - comet.y) ** 2);
-        console.log('Distancia a cometa:', distance);
-
-        if (distance < 100) { // Área generosa
-            console.log('¡Cometa clickeada!');
-            currentDialogue++;
-            displayDialogue();
-            // Perturbar todas las cometas
-            comets.forEach(c => {
-                c.angle += (Math.random() - 0.5) * 0.5;
-            });
-            break;
+        // Verificar si displayDialogue existe
+        if (typeof displayDialogue !== 'function') {
+            console.error('displayDialogue no está definida!');
+            return;
         }
-    }
-});
 
-    // Soporte para touch en móviles
+        // Verificar click en cometas
+        let cometaEncontrada = false;
+
+        comets.forEach((comet, index) => {
+            const distance = Math.sqrt((x - comet.x) ** 2 + (y - comet.y) ** 2);
+            console.log(`Cometa ${index}: posición (${Math.round(comet.x)}, ${Math.round(comet.y)}), distancia: ${Math.round(distance)}`);
+
+            if (distance < 100 && !cometaEncontrada) {
+                cometaEncontrada = true;
+                console.log('✓ ¡COMETA CLICKEADA! Index:', index);
+
+                // Intentar mostrar diálogo
+                currentDialogue++;
+                console.log('Llamando a displayDialogue, diálogo #', currentDialogue);
+
+                try {
+                    displayDialogue();
+                } catch (error) {
+                    console.error('Error al mostrar diálogo:', error);
+                }
+
+                // Perturbar todas las cometas
+                comets.forEach(c => {
+                    c.angle += (Math.random() - 0.5) * 0.5;
+                    if (c.orbitRadius) {
+                        c.orbitRadius *= 0.8 + Math.random() * 0.4;
+                    }
+                });
+            }
+        });
+
+        if (!cometaEncontrada) {
+            console.log('✗ No se clickeó ninguna cometa');
+        }
+    });
+
+    // Touch para móviles
     canvas.addEventListener('touchstart', (e) => {
         e.preventDefault();
         const rect = canvas.getBoundingClientRect();
@@ -634,15 +660,15 @@ canvas.addEventListener('click', (e) => {
         const x = touch.clientX - rect.left;
         const y = touch.clientY - rect.top;
 
-        // Verificar touch en cometas
-        for (let comet of comets) {
-            if (comet.isNear(x, y, 70)) { // Área más grande en móvil
-                currentDialogue++;
-                displayDialogue();
-                comets.forEach(c => c.disturb());
-                break;
-            }
-        }
+        console.log('=== TOUCH DETECTADO ===');
+        console.log('Posición:', {x, y});
+
+        // Simular click
+        canvas.dispatchEvent(new MouseEvent('click', {
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+            bubbles: true
+        }));
     });
 }
 
@@ -1103,16 +1129,16 @@ document.addEventListener('DOMContentLoaded', function() {
 // Sistema de información de modos - AÑADIR AL FINAL DE app.js
 const modeDescriptions = {
     normal: {
-        es: "Movimiento Browniano - Paseo aleatorio donde Δθ = v₀ + ξ(t)",
-        en: "Brownian Motion - Random walk where Δθ = v₀ + ξ(t)"
+        es: "Movimiento Browniano\nΔθ = v₀ + ξ(t)",
+        en: "Brownian Motion\nΔθ = v₀ + ξ(t)"
     },
     zen: {
-        es: "Oscilador Armónico - Respiración sinusoidal r(t) = r₀ + A·sin(2θ)",
-        en: "Harmonic Oscillator - Sinusoidal breathing r(t) = r₀ + A·sin(2θ)"
+        es: "Oscilador Armónico\nr(t) = r₀ + A·sin(2θ)",
+        en: "Harmonic Oscillator\nr(t) = r₀ + A·sin(2θ)"
     },
     chaos: {
-        es: "Sistema N-cuerpos - Fuerzas Lennard-Jones F ∝ -1/r² (repulsión) y 1/r² (atracción)",
-        en: "N-body System - Lennard-Jones forces F ∝ -1/r² (repulsion) and 1/r² (attraction)"
+        es: "Sistema N-cuerpos\nF = -1/r² (rep.) + 1/r² (atr.)",
+        en: "N-body System\nF = -1/r² (rep.) + 1/r² (attr.)"
     }
 };
 
@@ -1121,10 +1147,26 @@ window.toggleModeInfo = function(mode) {
     const content = panel.querySelector('.mode-info-content');
     const isEn = document.body.classList.contains('en');
 
-    content.textContent = modeDescriptions[mode][isEn ? 'en' : 'es'];
-    panel.classList.toggle('active');
+    if (currentInfoPanel === mode && panel.classList.contains('active')) {
+        panel.classList.remove('active');
+        currentInfoPanel = null;
+        return;
+    }
 
-    setTimeout(() => panel.classList.remove('active'), 3000);
+    // Dividir en líneas y crear HTML
+    const lines = modeDescriptions[mode][isEn ? 'en' : 'es'].split('\n');
+    content.innerHTML = `
+        <div style="font-weight: 600; margin-bottom: 5px;">${lines[0]}</div>
+        <div style="font-family: 'Courier New', monospace; opacity: 0.8;">${lines[1]}</div>
+    `;
+
+    panel.classList.add('active');
+    currentInfoPanel = mode;
+
+    setTimeout(() => {
+        panel.classList.remove('active');
+        currentInfoPanel = null;
+    }, 5000);
 }
 
 // Sistema de información de modos mejorado
