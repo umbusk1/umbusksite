@@ -315,7 +315,11 @@ function showLoadingWithProgress() {
     const loader = document.getElementById('loading');
     if (loader) {
         loader.classList.add('active');
-        loader.innerHTML = '<div class="pulse"></div><div style="font-size: 19px; margin-top: 10px; opacity: 0.6;">Conectando con 2 mentes de IA...</div>';
+        const isEn = document.body.classList.contains('en');
+        const message = isEn
+            ? 'Connecting with 2 AI minds...'
+            : 'Conectando con 2 mentes de IA...';
+        loader.innerHTML = `<div class="pulse"></div><div style="font-size: 19px; margin-top: 10px; opacity: 0.6;">${message}</div>`;
     }
 }
 
@@ -853,25 +857,31 @@ displayHistory(conversations) {
     const content = document.getElementById('history-content');
     if (!content) return;
 
-    // Validar que conversations sea un array
+    const isEn = document.body.classList.contains('en');
+
     if (!Array.isArray(conversations)) {
         console.error('Conversations no es un array:', conversations);
         conversations = [];
     }
 
     if (conversations.length === 0) {
-        content.innerHTML = '<p class="no-history">No hay diálogos guardados aún.</p>';
+        content.innerHTML = isEn
+            ? '<p class="no-history">No saved dialogues yet.</p>'
+            : '<p class="no-history">No hay diálogos guardados aún.</p>';
         return;
     }
 
     // Agrupar por fecha
     const groupedByDate = {};
     conversations.forEach(conv => {
-        const date = new Date(conv.timestamp).toLocaleDateString('es-ES', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+        const date = new Date(conv.timestamp).toLocaleDateString(
+            isEn ? 'en-US' : 'es-ES',
+            {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }
+        );
 
         if (!groupedByDate[date]) {
             groupedByDate[date] = [];
@@ -892,10 +902,13 @@ displayHistory(conversations) {
         `;
 
         convs.forEach((conv) => {
-            const time = new Date(conv.timestamp).toLocaleTimeString('es-ES', {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+            const time = new Date(conv.timestamp).toLocaleTimeString(
+                isEn ? 'en-US' : 'es-ES',
+                {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }
+            );
 
             // Parsear el texto generado
             const lines = conv.generated_text.split('\n');
@@ -1060,25 +1073,40 @@ function initLanguageSystem() {
     }
 
     // Función para establecer un idioma específico
-    window.setLanguage = function(lang) {
-        const body = document.body;
-        const selector = document.querySelector('.lang-selector-home') ||
-                        document.querySelector('.lang-selector');
+	window.setLanguage = function(lang) {
+    const body = document.body;
+    const selector = document.querySelector('.lang-selector-home') ||
+                    document.querySelector('.lang-selector');
 
-        if (lang === 'en') {
-            body.classList.add('en');
-            if (selector) {
-                selector.classList.remove('active-es');
-                selector.classList.add('active-en');
-            }
-        } else {
-            body.classList.remove('en');
-            if (selector) {
-                selector.classList.remove('active-en');
-                selector.classList.add('active-es');
-            }
+    if (lang === 'en') {
+        body.classList.add('en');
+        if (selector) {
+            selector.classList.remove('active-es');
+            selector.classList.add('active-en');
         }
-        localStorage.setItem('language', lang);
+    } else {
+        body.classList.remove('en');
+        if (selector) {
+            selector.classList.remove('active-en');
+            selector.classList.add('active-es');
+        }
+    }
+    localStorage.setItem('language', lang);
+
+    // Actualizar historial si está abierto
+    if (historyManager && historyManager.isOpen) {
+        historyManager.loadHistory();
+    }
+
+    // Actualizar panel de info si está abierto
+    if (currentInfoPanel && document.getElementById('mode-info-panel').classList.contains('active')) {
+        const content = document.querySelector('.mode-info-content');
+        const isEn = lang === 'en';
+        const lines = modeDescriptions[currentInfoPanel][isEn ? 'en' : 'es'].split('\n');
+        content.innerHTML = `
+            <div style="font-weight: 600; margin-bottom: 5px;">${lines[0]}</div>
+            <div style="font-family: 'Courier New', monospace; opacity: 0.8;">${lines[1]}</div>
+        `;
     }
 }
 
