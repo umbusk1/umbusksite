@@ -279,17 +279,16 @@ async function getDialogue() {
             showLoading(true);
             const isEn = document.body.classList.contains('en'); // Detectar idioma
 
-            const response = await fetch(CONFIG.API_ENDPOINT, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    context: 'cosmos_interaction',
-                    dialogueNumber: currentDialogue,
-                    timestamp: new Date().toISOString(),
-                    language: isEn ? 'en' : 'es', // ENVIAR IDIOMA A LA API
-                    random: Math.random()
-                })
-            });
+            const response = await fetch(`${API_BASE}/api/conversations`, {
+			    method: 'POST',
+			    headers: { 'Content-Type': 'application/json' },
+			    body: JSON.stringify({
+			        session_id: sessionId,
+			        prompt_type: dialogue.theme || 'cosmos',
+			        generated_text: generatedText,  // <-- COMA AQUÍ
+			        language: isEn ? 'en' : 'es'
+			    })
+			});
 
             if (!response.ok) throw new Error('API Error');
 
