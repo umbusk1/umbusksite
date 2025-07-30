@@ -1258,7 +1258,7 @@ window.setLanguage = function(lang) {
         content.textContent = modeDescriptions[currentInfoPanel][isEn ? 'en' : 'es'];
     }
 }
-}´
+}
 
 // Sistema de información de modos - AÑADIR AL FINAL DE app.js
 const modeDescriptions = {
