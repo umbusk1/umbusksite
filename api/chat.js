@@ -42,7 +42,7 @@ const VOICE_PROMPTS_BY_MODE = {
     zen: { // ZEN
         es: {
             voice1: `Habla sobre diseño/prototipos con extrema brevedad y profundidad.
-            IMPORTANTE: Exactamente 3-7 palabras. Sin explicaciones. Solo esencia. No indicar que habla un maestro o un discípulo, o almuno`,
+            IMPORTANTE: Exactamente 3-7 palabras. Sin explicaciones. Solo esencia. No indicar que habla un maestro o un discípulo, o alumno`,
             voice2: `Responde con igual concisión. Transforma lo abstracto en concreto.
             IMPORTANTE: Exactamente 3-7 palabras. Pura acción.`
         },
@@ -287,4 +287,5 @@ export default async function handler(req, res) {
             error: true
         });
     }
+
 }
