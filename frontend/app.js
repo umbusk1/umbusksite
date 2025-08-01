@@ -79,7 +79,7 @@ const COSMOS_MODES = {
     }
 };
 
-let currentMode = 'normal';
+let currentMode = 'zen';
 
 // Estado global
 let comets = [];
