@@ -377,11 +377,9 @@ let currentDialogueData = null;
 // Modificar displayDialogue para guardar el diálogo actual
 async function displayDialogue() {
     if (isDialogueActive) return;
-
     isDialogueActive = true;
     const container = document.getElementById('dialogue-content');
     if (!container) return;
-
     container.innerHTML = '';
 
     // Ocultar botón de compartir al empezar nuevo diálogo
@@ -392,13 +390,12 @@ async function displayDialogue() {
 
     // Mostrar indicador de carga con progreso
     showLoadingWithProgress();
-
     const dialogue = await getDialogue();
 
     // Guardar diálogo actual para compartir
     currentDialogueData = dialogue;
     // Guardar el diálogo en la base de datos
-	await saveConversation(dialogue);
+    await saveConversation(dialogue);
 
     // Ocultar indicador
     showLoading(false);
@@ -410,9 +407,16 @@ async function displayDialogue() {
             const line = dialogue.lines[lineIndex];
             const div = document.createElement('div');
             div.className = `dialogue-line voice-${line.voice}`;
-            div.textContent = line.text;
-            container.appendChild(div);
 
+            // CAMBIO AQUÍ: Procesar negritas para modo Azar
+            if (currentMode === 'normal' && line.text.includes('**')) {
+                // Convertir **texto** a <strong>texto</strong>
+                div.innerHTML = line.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            } else {
+                div.textContent = line.text;
+            }
+
+            container.appendChild(div);
             lineIndex++;
             setTimeout(showNextLine, CONFIG.DIALOGUE_DELAY);
         } else {
