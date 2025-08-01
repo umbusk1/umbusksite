@@ -42,13 +42,13 @@ const VOICE_PROMPTS_BY_MODE = {
     zen: { // ZEN
         es: {
             voice1: `Habla sobre diseño/prototipos con extrema brevedad y profundidad.
-            IMPORTANTE: Exactamente 3-7 palabras. Sin explicaciones. Solo esencia.`,
+            IMPORTANTE: Exactamente 3-7 palabras. Sin explicaciones. Solo esencia. No indicar que habla un maestro o un discípulo, o almuno`,
             voice2: `Responde con igual concisión. Transforma lo abstracto en concreto.
             IMPORTANTE: Exactamente 3-7 palabras. Pura acción.`
         },
         en: {
             voice1: `Speak about design/prototypes with extreme brevity and depth.
-            IMPORTANT: Exactly 3-7 words. No explanations. Only essence.`,
+            IMPORTANT: Exactly 3-7 words. No explanations. Only essence. Do not indicate that a master o a teacher and a disciple or a student are dialoguing.`,
             voice2: `Respond with equal concision. Transform abstract into concrete.
             IMPORTANT: Exactly 3-7 words. Pure action.`
         }
