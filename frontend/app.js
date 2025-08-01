@@ -286,6 +286,7 @@ async function getDialogue() {
                     dialogueNumber: currentDialogue,
                     timestamp: new Date().toISOString(),
                     language: isEn ? 'en' : 'es',
+                    mode: currentMode, // AÑADIR ESTA LÍNEA
                     random: Math.random()
                 })
             });
