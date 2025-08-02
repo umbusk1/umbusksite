@@ -19,7 +19,7 @@ const RANDOM_ELEMENTS = {
     tech: ['blockchain', 'realidad aumentada', 'IoT', 'cuántico', 'holograma', 'algoritmo genético', 'red neuronal', 'nube', 'interfaz háptica', 'gemelo digital']
 };
 
-// Prompts para cada voz según el modo
+// Prompts para cada voz según los modos
 const VOICE_PROMPTS_BY_MODE = {
     normal: { // AZAR
         es: {
@@ -42,29 +42,29 @@ const VOICE_PROMPTS_BY_MODE = {
     zen: { // ZEN
         es: {
             voice1: `Habla sobre diseño/prototipos con extrema brevedad y profundidad.
-            IMPORTANTE: Exactamente 3-7 palabras. Sin explicaciones. Solo esencia. No indicar que habla un maestro o un discípulo, o alumno`,
+            IMPORTANTE: Maximum 10 palabras. Sin explicaciones. Solo esencia. No indicar que habla un maestro, o un discípulo o alumno`,
             voice2: `Responde con igual concisión. Transforma lo abstracto en concreto.
-            IMPORTANTE: Exactamente 3-7 palabras. Pura acción.`
+            IMPORTANTE: Maximum 10 palabras. Pura acción.`
         },
         en: {
             voice1: `Speak about design/prototypes with extreme brevity and depth.
-            IMPORTANT: Exactly 3-7 words. No explanations. Only essence. Do not indicate that a master o a teacher and a disciple or a student are dialoguing.`,
+            IMPORTANT: Maximum 10 words. No explanations. Only essence. Do not indicate that a master o a teacher and a disciple or a student are dialoguing.`,
             voice2: `Respond with equal concision. Transform abstract into concrete.
-            IMPORTANT: Exactly 3-7 words. Pure action.`
+            IMPORTANT: Maximum 10 words. Pure action.`
         }
     },
     chaos: { // CAOS
         es: {
             voice1: `Crea imágenes poéticas inesperadas mezclando tecnología/diseño/naturaleza.
-            IMPORTANTE: 10-15 palabras. Sin explicar que es surrealista.`,
-            voice2: `Toma el último concepto y transfórmalo en algo aún más inesperado.
-            IMPORTANTE: 10-15 palabras. Evoluciona la imagen anterior.`
+            IMPORTANTE: Maximum 20 palabras. Sin explicar que es surrealista.`,
+            voice2: `Toma uno de los conceptos y transfórmalo en algo aún más inesperado.
+            IMPORTANTE: Maximum 20 palabras. Evoluciona la imagen anterior.`
         },
         en: {
             voice1: `Create unexpected poetic images mixing technology/design/nature.
-            IMPORTANT: 10-15 words. Without explaining it's surrealist.`,
-            voice2: `Take the last concept and transform it into something even more unexpected.
-            IMPORTANT: 10-15 words. Evolve the previous image.`
+            IMPORTANT: Maximum 20. Without explaining it's surrealist.`,
+            voice2: `Take one of the concepts and transform it into something even more unexpected.
+            IMPORTANT: Maximum 20. Evolve the previous image.`
         }
     }
 };
@@ -287,5 +287,4 @@ export default async function handler(req, res) {
             error: true
         });
     }
-
 }
