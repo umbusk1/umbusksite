@@ -506,13 +506,12 @@
             </div>
         </section>
 
-        <!-- CTA -->
-        <section class="cta-section">
-            <a href="index.html#contact" class="cta-button">INICIAR CONVERSACIÓN</a>
-            <p class="cta-note">Sin compromiso • Respuesta en 24h • Proceso transparente</p>
-        </section>
-    </main>
+    <!-- Script de Chatbase -->
+    <script>
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="kWYJKrurs-VW1FY0jdhFW";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+    </script>
 
+<script src="app.js"></script>
     <script>
         // Sistema de partículas
         const canvas = document.getElementById('particles-canvas');
@@ -589,6 +588,6 @@
             alert('Función de cambio de idioma próximamente');
         }
     </script>
-    <script src="app.js"></script>
+
 </body>
 </html>
