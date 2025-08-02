@@ -368,38 +368,50 @@
         }
     </style>
 </head>
-<body>
+<body class="arqueologia-page">
 
-<!-- Logo -->
-<div class="header">
-<a href="index.html">
-<img alt="logo de Umbusk" height="60px" src="imagenes/logo-umbusk.png" width:"auto"=""/>
-</a>
-<div class="umbusk-watermark">UMBUSK</div>
+<!-- Selector de idioma (igual que en index.html) -->
+<div class="lang-selector-home active-es">
+    <a href="#" onclick="setLanguage('es'); return false;">ES</a>
+    <span>/</span>
+    <a href="#" onclick="setLanguage('en'); return false;">EN</a>
 </div>
 
-    <!-- Canvas para partículas -->
-    <canvas id="particles-canvas"></canvas>
+<!-- Back link posicionado de forma absoluta para no interferir -->
+<div class="back-link-arqueologia">
+    <a href="index.html">
+        <span class="lang-es">← VOLVER AL INICIO</span>
+        <span class="lang-en">← BACK TO HOME</span>
+    </a>
+</div>
 
-    <!-- Navegación -->
-    <nav class="nav-bar">
-        <a href="index.html" class="back-link">
-            ← VOLVER AL INICIO
-        </a>
-        <span class="lang-toggle" onclick="toggleLanguage()">ES / EN</span>
-    </nav>
+<!-- Header exactamente igual que en index.html -->
+<div class="header">
+    <img src="imagenes/logo-umbusk.png" class="main-logo" alt="logo de Umbusk">
+    <div class="umbusk-watermark">UMBUSK</div>
+</div>
 
-    <!-- Gradiente que sigue al mouse -->
-    <div class="mouse-gradient" id="mouseGradient"></div>
+<!-- Ticker exactamente igual que en index.html -->
+<div id="ticker-container" class="ticker-container">
+    <div class="ticker-content" id="ticker-content">
+        <!-- La navegación se llenará dinámicamente desde app.js -->
+    </div>
+</div>
 
-    <!-- Contenido principal -->
-    <main class="main-container">
-        <!-- Header -->
-        <header class="header">
-            <h1>WORKFLOW</h1>
-            <p>Un proceso orgánico y adaptativo donde la creatividad, el design thinking y la IA convergen para transformar ideas en realidades tangibles.</p>
-        </header>
+<!-- Canvas para partículas -->
+<canvas id="particles-canvas"></canvas>
 
+<!-- Título y subtítulo con el mismo espaciado -->
+<div class="arqueologia-title-section">
+<span class="lang-es">
+    <h1>FLUJO DE TRABAJO</h1>
+    <p>La creatividad, el design thinking y la IA convergen para transformar ideas en realidades tangibles.</p>
+    </span>
+    <span class="lang-en">
+    <h1>WORKFLOW</h1>
+    <p>Creativity, design thinking and AI converge to transform ideas into tangible realities.</p>
+    </span>
+</div>
         <!-- Workflow -->
         <section class="workflow-container">
             <div class="connector-line"></div>
