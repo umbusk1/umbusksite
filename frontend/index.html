@@ -8,14 +8,17 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='3' fill='white'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='white' stroke-width='0.5' opacity='0.5'/%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='white' stroke-width='0.3' opacity='0.3'/%3E%3C/svg%3E">
 </head>
 <style>
+/* ========================================
+   INDEX.HTML - ESTILOS ESPECÍFICOS
+   Complementa style.css general
+   ======================================== */
 
-/* Habilitar scroll en el body */
+/* Overrides específicos para home */
 body {
-    overflow-y: auto !important; /* Permitir scroll vertical */
-    overflow-x: hidden;
+    overflow-y: auto !important;
 }
 
-/* Logo y ticker siempre visibles */
+/* Header fijo en home */
 .header {
     position: fixed;
     top: 40px;
@@ -24,127 +27,37 @@ body {
     z-index: 100;
 }
 
-/* Footer con z-index alto para tapar los botones */
-.footer-index {
-    position: relative;
-    z-index: 1000; /* Mayor que los botones (50) */
-    background: #000;
-    margin-top: 100vh;
-}
-
-/* Main wrapper para permitir scroll */
+/* Main wrapper home */
 .main-wrapper {
     min-height: 200vh;
-    padding-top: 200px; /* Espacio para logo y ticker */
+    padding-top: 200px;
 }
 
+/* Canvas cosmos específico */
 #cosmos {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    z-index: 1; /* Cambiado de -1 a 1 temporalmente */
-    pointer-events: all; /* Asegurar que reciba eventos */
+    z-index: 1;
+    pointer-events: all;
 }
 
-/* Botones visibles pero no tan abajo */
+/* Selector de modos posicionamiento home */
 .cosmos-mode-selector {
     position: fixed;
-    bottom: 80px; /* Más arriba para que se vean */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 50; /* Menor que el footer */
+    bottom: 80px;
+    z-index: 50;
 }
 
-/* Grupos de modo con ícono */
-.mode-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-}
-
-.cosmos-mode-selector {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-}
-
-/* Íconos de información */
-.mode-info-icon {
-    width: 24px;
-    height: 24px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 0;
-}
-
-.mode-info-icon:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: scale(1.1);
-}
-
-.mode-info-icon svg {
-    width: 14px;
-    height: 14px;
-    stroke: rgba(255, 255, 255, 0.6);
-}
-
-/* Panel de información elegante */
-.mode-info-panel {
-    position: fixed;
-    bottom: 140px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-.mode-info-panel.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.mode-info-bubble {
-    background: rgba(0, 0, 0, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    padding: 15px 20px;
+/* Footer específico home */
+.footer-index {
     position: relative;
-    max-width: 400px;
-    backdrop-filter: blur(10px);
+    z-index: 1000;
+    background: #000;
+    margin-top: 100vh;
 }
-
-.mode-info-content {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 14px;
-    line-height: 1.5;
-    text-align: center;
-}
-
-.mode-info-arrow {
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 8px solid rgba(0, 0, 0, 0.9);
-}
-
-
-
 </style>
 <body>
 <div class="main-wrapper">
