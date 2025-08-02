@@ -5,304 +5,444 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Arqueología - 30 años de evolución tecnológica según proyectos</title>
     <link rel="stylesheet" href="style.css">
-<style>
-/* ========================================
-   ARQUEOLOGIA.HTML - ESTILOS ESPECÍFICOS
-   Complementa style.css general
-   ======================================== */
+    <style>
+        /* Override para permitir scroll en arqueología */
+        body.arqueologia-page {
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            height: auto !important;
+            min-height: 100vh !important;
+            cursor: default !important;
+        }
 
-/* Indicador de profundidad lateral */
-.depth-indicator {
-    position: fixed;
-    left: 50px;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 60%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 5;
-}
+        /* Estilos específicos de arqueología */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.depth-line {
-    width: 2px;
-    flex: 1;
-    background: linear-gradient(to bottom,
-        rgba(255, 255, 255, 0.8) 0%,
-        rgba(255, 255, 255, 0.3) 50%,
-        rgba(255, 255, 255, 0.1) 100%
-    );
-}
+        /* Indicador de profundidad */
+        .depth-indicator {
+            position: fixed;
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 5;
+        }
 
-.year-marker {
-    position: absolute;
-    left: -30px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
-    font-family: 'Helvetica Neue', sans-serif;
-}
+        .depth-line {
+            width: 2px;
+            flex: 1;
+            background: linear-gradient(to bottom,
+                rgba(255, 255, 255, 0.8) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0.1) 100%
+            );
+        }
 
-/* Contenedor de estratos */
-.strata-container {
-    position: relative;
-    top: 0;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 10px;
-    margin-bottom: 80px;
-}
+        .year-marker {
+            position: absolute;
+            left: -30px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Helvetica Neue', sans-serif;
+        }
 
-/* Estratos con animación escalonada */
-.stratum {
-    margin-bottom: 80px;
-    position: relative;
-    opacity: 0;
-    transform: translateY(50px);
-    animation: emerge 1s ease forwards;
-}
+        /* Contenedor de estratos */
+        .strata-container {
+            position: relative;
+            top: 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 10px;
+            margin-bottom: 80px;
+        }
 
-.stratum:nth-child(1) { animation-delay: 0.5s; }
-.stratum:nth-child(2) { animation-delay: 0.7s; }
-.stratum:nth-child(3) { animation-delay: 0.9s; }
-.stratum:nth-child(4) { animation-delay: 1.1s; }
-.stratum:nth-child(5) { animation-delay: 1.3s; }
-.stratum:nth-child(6) { animation-delay: 1.5s; }
-.stratum:nth-child(7) { animation-delay: 1.7s; }
-.stratum:nth-child(8) { animation-delay: 1.9s; }
+        /* Cada estrato */
+        .stratum {
+            margin-bottom: 80px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: emerge 1s ease forwards;
+        }
 
-/* Project cards arqueología */
-.project-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 30px;
-    display: flex;
-    gap: 30px;
-    transition: all 0.5s ease;
-    backdrop-filter: blur(10px);
-}
+        .stratum:nth-child(1) { animation-delay: 0.5s; }
+        .stratum:nth-child(2) { animation-delay: 0.7s; }
+        .stratum:nth-child(3) { animation-delay: 0.9s; }
+        .stratum:nth-child(4) { animation-delay: 1.1s; }
+        .stratum:nth-child(5) { animation-delay: 1.3s; }
+        .stratum:nth-child(6) { animation-delay: 1.5s; }
+        .stratum:nth-child(7) { animation-delay: 1.7s; }
+        .stratum:nth-child(8) { animation-delay: 1.9s; }
 
-.project-card:hover {
-    background: rgba(255, 255, 255, 0.06);
-    transform: translateX(10px);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-}
+        /* Tarjeta de proyecto */
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            gap: 30px;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(10px);
+        }
 
-/* Thumbnails con efecto sepia */
-.project-thumbnail {
-    width: 150px;
-    height: 150px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    flex-shrink: 0;
-}
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(10px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
 
-.project-thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: sepia(30%) contrast(0.8);
-    transition: filter 0.3s ease;
-}
+        /* Thumbnail de imagen */
+        .project-thumbnail {
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            flex-shrink: 0;
+        }
 
-.project-thumbnail:hover img {
-    filter: sepia(0%) contrast(1);
-}
+        .project-thumbnail:hover {
+            transform: scale(1.05);
+        }
 
-.project-thumbnail::after {
-    content: "🔍";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 24px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
+        .project-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(30%) contrast(0.8);
+            transition: filter 0.3s ease;
+        }
 
-.project-thumbnail:hover::after {
-    opacity: 1;
-}
+        .project-thumbnail:hover img {
+            filter: sepia(0%) contrast(1);
+        }
 
-/* Contenido del proyecto */
-.project-content {
-    flex: 1;
-}
+        .project-thumbnail::after {
+            content: "🔍";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-.project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin-bottom: 15px;
-}
+        .project-thumbnail:hover::after {
+            opacity: 1;
+        }
 
-.project-title {
-    font-size: 1.5em;
-    margin-bottom: 5px;
-    color: rgba(255, 255, 255, 0.9);
-}
+        /* Contenido del proyecto */
+        .project-content {
+            flex: 1;
+        }
 
-.project-meta {
-    display: flex;
-    gap: 20px;
-    font-size: 0.9em;
-    color: rgba(255, 255, 255, 0.5);
-    font-family: 'Helvetica Neue', sans-serif;
-}
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
 
-.project-description {
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 20px;
-}
+        .project-title {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.9);
+        }
 
-/* Badges de empresa */
-.company-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    font-size: 0.85em;
-    font-family: 'Helvetica Neue', sans-serif;
-}
+        .project-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Helvetica Neue', sans-serif;
+        }
 
-/* Iconos de proyecto */
-.project-icons {
-    display: flex;
-    gap: 10px;
-}
+        .project-description {
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
 
-.project-history-icon {
-    width: 36px;
-    height: 36px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-left: 10px;
-}
+        /* Ícono de detalles técnicos */
+        .tech-details-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-.project-history-icon:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: scale(1.1);
-}
+        .tech-details-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
 
-/* Paneles expandibles */
-.history-panel,
-.tech-panel {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease;
-    margin-top: 20px;
-}
+        .tech-details-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: rgba(255, 255, 255, 0.6);
+        }
 
-.history-panel.active {
-    max-height: 496px;
-}
+        /* Empresa badge */
+        .company-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
 
-.tech-panel.active {
-    max-height: 200px;
-}
+        /* Modal de imagen */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            cursor: pointer;
+        }
 
-.history-content,
-.tech-content {
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    font-family: 'Helvetica Neue', sans-serif;
-    font-size: 0.9em;
-}
+        .image-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.history-section {
-    margin-bottom: 20px;
-}
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
 
-.history-section:last-child {
-    margin-bottom: 0;
-}
+        /* Panel de detalles técnicos */
+        .tech-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin-top: 20px;
+        }
 
-.history-section h4 {
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 8px;
-    font-size: 1.1em;
-    font-weight: 400;
-}
+        .tech-panel.active {
+            max-height: 200px;
+        }
 
-.history-section p {
-    color: rgba(255, 255, 255, 0.6);
-    margin: 0;
-}
+        .tech-content {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.9em;
+        }
 
-.tech-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
-}
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
 
-.tech-item {
-    padding: 4px 12px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    font-size: 0.85em;
-}
+        .tech-item {
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
 
-/* Modal de imagen */
-.image-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 1000;
-    cursor: pointer;
-}
+        /* Animaciones */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-.image-modal.active {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        @keyframes emerge {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-.image-modal img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 8px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
+        /* Responsive */
+        @media (max-width: 768px) {
+            .depth-indicator {
+                display: none;
+            }
 
-/* Responsive arqueología */
-@media (max-width: 768px) {
-    .depth-indicator {
-        display: none;
-    }
+            .strata-container {
+                padding: 0 20px;
+            }
 
-    .strata-container {
-        padding: 0 20px;
-    }
+            .project-card {
+                flex-direction: column;
+                padding: 20px;
+            }
 
-    .project-card {
-        flex-direction: column;
-        padding: 20px;
-    }
+            .project-thumbnail {
+                width: 100%;
+                height: 200px;
+            }
 
-    .project-thumbnail {
-        width: 100%;
-        height: 200px;
-    }
-}
-</style>
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+        }
+
+        /* Ícono de historia del proyecto */
+        .project-history-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .project-history-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+
+        .project-history-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Panel de historia */
+        .history-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin-top: 20px;
+        }
+
+        .history-panel.active {
+            max-height: 496px;
+        }
+
+        .history-content {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .history-section {
+            margin-bottom: 20px;
+        }
+
+        .history-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .history-section h4 {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            font-weight: 400;
+        }
+
+        .history-section p {
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+        }
+
+        /* Ajustar el header para acomodar ambos íconos */
+        .project-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Sistema de idiomas mejorado */
+        .lang-en {
+            display: none !important;
+        }
+
+        body.en .lang-es {
+            display: none !important;
+        }
+
+        body.en .lang-en {
+            display: block !important;
+        }
+
+        /* Para elementos inline como span */
+        span.lang-en {
+            display: none !important;
+        }
+
+        body.en span.lang-es {
+            display: none !important;
+        }
+
+        body.en span.lang-en {
+            display: inline !important;
+        }
+
+        /* Para divs dentro de history-content */
+        .history-content .lang-en {
+            display: none !important;
+        }
+
+        body.en .history-content .lang-es {
+            display: none !important;
+        }
+
+        body.en .history-content .lang-en {
+            display: block !important;
+        }
+
+        /* Canvas de partículas SEPIA */
+		#particles-canvas-sepia {
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		    pointer-events: none;
+		    opacity: 0.5;
+		    z-index: 1;
+		}
+    </style>
 </head>
 <body class="arqueologia-page">
 
